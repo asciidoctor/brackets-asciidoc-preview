@@ -3,7 +3,7 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents",
     "homepage": "https://github.com/nerk/AsciiDocPreview",
-    "version": "0.1",
+    "version": "1.0",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
