@@ -1,0 +1,18 @@
+= AsciiDoc Live Preview for Adobe Brackets
+Thomas Kern
+:idprefix:
+:idseparator: -
+:sources: https://github.com/nerk/AsciiDocPreview
+:license: https://github.com/nerk/AsciiDocPreview/blob/master/LICENSE.txt
+
+
+This is an extension for Adobe Brackets http://brackets.io/
+which allows live preview of AsciiDoc documents.
+
+Most of the work and credits go to Glenn Ruehle for his 
+Markdown preview extension (https://github.com/gruehle/MarkdownPreview),
+which I ripped off and modified for AsciiDoc.
+
+The actual formatting is performed by
+https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
+the Javascript incarnation of http://asciidoctor.org/[Asciidoctor].
