@@ -6,8 +6,8 @@ Thomas Kern
 :license: https://github.com/nerk/AsciiDocPreview/blob/master/LICENSE.txt
 
 
-This is an extension for Adobe Brackets http://brackets.io/
-which allows live preview of AsciiDoc documents.
+This is an extension for Adobe Brackets http://brackets.io/,
+which allows the live preview of AsciiDoc documents.
 
 Most of the work and credits go to Glenn Ruehle for his 
 Markdown preview extension (https://github.com/gruehle/MarkdownPreview),
@@ -16,3 +16,11 @@ which I ripped off and modified for AsciiDoc.
 The actual formatting is performed by
 https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
 the Javascript incarnation of http://asciidoctor.org/[Asciidoctor].
+
+Other software used:
+
+* http://fortawesome.github.io/Font-Awesome/[Font Awesome 3.2.1] for font icons
+* http://highlightjs.org/[highlight.js] for highlighting embedded source code
+
+Now we need a syntax highlighter for AsciiDoc documents inside Brackets/CodeMirror...
+
