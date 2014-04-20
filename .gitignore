@@ -1,1 +1,4 @@
 .DS_Store
+
+*.db
+styles/images/Thumbs.db
