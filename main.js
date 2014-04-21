@@ -67,9 +67,8 @@ define(function (require, exports, module) {
 
     // Prefs
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
-    _prefs.definePreference("doctype", "string", "article");
+    _prefs.definePreference("showtitle", "boolean", true);
     _prefs.definePreference("numbered", "boolean", false);
-    _prefs.definePreference("imagesdir", "string", "");
     _prefs.definePreference("theme", "string", "default");
 
     
@@ -111,11 +110,12 @@ define(function (require, exports, module) {
             }
 
             var numbered = _prefs.get("numbered") ? 'numbered':'numbered!';
-            var doctype = _prefs.get("doctype");
+			var showtitle = _prefs.get("showtitle") ? 'showtitle':'showtitle!';
             
             // Parse asciidoc into HTML
             bodyText = Opal.Asciidoctor.$render(docText,
-               Opal.hash2(['attributes'], {'attributes': ['icons=font', numbered, 'doctype=' + doctype, 'source-highlighter=highlightjs']}));
+               Opal.hash2(['attributes'], {
+                       'attributes': ['icons=font@', showtitle, numbered, 'source-highlighter=highlightjs']}));
             
             // Show URL in link tooltip
             bodyText = bodyText.replace(/(href=\"([^\"]*)\")/g, "$1 title=\"$2\"");
@@ -203,10 +203,10 @@ define(function (require, exports, module) {
             })
             .appendTo($panel);
         
-        $settings.find("#asciidoc-preview-doctype")
-            .val(_prefs.get("doctype"))
+       $settings.find("#asciidoc-preview-showtitle")
+            .prop("checked", _prefs.get("showtitle"))
             .change(function (e) {
-                _prefs.set("doctype", e.target.value);
+                _prefs.set("showtitle", e.target.checked);
                 _updateSettings();
             });
 
