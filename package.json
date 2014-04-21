@@ -3,7 +3,7 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents",
     "homepage": "https://github.com/nerk/asciidoc-brackets-preview",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
