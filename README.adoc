@@ -2,12 +2,10 @@
 Thomas Kern
 :idprefix:
 :idseparator: -
-:sources: https://github.com/nerk/AsciiDocPreview
-:license: https://github.com/nerk/AsciiDocPreview/blob/master/LICENSE.txt
 
 
 This is an extension for Adobe Brackets http://brackets.io/,
-which allows the live preview of AsciiDoc documents.
+which allows for live preview of AsciiDoc documents.
 
 Most of the work and credits go to Glenn Ruehle for his 
 Markdown preview extension (https://github.com/gruehle/MarkdownPreview),
@@ -22,5 +20,35 @@ Other software used:
 * http://fortawesome.github.io/Font-Awesome/[Font Awesome 3.2.1] for font icons
 * http://highlightjs.org/[highlight.js] for highlighting embedded source code
 
-Now we need a syntax highlighter for AsciiDoc documents inside Brackets/CodeMirror...
+
+== Installation
+
+From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
+This is the recommended way.
+
+As an alternative, you may press the 'Install from URL...' button and
+enter https://github.com/nerk/asciidoc-brackets-preview[] into the input field.
+
+After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
+ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
+
+In the upper right corner of the preview pane, pressing the gear symbol opens the settings panel.
+
+== Known Issues
+
+* There are currently some known issues regarding setting options like doctype 
+('article' or 'book') for asciidoctor.js.
+All documents are therefore rendered with doctype 'article'. Please check the 'Show title' checkbox to display document titles (level 0 headings).
+
+* Preamble text directly following the title without an empty line in between is completely suppressed.
+
+* Now we need a syntax highlighter for AsciiDoc documents inside Brackets/CodeMirror...
+
+== Copyright and License
+
+Copyright (c) 2014 Thomas Kern
+Licensed under MIT License. See https://github.com/nerk/asciidoc-brackets-preview[LICENSE] for details.
+
+Based on 'MarkdownPreview', Copyright (c) 2012 Glenn Ruehle.
+
 
