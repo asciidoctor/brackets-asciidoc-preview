@@ -47,7 +47,8 @@ All documents are therefore rendered with doctype 'article'. Please check the 'S
 == Copyright and License
 
 Copyright (c) 2014 Thomas Kern
-Licensed under MIT License. See https://github.com/nerk/asciidoc-brackets-preview[LICENSE] for details.
+
+Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-brackets-preview/master/LICENSE.txt[LICENSE] for details.
 
 Based on 'MarkdownPreview', Copyright (c) 2012 Glenn Ruehle.
 
