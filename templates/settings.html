@@ -1,7 +1,28 @@
 <div id="asciidoc-settings-panel">
     <div class="ad-settings-row">
+        <span class="ad-settings-label">Base dir</span>
+        <input type="text" id="asciidoc-preview-basedir"></input>
+    </div>
+    <div class="ad-settings-row">
+        <span class="ad-settings-label">Doctype</span>
+        <select id="asciidoc-preview-doctype">
+            <option value="article">Article</option>
+            <option value="book">Book</option>
+            <option value="manpage">Manpage</option>
+        </select>
+    </div>
+    <div class="ad-settings-row">
+        <span class="ad-settings-label">Safe mode</span>
+        <select id="asciidoc-preview-safemode">
+            <option value="secure">Secure</option>
+            <option value="server">Server</option>
+            <option value="safe">Safe</option>
+            <option value="unsafe">Unsafe</option>
+        </select>
+    </div>
+    <div class="ad-settings-row">
         <span class="ad-settings-label">Show title</span>
-		<input type="checkbox" id="asciidoc-preview-showtitle"></input>
+        <input type="checkbox" id="asciidoc-preview-showtitle"></input>
     </div>
     <div class="ad-settings-row">
         <span class="ad-settings-label">Numbered headings</span>
