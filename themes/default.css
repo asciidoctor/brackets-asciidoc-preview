@@ -5796,7 +5796,7 @@ kbd.keyseq {
   color: #666666;
 }
 kbd:not(.keyseq) {
-  /* Orig. styling from TBS code.less 
+  /* Orig. styling from TBS code.less
   padding: 2px 4px;
   font-size: 90%;
   color: @kbd-color;
@@ -5994,7 +5994,7 @@ fieldset[disabled] .button.active {
     padding-right: 0;
   }
   #toc.toc2 {
-    position: fixed;
+    position: relative;
     width: 15em;
     left: 0;
     top: 0;
@@ -6950,7 +6950,7 @@ div.unbreakable {
   background-color: #fafa00;
 }
 /*
- * This is based on Dan Allen's _awesome-icons.scss 
+ * This is based on Dan Allen's _awesome-icons.scss
  * https://github.com/asciidoctor/asciidoctor-stylesheet-factory/tree/master/sass/components
  */
 span.icon > [class^="icon-"],

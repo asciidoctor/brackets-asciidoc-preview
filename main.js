@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-/* 
+/*
  * Modified for AsciiDoc
  * Copyright (c) 2014 Thomas Kern
  */
@@ -51,6 +51,7 @@ define(function (require, exports, module) {
     // Local modules
     var opal = require("lib/opal");
     var asciidoctor = require("lib/asciidoctor");
+    var asciidoctor_ext = require("lib/asciidoctor_extensions");
 
     // jQuery objects
     var $icon,
@@ -69,6 +70,7 @@ define(function (require, exports, module) {
     // Prefs
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     _prefs.definePreference("showtitle", "boolean", true);
+    _prefs.definePreference("showtoc", "boolean", true);
     _prefs.definePreference("numbered", "boolean", false);
     _prefs.definePreference("theme", "string", "default");
     _prefs.definePreference("safemode", "string", "safe");
@@ -80,12 +82,18 @@ define(function (require, exports, module) {
     function _handleLinkClick(e) {
         // Check parents too, in case link has inline formatting tags
         var node = e.target,
+            location,
             url;
         while (node) {
             if (node.tagName === "A") {
                 url = node.getAttribute("href");
-                if (url && !url.match(/^#/)) {
-                    NativeApp.openURLInDefaultBrowser(url);
+                if (url) {
+                  if (!url.match(/^#/)) {
+                      NativeApp.openURLInDefaultBrowser(url);
+                  } else {
+                    location = $iframe.contents()[0].getElementById(url.substr(1));
+                    $iframe.contents()[0].defaultView.scrollTo(0, location.offsetTop);
+                  }
                 }
                 e.preventDefault();
                 break;
@@ -131,9 +139,10 @@ define(function (require, exports, module) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             }
 
-            var defaultAttributes = 'toc! toc2! icons=font@ platform=opal platform-opal source-highlighter=highlight.js';
+            var defaultAttributes = 'icons=font@ platform=opal platform-opal source-highlighter=highlight.js';
             var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
+            var showtoc = _prefs.get("showtoc") ? 'toc toc2' : 'toc! toc2!';
             var safemode = _prefs.get("safemode") || "safe";
             var doctype = _prefs.get("doctype") || "article";
 
@@ -145,7 +154,7 @@ define(function (require, exports, module) {
             var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
             var basedir = _prefs.get("basedir") || baseUrl;
 
-            var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
+            var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle).concat(' ').concat(showtoc);
             var opts = Opal.hash2(['base_dir', 'safe', 'doctype', 'attributes'], {
                 'base_dir': basedir,
                 'safe': safemode,
@@ -246,6 +255,13 @@ define(function (require, exports, module) {
             .prop("checked", _prefs.get("showtitle") || true)
             .change(function (e) {
                 _prefs.set("showtitle", e.target.checked);
+                _updateSettings();
+            });
+
+        $settings.find("#asciidoc-preview-showtoc")
+            .prop("checked", _prefs.get("showtoc") || true)
+            .change(function (e) {
+                _prefs.set("showtoc", e.target.checked);
                 _updateSettings();
             });
 
@@ -362,7 +378,7 @@ define(function (require, exports, module) {
     // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
 
-    // Add toolbar icon 
+    // Add toolbar icon
     $icon = $("<a>")
         .attr({
             id: "asciidoc-preview-icon",
