@@ -97,23 +97,6 @@ define(function (require, exports, module) {
         _hideSettings();
     }
 
-    // HACK: Fix relative include and image paths
-    // Relative paths in asciidoc should be relative to base_dir.
-    // Apparently, asciidoctor.js does not honor base_dir for include::
-    // directives.
-    // This function prepends all relative paths of the directive
-    // with {docdir} to make them absolute. Paths starting with
-    //
-    //    '{', '/', 'file:', 'http:', 'https:', '[A-Z]:'
-    //
-    // are considered absolute and are not not modified.
-
-    function fixRelativeIncludes(text) {
-        text = text.replace(/(include::)(?!\{)(?!\/)(?![a-zA-Z]+:)(?!file:)(?!http:)(?!https:)/g, "$1{docdir}/");
-        //text = text.replace(/(image:[:]*)(?!\{)(?!\/)(?![a-zA-Z]+:)(?!file:)(?!http:)(?!https:)/g, "$1{docdir}/");
-        return text;
-    }
-
     function _loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),
@@ -152,9 +135,6 @@ define(function (require, exports, module) {
                 'doctype': doctype,
                 'attributes': attributes
             });
-
-            // HACK: Fix relative paths
-            docText = fixRelativeIncludes(docText);
 
             // Parse asciidoc into HTML
             bodyText = Opal.Asciidoctor.$render(docText, opts);
