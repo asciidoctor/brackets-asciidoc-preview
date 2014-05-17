@@ -1,3 +1,4 @@
+
 == Changelog of AsciiDoc Brackets Preview
 
 === Version 1.0.0
@@ -16,9 +17,12 @@ Initial version
 * Opal 0.6.2
 * Default safe mode is now 'safe'.
 * Preferences for 'base_dir', 'safe mode', and 'doctype' added.
-* Fix relative paths in 'include::' directive
+* Fix relative paths in '\include::' directive
 
 === Version 1.0.3 
 
+* Asciidoctor v1.5.0 preview 7
+* Asciidoctor extensions added.
+* Hack for relative include paths no longer necessary, removed.
 
 
