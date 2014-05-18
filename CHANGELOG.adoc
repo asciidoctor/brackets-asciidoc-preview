@@ -1,5 +1,5 @@
 
-== Changelog of AsciiDoc Brackets Preview
+== Changelog of Brackets AsciiDoc Preview
 
 === Version 1.0.0
 
@@ -21,8 +21,20 @@ Initial version
 
 === Version 1.0.3 
 
-* Asciidoctor v1.5.0 preview 7
-* Asciidoctor extensions added.
+* Project renamed to 'brackets-asciidoc-preview'.
+* CHANGELOG.adoc added
+* updated to Asciidoctor v1.5.0 preview 7
 * Hack for relative include paths no longer necessary, removed.
+* toc and toc2 attributes no longer disabled. In order to create
+a TOC in your document, add attributes
++
+----
+:toc: 
+:toc-placement: preamble
+----
+to the header of your document. Also make sure that your document
+really has a preamble. Other values for +toc+ and +toc-placement+
+attributes currently not supported.
+
 
 
