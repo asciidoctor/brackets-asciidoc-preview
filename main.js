@@ -114,7 +114,7 @@ define(function (require, exports, module) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             }
 
-            var defaultAttributes = 'toc! toc2! icons=font@ platform=opal platform-opal source-highlighter=highlight.js';
+            var defaultAttributes = 'icons=font@ platform=opal platform-opal source-highlighter=highlight.js';
             var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = _prefs.get("safemode") || "safe";
