@@ -143,9 +143,13 @@ define(function (require, exports, module) {
 
             // Make <base> tag for relative URLS
             var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
-            var basedir = _prefs.get("basedir") || baseUrl;
+            // basedir will be used as the base URL to retrieve include files via Ajax requests
+            var basedir = _prefs.get("basedir") ||
+                window.location.protocol.concat('//').concat(FileUtils.getDirectoryPath(doc.file.fullPath)).replace(/\/$/, '');;
 
             var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
+            // communicate to Asciidoctor that the working directory is not the same as the preview file
+            Opal.ENV['$[]=']("PWD", FileUtils.getDirectoryPath(window.location.href));
             var opts = Opal.hash2(['base_dir', 'safe', 'doctype', 'attributes'], {
                 'base_dir': basedir,
                 'safe': safemode,
@@ -157,7 +161,7 @@ define(function (require, exports, module) {
             docText = fixRelativeIncludes(docText);
 
             // Parse asciidoc into HTML
-            bodyText = Opal.Asciidoctor.$render(docText, opts);
+            bodyText = Opal.Asciidoctor.$convert(docText, opts);
 
             // Show URL in link tooltip
             bodyText = bodyText.replace(/(href=\"([^\"]*)\")/g, "$1 title=\"$2\"");
