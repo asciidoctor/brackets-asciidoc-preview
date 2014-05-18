@@ -35,6 +35,7 @@ a TOC in your document, add attributes
 to the header of your document. Also make sure that your document
 really has a preamble. Other values for +toc+ and +toc-placement+
 attributes currently not supported.
+* Set +env=browser+ and +env-browser+ attributes internally by default
 
 
 
