@@ -36,11 +36,18 @@ In the upper right corner of the preview pane, pressing the gear symbol opens th
 
 == Known Issues
 
-* There are currently some known issues regarding setting options like doctype 
-('article' or 'book') for asciidoctor.js.
-All documents are therefore rendered with doctype 'article'. Please check the 'Show title' checkbox to display document titles (level 0 headings).
-
 * Preamble text directly following the title without an empty line in between is completely suppressed.
+* In order to create
+a TOC in your document, add attributes
++
+----
+:toc: 
+:toc-placement: preamble
+----
+to the header of your document. Also make sure that your document
+really has a preamble. Other values for +toc+ and +toc-placement+
+attributes currently not supported.
+
 
 * Now we need a syntax highlighter for AsciiDoc documents inside Brackets/CodeMirror...
 
