@@ -115,9 +115,9 @@ define(function (require, exports, module) {
             }
 
             var defaultAttributes = 'icons=font@' 
-                                  + 'platform=opal platform-opal'
-                                  + 'env=browser env-browser'
-                                  + 'source-highlighter=highlight.js';
+                                  + ' platform=opal platform-opal'
+                                  + ' env=browser env-browser'
+                                  + ' source-highlighter=highlight.js';
             var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = _prefs.get("safemode") || "safe";
