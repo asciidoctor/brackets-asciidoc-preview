@@ -48,10 +48,6 @@ define(function (require, exports, module) {
     var panelHTML = require("text!templates/panel.html"),
         settingsHTML = require("text!templates/settings.html");
 
-    // Local modules
-    //var opal = require("lib/opal");
-    //var asciidoctor = require("lib/asciidoctor");
-
     // jQuery objects
     var $icon,
         $iframe,
@@ -68,7 +64,9 @@ define(function (require, exports, module) {
 
     // Webworker for background processing
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
-
+    var output = new require("lib/output");
+    
+    
     // Prefs
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     _prefs.definePreference("showtitle", "boolean", true);
@@ -151,26 +149,9 @@ define(function (require, exports, module) {
             converterWorker.postMessage(data);
             converterWorker.onmessage = function (e) {
 
-                var bodyText = e.data.html;
-                // Show URL in link tooltip
-                bodyText = bodyText.replace(/(href=\"([^\"]*)\")/g, "$1 title=\"$2\"");
-
-                // Assemble the HTML source
-                var htmlSource = "<html><head>";
                 var theme = _prefs.get("theme");
-                htmlSource += "<base href='" + baseUrl + "'>";
-                htmlSource += "<link href='" + require.toUrl("./themes/" + theme + ".css") + "' rel='stylesheet'></link>";
-                htmlSource += "<link href='" + require.toUrl("./styles/font-awesome/css/font-awesome.css") + "' rel='stylesheet'></link>";
-                htmlSource += "<link href='" + require.toUrl("./styles/highlightjs/styles/googlecode.css") + "' rel='stylesheet'></link>";
-                htmlSource += "<script src='" + require.toUrl("./styles/highlightjs/highlight.pack.js") + "'></script>";
-                htmlSource += "<script>hljs.initHighlightingOnLoad();</script>";
-
-
-                htmlSource += "</head><body onload='document.body.scrollTop=" + scrollPos + "'>";
-                htmlSource += bodyText;
-                htmlSource += "</body></html>";
-                $iframe.attr("srcdoc", htmlSource);
-
+                var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, theme);
+                $iframe.attr("srcdoc", html);
             };
 
 
