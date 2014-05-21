@@ -49,8 +49,8 @@ define(function (require, exports, module) {
         settingsHTML = require("text!templates/settings.html");
 
     // Local modules
-    var opal = require("lib/opal");
-    var asciidoctor = require("lib/asciidoctor");
+    //var opal = require("lib/opal");
+    //var asciidoctor = require("lib/asciidoctor");
 
     // jQuery objects
     var $icon,
@@ -65,6 +65,9 @@ define(function (require, exports, module) {
         visible = false,
         realVisibility = false,
         baseDirEdited = false;
+
+    // Webworker for background processing
+    var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
 
     // Prefs
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
@@ -114,10 +117,7 @@ define(function (require, exports, module) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             }
 
-            var defaultAttributes = 'icons=font@' 
-                                  + ' platform=opal platform-opal'
-                                  + ' env=browser env-browser'
-                                  + ' source-highlighter=highlight.js';
+            var defaultAttributes = 'icons=font@' + ' platform=opal platform-opal' + ' env=browser env-browser' + ' source-highlighter=highlight.js';
             var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = _prefs.get("safemode") || "safe";
@@ -129,41 +129,50 @@ define(function (require, exports, module) {
 
             // Make <base> tag for relative URLS
             var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
-            // basedir will be used as the base URL to retrieve include files via Ajax requests
+            // baseDir will be used as the base URL to retrieve include files via Ajax requests
             var basedir = _prefs.get("basedir") ||
-                window.location.protocol.concat('//').concat(FileUtils.getDirectoryPath(doc.file.fullPath)).replace(/\/$/, '');;
+                window.location.protocol.concat('//').concat(FileUtils.getDirectoryPath(doc.file.fullPath)).replace(/\/$/, '');
 
             var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
-            // communicate to Asciidoctor that the working directory is not the same as the preview file
-            Opal.ENV['$[]=']("PWD", FileUtils.getDirectoryPath(window.location.href));
-            var opts = Opal.hash2(['base_dir', 'safe', 'doctype', 'attributes'], {
-                'base_dir': basedir,
-                'safe': safemode,
-                'doctype': doctype,
-                'attributes': attributes
-            });
 
-            // Parse asciidoc into HTML
-            bodyText = Opal.Asciidoctor.$convert(docText, opts);
+            // structure to pass docText, options, and attributes.
+            var data = {
+                docText: docText,
+                // current working directory
+                pwd: FileUtils.getDirectoryPath(window.location.href),
+                // Asciidoctor options
+                basedir: basedir,
+                safemode: safemode,
+                doctype: doctype,
+                // Asciidoctor attributes
+                attributes: attributes
+            };
 
-            // Show URL in link tooltip
-            bodyText = bodyText.replace(/(href=\"([^\"]*)\")/g, "$1 title=\"$2\"");
+            converterWorker.postMessage(data);
+            converterWorker.onmessage = function (e) {
 
-            // Assemble the HTML source
-            var htmlSource = "<html><head>";
-            var theme = _prefs.get("theme");
-            htmlSource += "<base href='" + baseUrl + "'>";
-            htmlSource += "<link href='" + require.toUrl("./themes/" + theme + ".css") + "' rel='stylesheet'></link>";
-            htmlSource += "<link href='" + require.toUrl("./styles/font-awesome/css/font-awesome.css") + "' rel='stylesheet'></link>";
-            htmlSource += "<link href='" + require.toUrl("./styles/highlightjs/styles/googlecode.css") + "' rel='stylesheet'></link>";
-            htmlSource += "<script src='" + require.toUrl("./styles/highlightjs/highlight.pack.js") + "'></script>";
-            htmlSource += "<script>hljs.initHighlightingOnLoad();</script>";
+                var bodyText = e.data.html;
+                // Show URL in link tooltip
+                bodyText = bodyText.replace(/(href=\"([^\"]*)\")/g, "$1 title=\"$2\"");
+
+                // Assemble the HTML source
+                var htmlSource = "<html><head>";
+                var theme = _prefs.get("theme");
+                htmlSource += "<base href='" + baseUrl + "'>";
+                htmlSource += "<link href='" + require.toUrl("./themes/" + theme + ".css") + "' rel='stylesheet'></link>";
+                htmlSource += "<link href='" + require.toUrl("./styles/font-awesome/css/font-awesome.css") + "' rel='stylesheet'></link>";
+                htmlSource += "<link href='" + require.toUrl("./styles/highlightjs/styles/googlecode.css") + "' rel='stylesheet'></link>";
+                htmlSource += "<script src='" + require.toUrl("./styles/highlightjs/highlight.pack.js") + "'></script>";
+                htmlSource += "<script>hljs.initHighlightingOnLoad();</script>";
 
 
-            htmlSource += "</head><body onload='document.body.scrollTop=" + scrollPos + "'>";
-            htmlSource += bodyText;
-            htmlSource += "</body></html>";
-            $iframe.attr("srcdoc", htmlSource);
+                htmlSource += "</head><body onload='document.body.scrollTop=" + scrollPos + "'>";
+                htmlSource += bodyText;
+                htmlSource += "</body></html>";
+                $iframe.attr("srcdoc", htmlSource);
+
+            };
+
 
             // Open external browser when links are clicked
             // (similar to what brackets.js does - but attached to the iframe's document)
