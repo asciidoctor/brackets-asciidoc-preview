@@ -1,23 +1,11 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
-=== Version 1.0.0
+=== Version 1.0.4
 
-Initial version
-
-=== Version 1.0.1
-
-* Preferences: 'showtitle' added, 'doctype' removed
-* width of settings panel decreased
-* misc cleanup
-
-=== Version 1.0.2
-
-* Asciidoctor v1.5.0 preview 5
-* Opal 0.6.2
-* Default safe mode is now 'safe'.
-* Preferences for 'base_dir', 'safe mode', and 'doctype' added.
-* Fix relative paths in '\include::' directive
+* Perform document conversion in webworker to avoid blocking of UI.
+* Automatically adjust refresh rate to time needed for creating the preview.
+* Display log messages from Asciidoctor at the bottom of the preview pane.
 
 === Version 1.0.3 
 
@@ -37,5 +25,20 @@ really has a preamble. Other values for +toc+ and +toc-placement+
 attributes currently not supported.
 * Set +env=browser+ and +env-browser+ attributes internally by default
 
+=== Version 1.0.2
 
+* Asciidoctor v1.5.0 preview 5
+* Opal 0.6.2
+* Default safe mode is now 'safe'.
+* Preferences for 'base_dir', 'safe mode', and 'doctype' added.
+* Fix relative paths in '\include::' directive
 
+=== Version 1.0.1
+
+* Preferences: 'showtitle' added, 'doctype' removed
+* width of settings panel decreased
+* misc cleanup
+
+=== Version 1.0.0
+
+Initial version
