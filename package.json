@@ -1,9 +1,9 @@
 {
     "name": "nerk.asciidoc-preview",
     "title": "AsciiDoc Preview",
-    "description": "Live preview for AsciiDoc documents",
-    "homepage": "https://github.com/nerk/brackets-asciidoc-preview",
-    "version": "1.0.3",
+    "description": "Live preview for AsciiDoc documents. Now uses webworker to perform conversion in the background for smooth editing.",
+    "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
+    "version": "1.0.4",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
