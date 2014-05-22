@@ -62,11 +62,16 @@ define(function (require, exports, module) {
         realVisibility = false,
         baseDirEdited = false;
 
-    // Webworker for background processing
+    // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
+    // assembly of final HTML page
     var output = new require("lib/output");
-    
-    
+
+    // time needed for the latest conversion in ms
+    var lastDuration = 0;
+    // timestamp when conversion started
+    var conversionStart = 0;
+
     // Prefs
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     _prefs.definePreference("showtitle", "boolean", true);
@@ -146,12 +151,16 @@ define(function (require, exports, module) {
                 attributes: attributes
             };
 
+            conversionStart = new Date().getTime();
             converterWorker.postMessage(data);
-            converterWorker.onmessage = function (e) {
 
+            converterWorker.onmessage = function (e) {
+                lastDuration = e.data.duration;
+                conversionStart = 0;
                 var theme = _prefs.get("theme");
                 var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, theme);
                 $iframe.attr("srcdoc", html);
+                conversionStart = 0;
             };
 
 
@@ -166,16 +175,23 @@ define(function (require, exports, module) {
     var _timer;
 
     function _documentChange(e) {
-        // "debounce" the page updates to avoid thrashing/flickering
-        // Note: this should use Async.whenIdle() once brackets/pull/5528
-        // is merged.
+        // throttle updates
         if (_timer) {
             window.clearTimeout(_timer);
         }
+
+        // Estimate timeout based on time needed for 
+        // actual document conversion. Never longer than
+        // 5000 ms.
+        var timeout = lastDuration + 300;
+        if (conversionStart > 0) {
+            timeout = Math.min(timeout - new Date().getTime() + conversionStart, 5000);
+        }
+
         _timer = window.setTimeout(function () {
             _timer = null;
             _loadDoc(e.target, true);
-        }, 300);
+        }, timeout);
     }
 
     function _resizeIframe() {
