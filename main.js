@@ -36,6 +36,7 @@ define(function (require, exports, module) {
         NativeApp = brackets.getModule("utils/NativeApp"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
         EditorManager = brackets.getModule("editor/EditorManager"),
+        LanguageManager = brackets.getModule("language/LanguageManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
         FileUtils = brackets.getModule("file/FileUtils"),
         PanelManager = brackets.getModule("view/PanelManager"),
@@ -47,7 +48,7 @@ define(function (require, exports, module) {
     // Templates
     var panelHTML = require("text!templates/panel.html"),
         settingsHTML = require("text!templates/settings.html");
-
+    
     // jQuery objects
     var $icon,
         $iframe,
@@ -62,6 +63,16 @@ define(function (require, exports, module) {
         realVisibility = false,
         baseDirEdited = false;
 
+    // Define AsciiDoc mode
+    require("mode/asciidoc");
+    LanguageManager.defineLanguage("asciidoc", {
+        name: "AsciiDoc",
+        mode: "asciidoc",
+        fileExtensions: ["ad", "adoc", "asciidoc", "asc"],
+        blockComment: ["/*", "*/"],
+        lineComment: ["//"]
+    });
+    
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
@@ -120,7 +131,10 @@ define(function (require, exports, module) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             }
 
-            var defaultAttributes = 'icons=font@' + ' platform=opal platform-opal' + ' env=browser env-browser' + ' source-highlighter=highlight.js';
+            var defaultAttributes = 'icons=font@' 
+                                  + ' platform=opal platform-opal' 
+                                  + ' env=browser env-browser' 
+                                  + ' source-highlighter=highlight.js';
             var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = _prefs.get("safemode") || "safe";

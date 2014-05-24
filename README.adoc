@@ -15,6 +15,11 @@ The actual formatting is performed by
 https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
 the Javascript incarnation of http://asciidoctor.org/[Asciidoctor].
 
+AsciiDoc mode for CodeMirror was created by 
+Thaddee Tyl (https://github.com/espadrine/LivesciiDoc) who
+converted the highlighting mode from the Ace editor to CodeMirror.
+
+
 Other software used:
 
 * http://fortawesome.github.io/Font-Awesome/[Font Awesome 3.2.1] for font icons
@@ -58,5 +63,6 @@ Copyright (c) 2014 Thomas Kern
 Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-brackets-preview/master/LICENSE.txt[LICENSE] for details.
 
 Based on 'MarkdownPreview', Copyright (c) 2012 Glenn Ruehle.
+AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
 
 

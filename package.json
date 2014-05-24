@@ -3,10 +3,10 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents. Now uses webworker to perform conversion in the background for smooth editing.",
     "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
-        "brackets": ">=0.37.0"
+        "brackets": ">=0.39.0"
     }
 }

@@ -1,6 +1,11 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.0.5
+
+* Requires sprint version >=0.39.0
+* AsciiDoc mode added thanks to Thaddee Tyl (https://github.com/espadrine/LivesciiDoc)
+
 === Version 1.0.4
 
 * Perform document conversion in webworker to avoid blocking of UI.
