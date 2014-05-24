@@ -28,6 +28,8 @@ Other software used:
 
 == Installation
 
+IMPORTANT: This version requires at least Brackets Sprint 0.39.0 or later.
+
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
 This is the recommended way.
 
