@@ -13,7 +13,7 @@ which I ripped off and modified for AsciiDoc.
 
 The actual formatting is performed by
 https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
-the Javascript incarnation of http://asciidoctor.org/[Asciidoctor].
+the JavaScript incarnation of http://asciidoctor.org/[Asciidoctor].
 
 AsciiDoc mode for CodeMirror was created by 
 Thaddee Tyl (https://github.com/espadrine/LivesciiDoc), who
@@ -28,8 +28,6 @@ Other software used:
 
 == Installation
 
-IMPORTANT: This version requires at least Brackets Sprint 0.39.0 or later.
-
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
 This is the recommended way.
 
@@ -40,6 +38,10 @@ After installation, an additional icon appears in the Brackets toolbar to the ri
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
 
 In the upper right corner of the preview pane, pressing the gear symbol opens the settings panel.
+
+For better sytax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
+https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
+well for AsciiDoc, so you need to experiment. 'Vibrank Ink' is pretty colorful, for example.
 
 == Known Issues
 
@@ -64,6 +66,6 @@ Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-
 
 Based on 'MarkdownPreview', Copyright (C) 2012 Glenn Ruehle.
 
-AsciiDoc mode Copyright (C) 2014 Thaddee Tyl thaddee.tyl@gmail.com
+AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
 
 
