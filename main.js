@@ -342,7 +342,7 @@ define(function (require, exports, module) {
             currentDoc = null;
         }
 
-        if (doc && /adoc|ad|asciidoc|asc/.test(ext)) {
+        if (doc && "adoc" == ext || "ad" == ext || "asciidoc" == ext || "asc" == ext) {
             if (doc != currentDoc) {
                 baseDirEdited = false;
             }
