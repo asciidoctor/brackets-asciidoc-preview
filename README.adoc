@@ -32,7 +32,7 @@ From the Brackets file menu, open the extension manager. Browse available extens
 This is the recommended way.
 
 As an alternative, you may press the 'Install from URL...' button and
-enter https://github.com/asciidoctor/asciidoc-brackets-preview[] into the input field.
+enter https://github.com/asciidoctor/brackets-asciidoc-preview[] into the input field.
 
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
