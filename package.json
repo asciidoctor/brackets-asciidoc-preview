@@ -7,6 +7,6 @@
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
-        "brackets": ">=0.39.0"
+        "brackets": ">=0.38.0"
     }
 }
