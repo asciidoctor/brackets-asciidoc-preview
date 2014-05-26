@@ -32,16 +32,16 @@ From the Brackets file menu, open the extension manager. Browse available extens
 This is the recommended way.
 
 As an alternative, you may press the 'Install from URL...' button and
-enter https://github.com/nerk/asciidoc-brackets-preview[] into the input field.
+enter https://github.com/asciidoctor/asciidoc-brackets-preview[] into the input field.
 
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
 
 In the upper right corner of the preview pane, pressing the gear symbol opens the settings panel.
 
-For better sytax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
+For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
 https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
-well for AsciiDoc, so you need to experiment. 'Vibrank Ink' is pretty colorful, for example.
+well for AsciiDoc, so you need to experiment. 'Vibrank Ink' is pretty colorful theme, for example.
 
 == Known Issues
 
