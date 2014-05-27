@@ -20,7 +20,7 @@ CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
           "dissallowDelimitedBlock": [
               {include: "paragraphEnd"},
               {token: "comment", regex: '^//.+$'},
-              {token: "keyword", regex: "^(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION):"},
+              {token: "keyword", regex: "^(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION):\\s"},
   
               {include: "listStart"},
               {token: "literal", regex: /^\s+.+$/, next: "indentedBlock"},
@@ -36,7 +36,7 @@ CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
               {token: "pageBreak",   regex: /^>{3,}$/,         next: "start"},
               {token: "literal",     regex: /^\.{4,}\s*$/,     next: "listingBlock"},
               {token: "titleUnderline",    regex: /^(?:={2,}|-{2,}|~{2,}|\^{2,}|\+{2,})\s*$/, next: "start"},
-              {token: "singleLineTitle",   regex: /^={1,5}\s+\S.*$/, next: "start"},
+              {token: "singleLineTitle",   regex: /^={1,6}\s+\S.*$/, next: "start"},
   
               {token: "otherBlock",    regex: /^(?:\*{2,}|_{2,})\s*$/, next: "start"},
               // .optional title
@@ -624,3 +624,4 @@ CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
 });
 
 CodeMirror.defineMIME("text/x-asciidoc", "asciidoc");
+
