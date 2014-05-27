@@ -59,6 +59,7 @@ define(function (require, exports, module) {
     // Other vars
     var currentDoc,
         panel,
+        fileExtensions = ["ad", "adoc", "asciidoc", "asc"],
         visible = false,
         realVisibility = false,
         baseDirEdited = false;
@@ -68,8 +69,8 @@ define(function (require, exports, module) {
     LanguageManager.defineLanguage("asciidoc", {
         name: "AsciiDoc",
         mode: "asciidoc",
-        fileExtensions: ["ad", "adoc", "asciidoc", "asc"],
-        blockComment: ["/*", "*/"],
+        fileExtensions: fileExtensions,
+        blockComment: ["////", "////"],
         lineComment: ["//"]
     });
     
@@ -342,7 +343,7 @@ define(function (require, exports, module) {
             currentDoc = null;
         }
 
-        if (doc && "adoc" == ext || "ad" == ext || "asciidoc" == ext || "asc" == ext) {
+        if (doc && fileExtensions.indexOf(ext) != -1) {
             if (doc != currentDoc) {
                 baseDirEdited = false;
             }
