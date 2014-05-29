@@ -1,20 +1,19 @@
 #asciidoc-preview-console {
     position: fixed;
+    border-top: 1px solid red;
     bottom: 0;
-    width: 100%;
-    background-color: inherit;
+    background-color: white;
     margin: 0;
+    width: 100%;
+    max-width: 100%;
 }
 
 #asciidoc-console-box {
     border-radius: 0;
-    border-top: 1px solid red;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
+    border: none;
     background-color: white;
     color: red;
-    font-size: 90%;
-    padding: 0;
+    font-size: 12px;
     margin: 0;
+    padding: 5px 5px 5px 5px;
 }
