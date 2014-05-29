@@ -88,7 +88,7 @@ define(function (require, exports, module) {
     var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     _prefs.definePreference("showtitle", "boolean", true);
     _prefs.definePreference("numbered", "boolean", false);
-    _prefs.definePreference("theme", "string", "default");
+    _prefs.definePreference("theme", "string", "asciidoctor");
     _prefs.definePreference("safemode", "string", "safe");
     _prefs.definePreference("basedir", "string", "");
     _prefs.definePreference("doctype", "string", "article");
@@ -173,6 +173,9 @@ define(function (require, exports, module) {
                 lastDuration = e.data.duration;
                 conversionStart = 0;
                 var theme = _prefs.get("theme");
+                if (theme == "default") { // recover from deprecated setting
+                    theme = "asciidoctor";
+                }
                 var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, theme);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
