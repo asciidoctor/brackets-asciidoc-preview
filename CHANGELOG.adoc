@@ -1,9 +1,15 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.0.6
+
+* New themes: asciidoctor, asciidoctor-compact, and github
+* Misc fixes to preview styling, including width and padding. 
+* Added header level 5 to highlighting mode
+
 === Version 1.0.5
 
-* Requires sprint version >=0.39.0
+* Requires sprint version >=0.38.0
 * AsciiDoc mode added thanks to Thaddee Tyl (https://github.com/espadrine/LivesciiDoc)
 
 === Version 1.0.4
