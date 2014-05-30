@@ -7,6 +7,8 @@ Thomas Kern
 This is an extension for Adobe Brackets http://brackets.io/,
 which allows for live preview of AsciiDoc documents.
 
+image::preview.jpg[]
+
 Most of the work and credits go to Glenn Ruehle for his 
 Markdown preview extension (https://github.com/gruehle/MarkdownPreview),
 which I ripped off and modified for AsciiDoc.
