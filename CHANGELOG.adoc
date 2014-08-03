@@ -1,6 +1,14 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.0.7
+
+* Update to Asciidoctor 1.5.0.rc2
+* Clicking on a line with an Asciidoctor error message now jumps to the correct line in AsciiDoc source.
+* Changed active icon color to match Brackets standard (Thanks to https://github.com/sprintr[]).
+* Improvements to Asciidoctor-compact theme.
+* Themes are now Asciidoctor 1.5 compliant.
+
 === Version 1.0.6
 
 * New themes: asciidoctor, asciidoctor-compact, and github
