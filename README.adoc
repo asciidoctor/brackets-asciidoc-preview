@@ -4,13 +4,13 @@ Thomas Kern
 :idseparator: -
 
 
-This is an extension for Adobe Brackets http://brackets.io/,
+This is an extension for http://brackets.io[Adobe Brackets],
 which allows for live preview of AsciiDoc documents.
 
 image::preview.jpg[]
 
 Most of the work and credits go to Glenn Ruehle for his 
-Markdown preview extension (https://github.com/gruehle/MarkdownPreview),
+https://github.com/gruehle/MarkdownPreview[Markdown preview extension],
 which I ripped off and modified for AsciiDoc.
 
 The actual formatting is performed by
@@ -18,7 +18,7 @@ https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
 the JavaScript incarnation of http://asciidoctor.org/[Asciidoctor].
 
 AsciiDoc mode for CodeMirror was created by 
-Thaddee Tyl (https://github.com/espadrine/LivesciiDoc), who
+Thaddee Tyl for https://github.com/espadrine/AsciiDocBox[AsciiDocBox], who
 converted the highlighting mode from the Ace editor to CodeMirror.
 
 
@@ -43,7 +43,7 @@ In the upper right corner of the preview pane, pressing the gear symbol opens th
 
 For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
 https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
-well for AsciiDoc, so you need to experiment. 'Vibrank Ink' is pretty colorful theme, for example.
+well for AsciiDoc, so you need to experiment. 'Vibrant Ink' is pretty colorful theme, for example.
 
 == Known Issues
 
