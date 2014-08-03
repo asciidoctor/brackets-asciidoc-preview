@@ -102,19 +102,40 @@ define(function (require, exports, module) {
         while (node) {
             if (node.tagName === "A") {
                 url = node.getAttribute("href");
-                if (url && !url.match(/^#/)) {
-                    NativeApp.openURLInDefaultBrowser(url);
-                }
+                if (url) {
+                    if (!url.match(/^#/)) {
+                        NativeApp.openURLInDefaultBrowser(url);
+                    } else if (url.match(/^#goto_/)) {
+                        // if URL contains special #goto_ fragment identifier,
+                        // use line number to jump to this line in document editor.
+                        jumpToLine(parseInt(url.substr(6), 10));
+                    }
+                } 
                 e.preventDefault();
                 break;
             }
             node = node.parentElement;
         }
-
         // Close settings dropdown, if open
         _hideSettings();
     }
 
+    // Jump to specified line in source editor.
+    function jumpToLine(line) {
+        var location = { line: line - 1, ch: 0 };
+        
+        var editor = EditorManager.getCurrentFullEditor();
+        var codeMirror = editor._codeMirror;
+        
+        codeMirror.setCursor(location);
+        editor.focus();
+
+        codeMirror.addLineClass(location.line, "wrap", "flash");
+        window.setTimeout(function () {
+            codeMirror.removeLineClass(location.line, "wrap", "flash");
+        }, 1000);
+    }
+    
     function _loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),

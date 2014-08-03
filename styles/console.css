@@ -17,3 +17,7 @@
     margin: 0;
     padding: 5px 5px 5px 5px;
 }
+
+#asciidoc-console-box a {
+    color: red;
+}
