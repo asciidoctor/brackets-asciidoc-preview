@@ -3,7 +3,7 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents. Now supports default Asciidoctor theme.",
     "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
