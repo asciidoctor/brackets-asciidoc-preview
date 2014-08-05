@@ -108,7 +108,7 @@ define(function (require, exports, module) {
                     } else if (url.match(/^#goto_/)) {
                         // if URL contains special #goto_ fragment identifier,
                         // use line number to jump to this line in document editor.
-                        jumpToLine(parseInt(url.substr(6), 10));
+                        jumpToLine(parseInt(url.substr(6), 10) - 1);
                     }
                 } 
                 e.preventDefault();
@@ -126,13 +126,13 @@ define(function (require, exports, module) {
      */
     function jumpToLine(line) {
         var editor = EditorManager.getCurrentFullEditor();
-        editor.setCursorPos(line - 1, 0, true);
+        editor.setCursorPos(line, 0, true);
         editor.focus();
         
         var codeMirror = editor._codeMirror;
-        codeMirror.addLineClass(location.line, "wrap", "flash");
+        codeMirror.addLineClass(line, "wrap", "flash");
         window.setTimeout(function () {
-            codeMirror.removeLineClass(location.line, "wrap", "flash");
+            codeMirror.removeLineClass(line, "wrap", "flash");
         }, 1000);
     }
     
