@@ -120,16 +120,16 @@ define(function (require, exports, module) {
         _hideSettings();
     }
 
-    // Jump to specified line in source editor.
+    /**
+     * Jump to specified line in source editor. Centers
+     * line in view.
+     */
     function jumpToLine(line) {
-        var location = { line: line - 1, ch: 0 };
-        
         var editor = EditorManager.getCurrentFullEditor();
-        var codeMirror = editor._codeMirror;
-        
-        codeMirror.setCursor(location);
+        editor.setCursorPos(line - 1, 0, true);
         editor.focus();
-
+        
+        var codeMirror = editor._codeMirror;
         codeMirror.addLineClass(location.line, "wrap", "flash");
         window.setTimeout(function () {
             codeMirror.removeLineClass(location.line, "wrap", "flash");
