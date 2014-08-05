@@ -4,6 +4,7 @@
 === Version 1.0.7
 
 * Update to Asciidoctor 1.5.0.rc4
+* Support for MathJax added (thanks to @Mogztter)
 * Clicking on a line with an Asciidoctor error message now jumps to the correct line in AsciiDoc source.
 * Changed active icon color to match Brackets standard (Thanks to https://github.com/sprintr[]).
 * Improvements to Asciidoctor-compact theme.
