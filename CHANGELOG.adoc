@@ -3,11 +3,13 @@
 
 === Version 1.0.7
 
-* Update to Asciidoctor 1.5.0.rc2
+* Update to Asciidoctor 1.5.0.rc4
 * Clicking on a line with an Asciidoctor error message now jumps to the correct line in AsciiDoc source.
 * Changed active icon color to match Brackets standard (Thanks to https://github.com/sprintr[]).
 * Improvements to Asciidoctor-compact theme.
 * Themes are now Asciidoctor 1.5 compliant.
+* Use patched highlight.min.js and default.min.css from asciidoctor/asciidoctor-chrome-extension for syntax highlighting.
+
 
 === Version 1.0.6
 
