@@ -10,7 +10,7 @@ CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
               {token: "empty",   regex: /$/},
               {token: "literal", regex: /^\.{4,}\s*$/,  next: "listingBlock"},
               {token: "literal", regex: /^-{4,}\s*$/,   next: "literalBlock"},
-              {token: "string",  regex: /^\+{4,}\s*$/,  next: "passthroughBlock"},
+              {token: "literal",  regex: /^\+{4,}\s*$/,  next: "passthroughBlock"},
               {token: "keyword", regex: /^={4,}\s*$/},
               {token: "text",    regex: /^\s*$/},
               // immediately return to the start mode without matching anything
