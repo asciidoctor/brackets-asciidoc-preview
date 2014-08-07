@@ -6685,10 +6685,12 @@ h5 > a.link:hover,
 h6 > a.link:hover {
   color: #494949;
 }
+.audioblock,
 .imageblock,
 .literalblock,
 .listingblock,
 .mathblock,
+.stemblock,
 .verseblock,
 .videoblock {
   margin-bottom: 10px;
@@ -6697,16 +6699,17 @@ h6 > a.link:hover {
  * Titles and captions
  */
 .admonitionblock td.content > .title,
+.audioblock > .title,
 .exampleblock > .title,
 .imageblock > .title,
 .listingblock > .title,
 .literalblock > .title,
-.mathblock > .title,
+.stemblock > .title,
 .openblock > .title,
 .paragraph > .title,
 .quoteblock > .title,
+table.tableblock > .title,
 .sidebarblock > .title,
-.tableblock > .title,
 .verseblock > .title,
 .videoblock > .title,
 .dlist > .title,
@@ -6755,7 +6758,6 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p {
   margin-bottom: 10px;
 }
 .admonitionblock > table td.icon {
-  font-size: 2.5em;
   text-align: center;
   width: 60px;
 }
@@ -7135,7 +7137,7 @@ ol.unnumbered,
 ul.checklist {
   padding-left: 1.6em;
 }
-ul.checklist li > p:first-child > i[class^="icon-check"]:first-child,
+ul.checklist li > p:first-child > fa-check-square-o:first-child,
 ul.checklist li > p:first-child > input[type="checkbox"]:first-child {
   margin-right: 0.25em;
 }
@@ -7482,11 +7484,10 @@ div.unbreakable {
  * This is based on Dan Allen's _awesome-icons.scss 
  * https://github.com/asciidoctor/asciidoctor-stylesheet-factory/tree/master/sass/components
  */
-span.icon > [class^="icon-"],
-span.icon > [class*=" icon-"] {
+span.icon > .fa {
   cursor: default;
 }
-.admonitionblock td.icon [class^="icon-"]:before {
+.admonitionblock td.icon [class^="fa icon-"]:before {
   font-size: 2.5em;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   cursor: default;

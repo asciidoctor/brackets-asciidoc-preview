@@ -6350,9 +6350,6 @@ h6,
 .text-info:hover {
   color: #5bc0de;
 }
-.table a:not(.btn) {
-  text-decoration: underline;
-}
 .table .success,
 .table .warning,
 .table .danger,
@@ -6471,7 +6468,8 @@ legend {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484e55', endColorstr='#ff313539', GradientType=0);
   filter: none;
 }
-.pagination > li > a {
+.pagination > li > a,
+.pagination > li > span {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   background-image: -webkit-linear-gradient(#484e55, #3a3f44 60%, #313539);
   background-image: -o-linear-gradient(#484e55, #3a3f44 60%, #313539);
@@ -6480,7 +6478,8 @@ legend {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484e55', endColorstr='#ff313539', GradientType=0);
   filter: none;
 }
-.pagination > li > a:hover {
+.pagination > li > a:hover,
+.pagination > li > span:hover {
   background-image: -webkit-linear-gradient(#020202, #101112 40%, #191b1d);
   background-image: -o-linear-gradient(#020202, #101112 40%, #191b1d);
   background-image: linear-gradient(#020202, #101112 40%, #191b1d);
@@ -6488,7 +6487,8 @@ legend {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff020202', endColorstr='#ff191b1d', GradientType=0);
   filter: none;
 }
-.pagination > li.active > a {
+.pagination > li.active > a,
+.pagination > li.active > span {
   background-image: -webkit-linear-gradient(#020202, #101112 40%, #191b1d);
   background-image: -o-linear-gradient(#020202, #101112 40%, #191b1d);
   background-image: linear-gradient(#020202, #101112 40%, #191b1d);
@@ -6497,7 +6497,9 @@ legend {
   filter: none;
 }
 .pagination > li.disabled > a,
-.pagination > li.disabled > a:hover {
+.pagination > li.disabled > a:hover,
+.pagination > li.disabled > span,
+.pagination > li.disabled > span:hover {
   background-color: transparent;
   background-image: -webkit-linear-gradient(#484e55, #3a3f44 60%, #313539);
   background-image: -o-linear-gradient(#484e55, #3a3f44 60%, #313539);
@@ -6962,10 +6964,12 @@ h5 > a.link:hover,
 h6 > a.link:hover {
   color: #bbbbbb;
 }
+.audioblock,
 .imageblock,
 .literalblock,
 .listingblock,
 .mathblock,
+.stemblock,
 .verseblock,
 .videoblock {
   margin-bottom: 10px;
@@ -6974,16 +6978,17 @@ h6 > a.link:hover {
  * Titles and captions
  */
 .admonitionblock td.content > .title,
+.audioblock > .title,
 .exampleblock > .title,
 .imageblock > .title,
 .listingblock > .title,
 .literalblock > .title,
-.mathblock > .title,
+.stemblock > .title,
 .openblock > .title,
 .paragraph > .title,
 .quoteblock > .title,
+table.tableblock > .title,
 .sidebarblock > .title,
-.tableblock > .title,
 .verseblock > .title,
 .videoblock > .title,
 .dlist > .title,
@@ -7032,7 +7037,6 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p {
   margin-bottom: 10px;
 }
 .admonitionblock > table td.icon {
-  font-size: 2.5em;
   text-align: center;
   width: 60px;
 }
@@ -7412,7 +7416,7 @@ ol.unnumbered,
 ul.checklist {
   padding-left: 1.6em;
 }
-ul.checklist li > p:first-child > i[class^="icon-check"]:first-child,
+ul.checklist li > p:first-child > fa-check-square-o:first-child,
 ul.checklist li > p:first-child > input[type="checkbox"]:first-child {
   margin-right: 0.25em;
 }
@@ -7759,11 +7763,10 @@ div.unbreakable {
  * This is based on Dan Allen's _awesome-icons.scss 
  * https://github.com/asciidoctor/asciidoctor-stylesheet-factory/tree/master/sass/components
  */
-span.icon > [class^="icon-"],
-span.icon > [class*=" icon-"] {
+span.icon > .fa {
   cursor: default;
 }
-.admonitionblock td.icon [class^="icon-"]:before {
+.admonitionblock td.icon [class^="fa icon-"]:before {
   font-size: 2.5em;
   text-shadow: none;
   cursor: default;
