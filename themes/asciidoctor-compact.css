@@ -696,6 +696,13 @@ p { margin-bottom: 1.25rem; }
 .admonitionblock > table td.content { padding-left: 1.16667em; padding-right: 1.33333em; border-left: 1px solid #ddddd8; color: rgba(0, 0, 0, 0.6); line-height: 1.4; }
 .admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
 
+.literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { -webkit-border-radius: 4px; border-radius: 4px; word-wrap: break-word; padding: 1.33333em; font-size: 12px; }
+.literalblock pre.nowrap, .literalblock pre[class].nowrap, .listingblock pre.nowrap, .listingblock pre[class].nowrap { overflow-x: auto; white-space: pre; word-wrap: normal; }
+@media only screen and (min-width: 768px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 1.08333em; } }
+@media only screen and (min-width: 1280px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 1.16667em; } }
+
+.listingblock code[data-lang]:before { display: none; content: attr(data-lang); position: absolute; font-size: 11px; top: 0.425rem; right: 0.5rem; line-height: 1; text-transform: uppercase; color: #999; }
+
 .print-only { display: none !important; }
 
 @media print { @page { margin: 1.25cm 0.75cm; }
