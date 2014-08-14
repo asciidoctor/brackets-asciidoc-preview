@@ -59,9 +59,8 @@ but accessed via a CDN.
 This means that you'll need a working internet connection in order to be able to see rendered expressions,
 at least until MathJax was loaded and cached by Brackets for the first time.
 
-The use of MathJax must be explicitly switched on in the plugin's option panel (gear symbol in the preview pane)
+The use of MathJax is disabled by default and must be switched on in the plugin's option panel (gear symbol in the preview pane)
 by checking _Render math_. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
-
 
 == Known Issues
 
