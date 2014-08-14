@@ -85,13 +85,14 @@ define(function (require, exports, module) {
     var conversionStart = 0;
 
     // Prefs
-    var _prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
-    _prefs.definePreference("showtitle", "boolean", true);
-    _prefs.definePreference("numbered", "boolean", false);
-    _prefs.definePreference("theme", "string", "asciidoctor");
-    _prefs.definePreference("safemode", "string", "safe");
-    _prefs.definePreference("basedir", "string", "");
-    _prefs.definePreference("doctype", "string", "article");
+    var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
+    prefs.definePreference("showtitle", "boolean", true);
+    prefs.definePreference("numbered", "boolean", false);
+    prefs.definePreference("mjax", "boolean", false);
+    prefs.definePreference("theme", "string", "asciidoctor");
+    prefs.definePreference("safemode", "string", "safe");
+    prefs.definePreference("basedir", "string", "");
+    prefs.definePreference("doctype", "string", "article");
 
 
     // (based on code in brackets.js)
@@ -157,19 +158,20 @@ define(function (require, exports, module) {
                                   + ' platform=opal platform-opal' 
                                   + ' env=browser env-browser' 
                                   + ' source-highlighter=highlight.js';
-            var numbered = _prefs.get("numbered") ? 'numbered' : 'numbered!';
-            var showtitle = _prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
-            var safemode = _prefs.get("safemode") || "safe";
-            var doctype = _prefs.get("doctype") || "article";
-
+            var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
+            var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
+            var safemode = prefs.get("safemode") || "safe";
+            var doctype = prefs.get("doctype") || "article";
+            var renderMath = prefs.get("mjax");
+            
             if (!baseDirEdited) {
-                _prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
+                prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
             }
 
             // Make <base> tag for relative URLS
             var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
-            var basedir = _prefs.get("basedir") ||
+            var basedir = prefs.get("basedir") ||
                 window.location.protocol.concat('//').concat(FileUtils.getDirectoryPath(doc.file.fullPath)).replace(/\/$/, '');
 
             var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
@@ -187,26 +189,33 @@ define(function (require, exports, module) {
                 attributes: attributes
             };
 
+            // perform conversion in worker thread
             conversionStart = new Date().getTime();
             converterWorker.postMessage(data);
 
             converterWorker.onmessage = function (e) {
                 lastDuration = e.data.duration;
                 conversionStart = 0;
-                var theme = _prefs.get("theme");
+                var theme = prefs.get("theme");
                 if (theme == "default") { // recover from deprecated setting
                     theme = "asciidoctor";
                 }
-                var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, theme);
+                
+                var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
             };
 
-
             // Open external browser when links are clicked
             // (similar to what brackets.js does - but attached to the iframe's document)
             $iframe.load(function () {
-                $iframe[0].contentDocument.body.addEventListener("click", _handleLinkClick, true);
+                $iframe[0].contentDocument.body.addEventListener("click", _handleLinkClick, true);                                              
+                if (prefs.get("mjax") && !this.contentWindow.MathJax) {
+                    prefs.set("mjax", false); 
+                    alert("'MathJax' could not be accessed online and is also not available from cache. " +
+                          "You are either working offline or access to the internet failed. " +
+                          "Rendering of mathematical expressions has been switched off.");
+                }
             });
         }
     }
@@ -222,7 +231,7 @@ define(function (require, exports, module) {
         // Estimate timeout based on time needed for 
         // actual document conversion. Never longer than
         // 5000 ms.
-        var timeout = lastDuration + 300;
+        var timeout = lastDuration + 150;
         if (conversionStart > 0) {
             timeout = Math.min(timeout - new Date().getTime() + conversionStart, 5000);
         }
@@ -242,7 +251,7 @@ define(function (require, exports, module) {
 
     function _updateSettings() {
         // Save preferences
-        _prefs.save();
+        prefs.save();
 
         // Re-render
         _loadDoc(currentDoc, true);
@@ -275,44 +284,51 @@ define(function (require, exports, module) {
             .appendTo($panel);
 
         $settings.find("#asciidoc-preview-showtitle")
-            .prop("checked", _prefs.get("showtitle") || true)
+            .prop("checked", prefs.get("showtitle") || true)
             .change(function (e) {
-                _prefs.set("showtitle", e.target.checked);
+                prefs.set("showtitle", e.target.checked);
                 _updateSettings();
             });
 
         $settings.find("#asciidoc-preview-numbered")
-            .prop("checked", _prefs.get("numbered"))
+            .prop("checked", prefs.get("numbered"))
             .change(function (e) {
-                _prefs.set("numbered", e.target.checked);
+                prefs.set("numbered", e.target.checked);
                 _updateSettings();
             });
 
-        $settings.find("#asciidoc-preview-theme")
-            .val(_prefs.get("theme"))
+        $settings.find("#asciidoc-preview-mjax")
+            .prop("checked", prefs.get("mjax"))
             .change(function (e) {
-                _prefs.set("theme", e.target.value);
+                prefs.set("mjax", e.target.checked);
+                _updateSettings();
+            });
+        
+        $settings.find("#asciidoc-preview-theme")
+            .val(prefs.get("theme"))
+            .change(function (e) {
+                prefs.set("theme", e.target.value);
                 _updateSettings();
             });
 
         $settings.find("#asciidoc-preview-safemode")
-            .val(_prefs.get("safemode"))
+            .val(prefs.get("safemode"))
             .change(function (e) {
-                _prefs.set("safemode", e.target.value);
+                prefs.set("safemode", e.target.value);
                 _updateSettings();
             });
 
         $settings.find("#asciidoc-preview-doctype")
-            .val(_prefs.get("doctype"))
+            .val(prefs.get("doctype"))
             .change(function (e) {
-                _prefs.set("doctype", e.target.value);
+                prefs.set("doctype", e.target.value);
                 _updateSettings();
             });
 
         $settings.find("#asciidoc-preview-basedir")
-            .val(_prefs.get("basedir"))
+            .val(prefs.get("basedir"))
             .change(function (e) {
-                _prefs.set("basedir", e.target.value);
+                prefs.set("basedir", e.target.value);
                 baseDirEdited = true;
                 _updateSettings();
             });
