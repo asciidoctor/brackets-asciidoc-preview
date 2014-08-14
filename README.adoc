@@ -7,6 +7,10 @@ Thomas Kern
 This is an extension for http://brackets.io[Adobe Brackets],
 which allows for live preview of AsciiDoc documents.
 
+IMPORTANT: Version 1.0.7 is using Asciidoctor 1.5.0 for rendering. This introduces
+some small changes to the syntax. Please refer to http://asciidoctor.org/docs/migration/[Migrating to Asciidoctor 1.5.0]
+for details.
+
 image::preview.jpg[]
 
 Most of the work and credits go to Glenn Ruehle for his 
@@ -44,7 +48,20 @@ In the upper right corner of the preview pane, pressing the gear symbol opens th
 
 For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
 https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
-well for AsciiDoc, so you need to experiment. 'Vibrant Ink' is pretty colorful theme, for example.
+well for AsciiDoc, so you need to experiment. _Vibrant Ink_ is pretty colorful theme, for example.
+
+== MathJax Support
+
+Rendering of mathematical expressions is now supported by means of http://www.mathjax.org/[MathJax].
+Unlike other components used by this plugin, MathJax is not included in the distribution,
+but accessed via a CDN.
+
+This means that you'll need a working internet connection in order to be able to see rendered expressions,
+at least until MathJax was loaded and cached by Brackets for the first time.
+
+The use of MathJax must be explicitly switched on in the plugin's option panel (gear symbol in the preview pane)
+by checking _Render math_. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
+
 
 == Known Issues
 
