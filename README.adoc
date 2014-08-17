@@ -11,7 +11,7 @@ IMPORTANT: Version 1.0.7 is using Asciidoctor 1.5.0 for rendering. This introduc
 some small changes to the syntax. Please refer to http://asciidoctor.org/docs/migration/[Migrating to Asciidoctor 1.5.0]
 for details.
 
-image::preview.jpg[]
+image::images/preview.jpg[]
 
 Most of the work and credits go to Glenn Ruehle for his 
 https://github.com/gruehle/MarkdownPreview[Markdown preview extension],
