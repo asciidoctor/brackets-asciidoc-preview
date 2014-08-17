@@ -26,7 +26,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true,  regexp: true, indent: 4, maxerr: 50 */
-/*global define, brackets, $, window, marked, _hideSettings */
+/*global define, brackets, $, window, _hideSettings, Worker */
 
 define(function (require, exports, module) {
     "use strict";
@@ -41,9 +41,7 @@ define(function (require, exports, module) {
         FileUtils = brackets.getModule("file/FileUtils"),
         PanelManager = brackets.getModule("view/PanelManager"),
         PopUpManager = brackets.getModule("widgets/PopUpManager"),
-        PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
-        Resizer = brackets.getModule("utils/Resizer"),
-        StringUtils = brackets.getModule("utils/StringUtils");
+        PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
     // Templates
     var panelHTML = require("text!templates/panel.html"),
@@ -141,7 +139,6 @@ define(function (require, exports, module) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),
                 scrollPos = 0,
-                bodyText = "",
                 yamlRegEx = /^-{3}([\w\W]+?)(-{3})/,
                 yamlMatch = yamlRegEx.exec(docText);
 
@@ -154,15 +151,14 @@ define(function (require, exports, module) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             }
 
-            var defaultAttributes = 'icons=font@' 
-                                  + ' platform=opal platform-opal' 
-                                  + ' env=browser env-browser' 
-                                  + ' source-highlighter=highlight.js';
+            var defaultAttributes = 'icons=font@ ' +
+                                    'platform=opal platform-opal ' +
+                                    'env=browser env-browser ' +
+                                    'source-highlighter=highlight.js';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
-            var renderMath = prefs.get("mjax");
             
             if (!baseDirEdited) {
                 prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
