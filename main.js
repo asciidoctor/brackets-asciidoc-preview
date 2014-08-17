@@ -75,7 +75,7 @@ define(function (require, exports, module) {
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
-    var output = new require("lib/output");
+    var output = require("lib/output");
 
     // time needed for the latest conversion in ms
     var lastDuration = 0;
@@ -94,7 +94,7 @@ define(function (require, exports, module) {
 
 
     // (based on code in brackets.js)
-    function _handleLinkClick(e) {
+    function handleLinkClick(e) {
         // Check parents too, in case link has inline formatting tags
         var node = e.target,
             url;
@@ -116,7 +116,7 @@ define(function (require, exports, module) {
             node = node.parentElement;
         }
         // Close settings dropdown, if open
-        _hideSettings();
+        hideSettings();
     }
 
     /**
@@ -135,7 +135,7 @@ define(function (require, exports, module) {
         }, 1000);
     }
     
-    function _loadDoc(doc, preserveScrollPos) {
+    function loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),
                 scrollPos = 0,
@@ -205,7 +205,7 @@ define(function (require, exports, module) {
             // Open external browser when links are clicked
             // (similar to what brackets.js does - but attached to the iframe's document)
             $iframe.load(function () {
-                $iframe[0].contentDocument.body.addEventListener("click", _handleLinkClick, true);                                              
+                $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
                 if (prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
@@ -216,12 +216,12 @@ define(function (require, exports, module) {
         }
     }
 
-    var _timer;
+    var timer;
 
-    function _documentChange(e) {
+    function documentChange(e) {
         // throttle updates
-        if (_timer) {
-            window.clearTimeout(_timer);
+        if (timer) {
+            window.clearTimeout(timer);
         }
 
         // Estimate timeout based on time needed for 
@@ -232,28 +232,28 @@ define(function (require, exports, module) {
             timeout = Math.min(timeout - new Date().getTime() + conversionStart, 5000);
         }
 
-        _timer = window.setTimeout(function () {
-            _timer = null;
-            _loadDoc(e.target, true);
+        timer = window.setTimeout(function () {
+            timer = null;
+            loadDoc(e.target, true);
         }, timeout);
     }
 
-    function _resizeIframe() {
+    function resizeIframe() {
         if (visible && $iframe) {
             var iframeWidth = panel.$panel.innerWidth();
             $iframe.attr("width", iframeWidth + "px");
         }
     }
 
-    function _updateSettings() {
+    function updateSettings() {
         // Save preferences
         prefs.save();
 
         // Re-render
-        _loadDoc(currentDoc, true);
+        loadDoc(currentDoc, true);
     }
 
-    function _documentClicked(e) {
+    function documentClicked(e) {
         if (!$settings.is(e.target) &&
             !$settingsToggle.is(e.target) &&
             $settings.has(e.target).length === 0) {
@@ -261,16 +261,16 @@ define(function (require, exports, module) {
         }
     }
 
-    function _hideSettings() {
+    function hideSettings() {
         if ($settings) {
             $settings.remove();
             $settings = null;
-            $(window.document).off("mousedown", _documentClicked);
+            $(window.document).off("mousedown", documentClicked);
         }
     }
 
-    function _showSettings(e) {
-        _hideSettings();
+    function showSettings() {
+        hideSettings();
 
         $settings = $(settingsHTML)
             .css({
@@ -283,42 +283,42 @@ define(function (require, exports, module) {
             .prop("checked", prefs.get("showtitle") || true)
             .change(function (e) {
                 prefs.set("showtitle", e.target.checked);
-                _updateSettings();
+                updateSettings();
             });
 
         $settings.find("#asciidoc-preview-numbered")
             .prop("checked", prefs.get("numbered"))
             .change(function (e) {
                 prefs.set("numbered", e.target.checked);
-                _updateSettings();
+                updateSettings();
             });
 
         $settings.find("#asciidoc-preview-mjax")
             .prop("checked", prefs.get("mjax"))
             .change(function (e) {
                 prefs.set("mjax", e.target.checked);
-                _updateSettings();
+                updateSettings();
             });
         
         $settings.find("#asciidoc-preview-theme")
             .val(prefs.get("theme"))
             .change(function (e) {
                 prefs.set("theme", e.target.value);
-                _updateSettings();
+                updateSettings();
             });
 
         $settings.find("#asciidoc-preview-safemode")
             .val(prefs.get("safemode"))
             .change(function (e) {
                 prefs.set("safemode", e.target.value);
-                _updateSettings();
+                updateSettings();
             });
 
         $settings.find("#asciidoc-preview-doctype")
             .val(prefs.get("doctype"))
             .change(function (e) {
                 prefs.set("doctype", e.target.value);
-                _updateSettings();
+                updateSettings();
             });
 
         $settings.find("#asciidoc-preview-basedir")
@@ -326,14 +326,14 @@ define(function (require, exports, module) {
             .change(function (e) {
                 prefs.set("basedir", e.target.value);
                 baseDirEdited = true;
-                _updateSettings();
+                updateSettings();
             });
 
-        PopUpManager.addPopUp($settings, _hideSettings, true);
-        $(window.document).on("mousedown", _documentClicked);
+        PopUpManager.addPopUp($settings, hideSettings, true);
+        $(window.document).on("mousedown", documentClicked);
     }
 
-    function _setPanelVisibility(isVisible) {
+    function setPanelVisibility(isVisible) {
         if (isVisible === realVisibility) {
             return;
         }
@@ -350,18 +350,18 @@ define(function (require, exports, module) {
                 });
                 $iframe.attr("height", $panel.height());
 
-                window.setTimeout(_resizeIframe);
+                window.setTimeout(resizeIframe);
 
                 $settingsToggle = $("#asciidoc-settings-toggle")
                     .click(function (e) {
                         if ($settings) {
-                            _hideSettings();
+                            hideSettings();
                         } else {
-                            _showSettings(e);
+                            showSettings(e);
                         }
                     });
             }
-            _loadDoc(DocumentManager.getCurrentDocument());
+            loadDoc(DocumentManager.getCurrentDocument());
             $icon.toggleClass("active");
             panel.show();
         } else {
@@ -370,12 +370,12 @@ define(function (require, exports, module) {
         }
     }
 
-    function _currentDocChangedHandler() {
+    function currentDocChangedHandler() {
         var doc = DocumentManager.getCurrentDocument(),
             ext = doc ? FileUtils.getFileExtension(doc.file.fullPath).toLowerCase() : "";
 
         if (currentDoc) {
-            $(currentDoc).off("change", _documentChange);
+            $(currentDoc).off("change", documentChange);
             currentDoc = null;
         }
 
@@ -384,23 +384,23 @@ define(function (require, exports, module) {
                 baseDirEdited = false;
             }
             currentDoc = doc;
-            $(currentDoc).on("change", _documentChange);
+            $(currentDoc).on("change", documentChange);
             $icon.css({
                 display: "block"
             });
-            _setPanelVisibility(visible);
-            _loadDoc(doc);
+            setPanelVisibility(visible);
+            loadDoc(doc);
         } else {
             $icon.css({
                 display: "none"
             });
-            _setPanelVisibility(false);
+            setPanelVisibility(false);
         }
     }
 
-    function _toggleVisibility() {
+    function toggleVisibility() {
         visible = !visible;
-        _setPanelVisibility(visible);
+        setPanelVisibility(visible);
     }
 
     // Insert CSS for this extension
@@ -415,19 +415,19 @@ define(function (require, exports, module) {
         .css({
             display: "none"
         })
-        .click(_toggleVisibility)
+        .click(toggleVisibility)
         .appendTo($("#main-toolbar .buttons"));
 
     // Add a document change handler
-    $(DocumentManager).on("currentDocumentChange", _currentDocChangedHandler);
+    $(DocumentManager).on("currentDocumentChange", currentDocChangedHandler);
 
     // currentDocumentChange is *not* called for the initial document. Use
     // appReady() to set initial state.
     AppInit.appReady(function () {
-        _currentDocChangedHandler();
+        currentDocChangedHandler();
     });
 
     // Listen for resize events
-    $(PanelManager).on("editorAreaResize", _resizeIframe);
-    $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", _resizeIframe);
+    $(PanelManager).on("editorAreaResize", resizeIframe);
+    $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);
 });
