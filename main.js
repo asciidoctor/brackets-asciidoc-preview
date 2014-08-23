@@ -184,7 +184,7 @@ define(function (require, exports, module) {
                 // Asciidoctor attributes
                 attributes: attributes
             };
-
+            
             // perform conversion in worker thread
             conversionStart = new Date().getTime();
             converterWorker.postMessage(data);
@@ -197,7 +197,25 @@ define(function (require, exports, module) {
                     theme = "asciidoctor";
                 }
                 
-                var html = output.createPage(e.data.html, e.data.messages, baseUrl, scrollPos, prefs);
+                var editor = EditorManager.getCurrentFullEditor();
+                var cursor = editor.getCursorPos();
+                if (cursor) {
+                    /*
+                    var sectInfo = output.findSectionInfo(e.data, cursor.line);
+                    if (sectInfo) {
+                        console.log("Scet ID: " + sectInfo.id);
+                        for (var i = 0; i < sectInfo.blockInfo.length; i++) {
+                            console.log(sectInfo.blockInfo[i].lineno + " " + sectInfo.blockInfo[i].cssClass);
+                        }
+                    }
+                    */
+                    var locationInfo = output.findLocationInfo(e.data, cursor.line + 1);
+                    if (locationInfo) {
+                        console.log((cursor.line + 1) + ": " + locationInfo.sectionId + " " + locationInfo.isSection + " " + locationInfo.blockIndex + " " + locationInfo.blockClass);
+                    }
+                }
+                
+                var html = output.createPage(e.data, baseUrl, scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
             };
@@ -206,6 +224,7 @@ define(function (require, exports, module) {
             // (similar to what brackets.js does - but attached to the iframe's document)
             $iframe.load(function () {
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
+                
                 if (prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
