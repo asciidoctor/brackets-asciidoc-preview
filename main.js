@@ -81,7 +81,9 @@ define(function (require, exports, module) {
     var lastDuration = 0;
     // timestamp when conversion started
     var conversionStart = 0;
-
+    // current editing location info in generated HTML
+    var htmlLocationInfo = null; 
+    
     // Prefs
     var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     prefs.definePreference("showtitle", "boolean", true);
@@ -200,18 +202,10 @@ define(function (require, exports, module) {
                 var editor = EditorManager.getCurrentFullEditor();
                 var cursor = editor.getCursorPos();
                 if (cursor) {
-                    /*
-                    var sectInfo = output.findSectionInfo(e.data, cursor.line);
-                    if (sectInfo) {
-                        console.log("Scet ID: " + sectInfo.id);
-                        for (var i = 0; i < sectInfo.blockInfo.length; i++) {
-                            console.log(sectInfo.blockInfo[i].lineno + " " + sectInfo.blockInfo[i].cssClass);
-                        }
-                    }
-                    */
-                    var locationInfo = output.findLocationInfo(e.data, cursor.line + 1);
-                    if (locationInfo) {
-                        console.log((cursor.line + 1) + ": " + locationInfo.sectionId + " " + locationInfo.isSection + " " + locationInfo.blockIndex + " " + locationInfo.blockClass);
+                    // store current editing location info with respect to HTML
+                    htmlLocationInfo = output.findLocationInfo(e.data, cursor.line + 1);
+                    if (htmlLocationInfo) {
+                        htmlLocationInfo.lineno = cursor.line + 1;
                     }
                 }
                 
@@ -220,10 +214,12 @@ define(function (require, exports, module) {
                 conversionStart = 0;
             };
 
-            // Open external browser when links are clicked
-            // (similar to what brackets.js does - but attached to the iframe's document)
             $iframe.load(function () {
+                // Open external browser when links are clicked
+                // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
+                
+                scrollToEditingPosition($iframe[0]);
                 
                 if (prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
@@ -422,6 +418,42 @@ define(function (require, exports, module) {
         setPanelVisibility(visible);
     }
 
+    function scrollToEditingPosition(frame) {
+        if (htmlLocationInfo) {
+            console.log("scroll invoked");
+                        //console.log(htmlLocationInfo.lineno + ": " + htmlLocationInfo.sectionId + "level: " + htmlLocationInfo.level + " blockidx: " + htmlLocationInfo.blockIndex);
+                    
+            // find correct element based on htmlLocationInfo, section first
+            var $element = $('#' + htmlLocationInfo.sectionId, frame.contentDocument.body);
+            if (htmlLocationInfo.blockIndex >= 0) {
+                // if we've got block information, find correct div
+                //var $p = $('#' + htmlLocationInfo.sectionId + " div.sectionbody > div", frame.contentDocument.body);
+                var $paragraphs = null;
+                if (htmlLocationInfo.level < 2) {
+                    $paragraphs = $element.siblings("div.sectionbody").find("div");
+                } else {
+                    $paragraphs = $element.siblings("div");
+                }
+                if (htmlLocationInfo.blockIndex < $paragraphs.length) {
+                    var p = $paragraphs[htmlLocationInfo.blockIndex];
+                    var blockPos = $(p).position();
+                
+                    if (blockPos !== undefined) {
+                        frame.contentWindow.scrollTo(0, blockPos.top);
+                        return;
+                    }
+                }
+            }
+                
+            // calculate pixel offset from top
+            var headerPos = $element.position();
+            if (headerPos !== undefined) {
+                frame.contentWindow.scrollTo(0, headerPos.top);
+            }
+        }
+
+    }
+    
     // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
 
