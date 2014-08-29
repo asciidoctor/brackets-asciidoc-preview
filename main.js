@@ -76,13 +76,15 @@ define(function (require, exports, module) {
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
     var output = require("lib/output");
+    // utils for handling syncing between editor an preview panes
+    var syncEdit = require("lib/sync");
 
     // time needed for the latest conversion in ms
     var lastDuration = 0;
     // timestamp when conversion started
     var conversionStart = 0;
     // current editing location info in generated HTML
-    var htmlLocationInfo = null; 
+    var previewLocationInfo = null; 
     
     // Prefs
     var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
@@ -203,9 +205,9 @@ define(function (require, exports, module) {
                 var cursor = editor.getCursorPos();
                 if (cursor) {
                     // store current editing location info with respect to HTML
-                    htmlLocationInfo = output.findLocationInfo(e.data, cursor.line + 1);
-                    if (htmlLocationInfo) {
-                        htmlLocationInfo.lineno = cursor.line + 1;
+                    previewLocationInfo = syncEdit.findLocationInfo(e.data.outline, cursor.line + 1);
+                    if (previewLocationInfo) {
+                        previewLocationInfo.lineno = cursor.line + 1;
                     }
                 }
                 
@@ -219,7 +221,7 @@ define(function (require, exports, module) {
                 // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
                 
-                scrollToEditingPosition($iframe[0]);
+                syncEdit.scrollPreview($iframe[0], previewLocationInfo);
                 
                 if (prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
@@ -416,37 +418,6 @@ define(function (require, exports, module) {
     function toggleVisibility() {
         visible = !visible;
         setPanelVisibility(visible);
-    }
-
-    function scrollToEditingPosition(frame) {
-        if (htmlLocationInfo) {
-            // find correct element based on htmlLocationInfo, section first
-            var $element = $('#' + htmlLocationInfo.sectionId, frame.contentDocument.body);
-            if (htmlLocationInfo.blockIndex >= 0) {
-                // if we've got block information, find correct div
-                var $paragraphs = null;
-                if (htmlLocationInfo.level < 2) {
-                    $paragraphs = $element.siblings("div.sectionbody").find("div,table");
-                } else {
-                    $paragraphs = $element.siblings("div,table");
-                }
-                if (htmlLocationInfo.blockIndex < $paragraphs.length) {
-                    var p = $paragraphs[htmlLocationInfo.blockIndex];
-                    var blockPos = $(p).position();
-                
-                    if (blockPos !== undefined) {
-                        frame.contentWindow.scrollTo(0, blockPos.top);
-                        return;
-                    }
-                }
-            }
-                
-            // calculate pixel offset from top
-            var headerPos = $element.position();
-            if (headerPos !== undefined) {
-                frame.contentWindow.scrollTo(0, headerPos.top);
-            }
-        }
     }
     
     // Insert CSS for this extension
