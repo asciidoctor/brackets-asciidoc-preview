@@ -420,19 +420,15 @@ define(function (require, exports, module) {
 
     function scrollToEditingPosition(frame) {
         if (htmlLocationInfo) {
-            console.log("scroll invoked");
-                        //console.log(htmlLocationInfo.lineno + ": " + htmlLocationInfo.sectionId + "level: " + htmlLocationInfo.level + " blockidx: " + htmlLocationInfo.blockIndex);
-                    
             // find correct element based on htmlLocationInfo, section first
             var $element = $('#' + htmlLocationInfo.sectionId, frame.contentDocument.body);
             if (htmlLocationInfo.blockIndex >= 0) {
                 // if we've got block information, find correct div
-                //var $p = $('#' + htmlLocationInfo.sectionId + " div.sectionbody > div", frame.contentDocument.body);
                 var $paragraphs = null;
                 if (htmlLocationInfo.level < 2) {
-                    $paragraphs = $element.siblings("div.sectionbody").find("div");
+                    $paragraphs = $element.siblings("div.sectionbody").find("div,table");
                 } else {
-                    $paragraphs = $element.siblings("div");
+                    $paragraphs = $element.siblings("div,table");
                 }
                 if (htmlLocationInfo.blockIndex < $paragraphs.length) {
                     var p = $paragraphs[htmlLocationInfo.blockIndex];
@@ -451,7 +447,6 @@ define(function (require, exports, module) {
                 frame.contentWindow.scrollTo(0, headerPos.top);
             }
         }
-
     }
     
     // Insert CSS for this extension
