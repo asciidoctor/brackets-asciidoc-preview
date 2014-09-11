@@ -3,7 +3,6 @@ Thomas Kern
 :idprefix:
 :idseparator: -
 
-
 This is an extension for http://brackets.io[Adobe Brackets],
 which allows for live preview of AsciiDoc documents.
 

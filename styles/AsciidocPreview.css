@@ -32,6 +32,28 @@
     opacity: 0.8;
 }
 
+#asciidoc-sync-location-button {
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    right: 60px;
+    width: 20px;
+    height: 20px;
+    background-image: url(images/locate.svg);
+    background-size: contain;
+    padding: 0;
+    opacity: 0.05;
+    transition-property: 'opacity';
+    transition-duration: .2s;
+    -webkit-filter: drop-shadow(0 0 2px #fff);
+    filter: drop-shadow(0 0 1px #fff);
+}
+
+#panel-asciidoc-preview:hover #asciidoc-sync-location-button {
+    opacity: 0.8;
+}
+
+
 #asciidoc-settings-panel {
     position: absolute;
     z-index: 20000;

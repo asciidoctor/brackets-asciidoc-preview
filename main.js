@@ -84,7 +84,8 @@ define(function (require, exports, module) {
     // timestamp when conversion started
     var conversionStart = 0;
     // current editing location info in generated HTML
-    var previewLocationInfo = null; 
+    var previewLocationInfo = null,
+        outline = null;
     
     // Prefs
     var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
@@ -157,7 +158,7 @@ define(function (require, exports, module) {
 
             var defaultAttributes = 'icons=font@ ' +
                                     'platform=opal platform-opal ' +
-                                    'env=browser env-browser ' +
+                                    'env=browser env-browser sectids ' +
                                     'source-highlighter=highlight.js';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
@@ -195,21 +196,15 @@ define(function (require, exports, module) {
 
             converterWorker.onmessage = function (e) {
                 lastDuration = e.data.duration;
+                outline = e.data.outline;
+                
                 conversionStart = 0;
                 var theme = prefs.get("theme");
                 if (theme == "default") { // recover from deprecated setting
                     theme = "asciidoctor";
                 }
                 
-                var editor = EditorManager.getCurrentFullEditor();
-                var cursor = editor.getCursorPos();
-                if (cursor) {
-                    // store current editing location info with respect to HTML
-                    previewLocationInfo = syncEdit.findLocationInfo(e.data.outline, cursor.line + 1);
-                    if (previewLocationInfo) {
-                        previewLocationInfo.lineno = cursor.line + 1;
-                    }
-                }
+                updatePreviewLocation();
                 
                 var html = output.createPage(e.data, baseUrl, scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
@@ -377,6 +372,11 @@ define(function (require, exports, module) {
                             showSettings(e);
                         }
                     });
+                
+                $("#asciidoc-sync-location-button")
+                    .click(function (e) {
+                         updatePreviewLocation(true);
+                    });
             }
             loadDoc(DocumentManager.getCurrentDocument());
             $icon.toggleClass("active");
@@ -418,6 +418,23 @@ define(function (require, exports, module) {
     function toggleVisibility() {
         visible = !visible;
         setPanelVisibility(visible);
+    }
+    
+    function updatePreviewLocation(sync) {
+        var editor = EditorManager.getCurrentFullEditor();
+        var cursor = editor.getCursorPos();
+        if (outline && cursor) {
+            // store current editing location info with respect to HTML
+            previewLocationInfo = syncEdit.findLocationInfo(outline, cursor.line + 1);
+            if (previewLocationInfo) {
+                previewLocationInfo.lineno = cursor.line + 1;
+            }
+            if (sync) {
+                syncEdit.scrollPreview($iframe[0], previewLocationInfo);
+                editor.setCursorPos(cursor.line, 0, true);
+                editor.focus();
+            }
+        }
     }
     
     // Insert CSS for this extension
