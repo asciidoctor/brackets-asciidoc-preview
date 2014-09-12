@@ -26,7 +26,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true,  regexp: true, indent: 4, maxerr: 50 */
-/*global define, brackets, $, window, _hideSettings, Worker */
+/*global define, brackets, $, window, Worker */
 
 define(function (require, exports, module) {
     "use strict";
@@ -295,7 +295,7 @@ define(function (require, exports, module) {
         if (!$settings.is(e.target) &&
             !$settingsToggle.is(e.target) &&
             $settings.has(e.target).length === 0) {
-            _hideSettings();
+            hideSettings();
         }
     }
 
