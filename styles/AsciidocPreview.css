@@ -9,6 +9,7 @@
 
 #panel-asciidoc-preview {
     position: relative;
+    background-color: white;
 }
 
 #asciidoc-settings-toggle {
@@ -53,6 +54,19 @@
     opacity: 0.8;
 }
 
+/* busy indicator displayed during conversion */
+#asciidoc-busy-spinner {
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    right: 100px;
+    width: 20px;
+    height: 20px;
+    background-image: url(images/spinner.gif);
+    background-size: contain;
+    padding: 0;
+    display: none;
+}
 
 #asciidoc-settings-panel {
     position: absolute;

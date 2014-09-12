@@ -1,6 +1,11 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.0.8
+
+* Position of the rendered HTML can be synchronized with the editor's text cursor position.
+* Busy indicator is displayed for lengthy conversions.
+
 === Version 1.0.7
 
 * Update to Asciidoctor.js 1.5.0

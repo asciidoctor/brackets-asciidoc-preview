@@ -80,7 +80,7 @@ define(function (require, exports, module) {
     var syncEdit = require("lib/sync");
 
     // time needed for the latest conversion in ms
-    var lastDuration = 0;
+    var lastDuration = 500;
     // timestamp when conversion started
     var conversionStart = 0;
     // current editing location info in generated HTML
@@ -92,6 +92,7 @@ define(function (require, exports, module) {
     prefs.definePreference("showtitle", "boolean", true);
     prefs.definePreference("numbered", "boolean", false);
     prefs.definePreference("mjax", "boolean", false);
+    prefs.definePreference("autosync", "boolean", false);
     prefs.definePreference("theme", "string", "asciidoctor");
     prefs.definePreference("safemode", "string", "safe");
     prefs.definePreference("basedir", "string", "");
@@ -154,16 +155,21 @@ define(function (require, exports, module) {
 
             if (preserveScrollPos) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
+            } else {
+                scrollPos = 0;
+                previewLocationInfo = null;
             }
 
             var defaultAttributes = 'icons=font@ ' +
                                     'platform=opal platform-opal ' +
-                                    'env=browser env-browser sectids ' +
+                                    'env=browser env-browser ' +
+                                    'sectids ' + // force generation of section ids
                                     'source-highlighter=highlight.js';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
+            var autosync = prefs.get("autosync");
             
             if (!baseDirEdited) {
                 prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
@@ -190,6 +196,10 @@ define(function (require, exports, module) {
                 attributes: attributes
             };
             
+            if (lastDuration >= 500 || !preserveScrollPos) {
+               displaySpinner(true);
+            }
+            
             // perform conversion in worker thread
             conversionStart = new Date().getTime();
             converterWorker.postMessage(data);
@@ -198,25 +208,36 @@ define(function (require, exports, module) {
                 lastDuration = e.data.duration;
                 outline = e.data.outline;
                 
-                conversionStart = 0;
                 var theme = prefs.get("theme");
                 if (theme == "default") { // recover from deprecated setting
                     theme = "asciidoctor";
                 }
                 
-                updatePreviewLocation();
-                
+                var $locButton = $("#asciidoc-sync-location-button");
+                if (outline) {
+                    $locButton.css({
+                        display: "block"
+                    });
+                    updatePreviewLocation();
+                } else {
+                    $locButton.css({
+                        display: "none"
+                    });
+                }
+                               
+                if (autosync) {
+                    scrollPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
+                }
                 var html = output.createPage(e.data, baseUrl, scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
+                displaySpinner(false);
             };
 
             $iframe.load(function () {
                 // Open external browser when links are clicked
                 // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
-                
-                syncEdit.scrollPreview($iframe[0], previewLocationInfo);
                 
                 if (prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
@@ -229,7 +250,7 @@ define(function (require, exports, module) {
     }
 
     var timer;
-
+    
     function documentChange(e) {
         // throttle updates
         if (timer) {
@@ -239,11 +260,16 @@ define(function (require, exports, module) {
         // Estimate timeout based on time needed for 
         // actual document conversion. Never longer than
         // 5000 ms.
-        var timeout = lastDuration + 150;
+        var timeout = 150;
+        var currentTime = new Date().getTime();
+        
         if (conversionStart > 0) {
-            timeout = Math.min(timeout - new Date().getTime() + conversionStart, 5000);
-        }
-
+            timeout = Math.min(lastDuration - currentTime + conversionStart, 5000);
+            if (timeout < 150) {
+                timeout = 150;
+            }
+        } 
+        
         timer = window.setTimeout(function () {
             timer = null;
             loadDoc(e.target, true);
@@ -309,6 +335,13 @@ define(function (require, exports, module) {
             .prop("checked", prefs.get("mjax"))
             .change(function (e) {
                 prefs.set("mjax", e.target.checked);
+                updateSettings();
+            });
+        
+        $settings.find("#asciidoc-autosync")
+            .prop("checked", prefs.get("autosync"))
+            .change(function (e) {
+                prefs.set("autosync", e.target.checked);
                 updateSettings();
             });
         
@@ -420,6 +453,13 @@ define(function (require, exports, module) {
         setPanelVisibility(visible);
     }
     
+    /**
+     * Updates global variable previewLocationInfo with information
+     * corresponding to the current position of the text cursor.
+     *
+     * @param {Boolean} sync if true, scrolls corresponding positions
+     *                       of preview pane and text cursor position into view. 
+     */
     function updatePreviewLocation(sync) {
         var editor = EditorManager.getCurrentFullEditor();
         var cursor = editor.getCursorPos();
@@ -430,12 +470,32 @@ define(function (require, exports, module) {
                 previewLocationInfo.lineno = cursor.line + 1;
             }
             if (sync) {
-                syncEdit.scrollPreview($iframe[0], previewLocationInfo);
+                var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
+                $iframe[0].contentWindow.scrollTo(0, topPos);
                 editor.setCursorPos(cursor.line, 0, true);
                 editor.focus();
             }
         }
     }
+    
+    /**
+     * Shows or hides a busy indicator
+     * @param {Boolean} show display indicator on true, hide on false
+     */
+    function displaySpinner(show) {
+        var $spinner = $("#asciidoc-busy-spinner");
+        
+        if (show) {
+            $spinner.css({
+                display: "block"
+            });
+        } else {
+            $spinner.css({
+                display: "none"
+            });
+        }
+    }
+    
     
     // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");

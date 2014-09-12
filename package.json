@@ -1,9 +1,9 @@
 {
     "name": "nerk.asciidoc-preview",
     "title": "AsciiDoc Preview",
-    "description": "Live preview for AsciiDoc documents. Updated to Asciidoctor 1.5.0 with MathJax support.",
+    "description": "Live preview for AsciiDoc documents.",
     "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {

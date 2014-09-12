@@ -2,6 +2,7 @@
 Thomas Kern
 :idprefix:
 :idseparator: -
+:experimental:
 
 This is an extension for http://brackets.io[Adobe Brackets],
 which allows for live preview of AsciiDoc documents.
@@ -31,19 +32,18 @@ Other software used:
 * http://highlightjs.org/[highlight.js] for highlighting embedded source code
 * http://www.mathjax.org/[MathJax] is a JavaScript display engine for mathematics
 
-
 == Installation
 
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
 This is the recommended way.
 
-As an alternative, you may press the 'Install from URL...' button and
+As an alternative, you may press the btn:[Install from URL...] button and
 enter https://github.com/asciidoctor/brackets-asciidoc-preview[] into the input field.
 
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
 
-In the upper right corner of the preview pane, pressing the gear symbol opens the settings panel.
+In the upper right corner of the preview pane, pressing the gear symbol (image:styles/images/gear.svg[width=16]) opens the settings panel.
 
 For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
 https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
@@ -60,6 +60,18 @@ at least until MathJax was loaded and cached by Brackets for the first time.
 
 The use of MathJax is disabled by default and must be switched on in the plugin's option panel (gear symbol in the preview pane)
 by checking _Render math_. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
+
+== Syncing the Preview Pane
+
+It is now possible to synchronize the current editing position in the editor with the corresponding part of the rendered HTML displayed by the preview pane.
+
+After a document has been rendered successfully, pressing the location arrow symbol (image:styles/images/locate.svg[width=16]) scrolls that part of the HTML into view, which corresponds to the current text cursor position in the source document.
+
+In addition, the settings panel provides an btn:[Auto-sync location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
+
+NOTE: Since synchronization works on the level of paragraphs and blocks, matching is not perfect. It is currently not possible to locate the correct location within a block, but only the start of the whole block. For example, if you are working with long tables or lists, the preview pane will display the start of the table or list, but the location you are editing might still be outside of the viewport.
+
+IMPORTANT: If conversion of your document produced error or warning messages from Asciidoctor, information necessary for syncing isn't available. The location arrow will be hidden until the document has been fixed.
 
 == Known Issues
 
@@ -82,8 +94,10 @@ Copyright (C) 2014 Thomas Kern
 
 Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-brackets-preview/master/LICENSE.txt[LICENSE] for details.
 
-Based on 'MarkdownPreview', Copyright (C) 2012 Glenn Ruehle.
+Based on _MarkdownPreview_, Copyright (C) 2012 Glenn Ruehle.
 
 AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
+
+Arrow-Icon made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com] is licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
 
 
