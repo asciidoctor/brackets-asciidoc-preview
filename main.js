@@ -472,7 +472,7 @@ define(function (require, exports, module) {
             if (sync) {
                 var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
                 $iframe[0].contentWindow.scrollTo(0, topPos);
-                editor.setCursorPos(cursor.line, 0, true);
+                editor.setCursorPos(cursor, true);
                 editor.focus();
             }
         }
