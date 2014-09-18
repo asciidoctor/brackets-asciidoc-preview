@@ -215,14 +215,10 @@ define(function (require, exports, module) {
                 
                 var $locButton = $("#asciidoc-sync-location-button");
                 if (outline) {
-                    $locButton.css({
-                        display: "block"
-                    });
+                    $locButton.show();
                     updatePreviewLocation();
                 } else {
-                    $locButton.css({
-                        display: "none"
-                    });
+                    $locButton.hide();
                 }
                                
                 if (autosync) {
@@ -486,13 +482,9 @@ define(function (require, exports, module) {
         var $spinner = $("#asciidoc-busy-spinner");
         
         if (show) {
-            $spinner.css({
-                display: "block"
-            });
+            $spinner.show();
         } else {
-            $spinner.css({
-                display: "none"
-            });
+            $spinner.hide();
         }
     }
     
