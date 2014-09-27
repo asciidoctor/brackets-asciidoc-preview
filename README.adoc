@@ -34,11 +34,10 @@ Other software used:
 
 == Installation
 
+=== Released Version
+
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
 This is the recommended way.
-
-As an alternative, you may press the btn:[Install from URL...] button and
-enter https://github.com/asciidoctor/brackets-asciidoc-preview[] into the input field.
 
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
@@ -48,6 +47,20 @@ In the upper right corner of the preview pane, pressing the gear symbol (image:s
 For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
 https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
 well for AsciiDoc, so you need to experiment. _Vibrant Ink_ is pretty colorful theme, for example.
+
+=== Development Version
+
+In order to install the current development version, you need to have _npm_ installed.
+Clone the repository and invoke the following commands from the toplevel directory:
+
+----
+npm install
+grunt dist
+----
+
+This will create a zipfile in the current directory which can be installed from the Brackets extension
+manager by pressing the btn:[Install from URL...] button and
+entering the name of the generated zipfile into the input field.
 
 == MathJax Support
 

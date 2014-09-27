@@ -1,0 +1,15 @@
+{
+  "name" : "brackets-asciidoc-preview",
+  "version": "1.0.8",
+  "dependencies" : {
+    "asciidoctor.js" : "latest"
+  },
+  "exportsOverride": {
+    "asciidoctor.js": {
+      "js": "**/asciidoctor-all.min.js",
+      "css": "**/asciidoctor.css"
+    },
+    "opal": {
+    }
+  }
+}
