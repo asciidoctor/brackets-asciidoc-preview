@@ -7,8 +7,8 @@ Thomas Kern
 This is an extension for http://brackets.io[Adobe Brackets],
 which allows for live preview of AsciiDoc documents.
 
-IMPORTANT: Version 1.0.8 is using Asciidoctor 1.5.0 for rendering. This introduces
-some small changes to the syntax. Please refer to http://asciidoctor.org/docs/migration/[Migrating to Asciidoctor 1.5.0]
+IMPORTANT: Version 1.0.9 is using Asciidoctor 1.5.1 for rendering. This introduces
+some small changes to the syntax. Please refer to http://asciidoctor.org/docs/migration/[Migrating to Asciidoctor 1.5.x]
 for details.
 
 image::images/preview.jpg[]
@@ -36,31 +36,30 @@ Other software used:
 
 === Released Version
 
+Using the released version is the recommended way.
+
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
-This is the recommended way.
 
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
 
 In the upper right corner of the preview pane, pressing the gear symbol (image:styles/images/gear.svg[width=16]) opens the settings panel.
 
-For better syntax highlighting of AsciiDoc, you may also want to install additional themes. I tried the 
-https://github.com/MiguelCastillo[Themes] extension by Miguel Castillo. Themes do not all work equally
-well for AsciiDoc, so you need to experiment. _Vibrant Ink_ is pretty colorful theme, for example.
-
 === Development Version
 
 In order to install the current development version, you need to have _npm_ installed.
-Clone the repository and invoke the following commands from the toplevel directory:
+Clone the repository and invoke the following commands from the project's toplevel directory:
 
 ----
 npm install
 grunt dist
 ----
 
-This will create a zipfile in the current directory which can be installed from the Brackets extension
-manager by pressing the btn:[Install from URL...] button and
-entering the name of the generated zipfile into the input field.
+This will create a zipfile in the current directory which can be installed from the Brackets extension by dropping the
+zipfile onto the input area in the dialog's lower left corner.
+
+If you need to install previous versions of the plugin, you may do so by downloading a tagged release 
+as a zipfile, unpack the zipfile and proceed in the same way as described above.
 
 == MathJax Support
 
