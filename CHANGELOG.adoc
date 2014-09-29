@@ -1,6 +1,13 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.0.9
+
+* Update to Asciidoctor.js 1.5.1
+* Prevent preview from bouncing on refresh
+* Keep text cursor in correct column on manual location sync
+* Manage dependencies to Asciidoctor with npm, bower, and grunt
+
 === Version 1.0.8
 
 * Position of the rendered HTML can be synchronized with the editor's text cursor position.
