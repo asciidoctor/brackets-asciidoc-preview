@@ -1,6 +1,5 @@
 {
   "name" : "brackets-asciidoc-preview",
-  "version": "1.0.8",
   "dependencies" : {
     "asciidoctor.js" : "1.5.1"
   },
