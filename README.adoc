@@ -47,8 +47,15 @@ In the upper right corner of the preview pane, pressing the gear symbol (image:s
 
 === Development Version
 
-In order to install the current development version, you need to have _npm_ installed.
-Clone the repository and invoke the following commands from the project's toplevel directory:
+In order to install the current development version, you need to have *npm* and *grunt-cli* installed. *npm* is 
+the package manager of http://nodejs.org/[node.js]. After downloading and installing *node.js*, install
+a system-wide version of *grunt-cli*:
+
+----
+npm install -g grunt-cli
+----
+
+Clone this repository and invoke the following commands from the project's toplevel directory:
 
 ----
 npm install
@@ -71,7 +78,9 @@ This means that you'll need a working internet connection in order to be able to
 at least until MathJax was loaded and cached by Brackets for the first time.
 
 The use of MathJax is disabled by default and must be switched on in the plugin's option panel (gear symbol in the preview pane)
-by checking _Render math_. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
+by checking btn:[Render math]. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
+
+WARNING: With MathJax enabled, the content of the preview pane will bounce during each refresh. It is therefore recommended that you only enable MathJax if really necessary. 
 
 == Syncing the Preview Pane
 
