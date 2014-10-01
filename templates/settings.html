@@ -1,45 +1,62 @@
 <div id="asciidoc-settings-panel">
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Base dir</span>
-        <input type="text" id="asciidoc-preview-basedir"></input>
-    </div>
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Doctype</span>
-        <select id="asciidoc-preview-doctype">
-            <option value="article">Article</option>
-            <option value="book">Book</option>
-            <option value="manpage">Manpage</option>
-        </select>
-    </div>
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Safe mode</span>
-        <select id="asciidoc-preview-safemode">
-            <option value="secure">Secure</option>
-            <option value="server">Server</option>
-            <option value="safe">Safe</option>
-            <option value="unsafe">Unsafe</option>
-        </select>
-    </div>
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Show title</span>
-        <input type="checkbox" id="asciidoc-preview-showtitle"></input>
-        <span class="ad-settings-label">Numbered headings</span>
-        <input type="checkbox" id="asciidoc-preview-numbered"></input>
-    </div>
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Render math</span>
-        <input type="checkbox" id="asciidoc-preview-mjax"></input>
-        <span class="ad-settings-label">Auto-sync location</span>
-        <input type="checkbox" id="asciidoc-autosync"></input>
-    </div>
-    <div class="ad-settings-row">
-        <span class="ad-settings-label">Theme</span>
-        <select id="asciidoc-preview-theme">
-            <option value="asciidoctor">Asciidoctor</option>
-            <option value="asciidoctor-compact">Asciidoctor Compact</option>
-            <option value="cerulean">Cerulean</option>
-            <option value="github">Github</option>
-            <option value="slate">Slate</option>
-        </select>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#general" role="tab" data-toggle="tab">General</a></li>
+        <li><a href="#update" role="tab" data-toggle="tab">Update</a></li>
+        <li><a href="#view" role="tab" data-toggle="tab">View</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="general">
+            <div class="ad-settings-row">
+                <span class="ad-settings-label">Base dir</span>
+                <input type="text" id="asciidoc-preview-basedir"></input>
+            </div>
+            <div class="ad-settings-row">
+                <span class="ad-settings-label">Doctype</span>
+                <select id="asciidoc-preview-doctype">
+                    <option value="article">Article</option>
+                    <option value="book">Book</option>
+                    <option value="manpage">Manpage</option>
+                </select>
+            </div>
+            <div class="ad-settings-row">
+                <span class="ad-settings-label">Safe mode</span>
+                <select id="asciidoc-preview-safemode">
+                    <option value="secure">Secure</option>
+                    <option value="server">Server</option>
+                    <option value="safe">Safe</option>
+                    <option value="unsafe">Unsafe</option>
+                </select>
+            </div>
+       </div>
+       <div class="tab-pane" id="update">
+           <div class="ad-settings-row">
+               <span class="ad-settings-label">Auto-sync location</span>
+               <input type="checkbox" id="asciidoc-autosync"></input>
+           </div>
+       </div>
+       <div class="tab-pane" id="view">
+           <div class="ad-settings-row">
+               <span class="ad-settings-label">Show title</span>
+               <input type="checkbox" id="asciidoc-preview-showtitle"></input>
+           </div>
+           <div class="ad-settings-row">
+               <span class="ad-settings-label">Numbered headings</span>
+               <input type="checkbox" id="asciidoc-preview-numbered"></input>
+           </div>
+           <div class="ad-settings-row">
+               <span class="ad-settings-label">Render math</span>
+               <input type="checkbox" id="asciidoc-preview-mjax"></input>
+           </div>
+           <div class="ad-settings-row">
+               <span class="ad-settings-label">Theme</span>
+               <select id="asciidoc-preview-theme">
+                   <option value="asciidoctor">Asciidoctor</option>
+                   <option value="asciidoctor-compact">Asciidoctor Compact</option>
+                   <option value="cerulean">Cerulean</option>
+                   <option value="github">Github</option>
+                   <option value="slate">Slate</option>
+               </select>
+           </div>
+        </div>
     </div>
 </div>

@@ -76,6 +76,8 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 10px #ccc;
+    width: 400px;
+    height: 200px;
 }
 
 #asciidoc-settings-panel:before {
