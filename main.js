@@ -40,19 +40,15 @@ define(function (require, exports, module) {
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
         FileUtils = brackets.getModule("file/FileUtils"),
         PanelManager = brackets.getModule("view/PanelManager"),
-        PopUpManager = brackets.getModule("widgets/PopUpManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
     // Templates
-    var panelHTML = require("text!templates/panel.html"),
-        settingsHTML = require("text!templates/settings.html");
+    var panelHTML = require("text!templates/panel.html");
     
     // jQuery objects
     var $icon,
         $iframe,
-        $panel,
-        $settingsToggle,
-        $settings;
+        $panel;
 
     // Other vars
     var currentDoc,
@@ -79,6 +75,8 @@ define(function (require, exports, module) {
     // utils for handling syncing between editor an preview panes
     var syncEdit = require("lib/sync");
 
+    var settingsPanel = require("lib/settings");
+    
     // time needed for the latest conversion in ms
     var lastDuration = 500;
     // timestamp when conversion started
@@ -122,7 +120,7 @@ define(function (require, exports, module) {
             node = node.parentElement;
         }
         // Close settings dropdown, if open
-        hideSettings();
+        settingsPanel.hide();
     }
 
     /**
@@ -290,92 +288,9 @@ define(function (require, exports, module) {
         loadDoc(currentDoc, true);
     }
 
-    function documentClicked(e) {
-        if (!$settings.is(e.target) &&
-            !$settingsToggle.is(e.target) &&
-            $settings.has(e.target).length === 0) {
-            hideSettings();
-        }
-    }
+    
 
-    function hideSettings() {
-        if ($settings) {
-            $settings.remove();
-            $settings = null;
-            $(window.document).off("mousedown", documentClicked);
-        }
-    }
-
-    function showSettings() {
-        hideSettings();
-
-        $settings = $(settingsHTML)
-            .css({
-                right: 12,
-                top: $settingsToggle.position().top + $settingsToggle.outerHeight() + 12
-            })
-            .appendTo($panel);
-
-        $settings.find("#asciidoc-preview-showtitle")
-            .prop("checked", prefs.get("showtitle") || true)
-            .change(function (e) {
-                prefs.set("showtitle", e.target.checked);
-                updateSettings();
-            });
-
-        $settings.find("#asciidoc-preview-numbered")
-            .prop("checked", prefs.get("numbered"))
-            .change(function (e) {
-                prefs.set("numbered", e.target.checked);
-                updateSettings();
-            });
-
-        $settings.find("#asciidoc-preview-mjax")
-            .prop("checked", prefs.get("mjax"))
-            .change(function (e) {
-                prefs.set("mjax", e.target.checked);
-                updateSettings();
-            });
-        
-        $settings.find("#asciidoc-autosync")
-            .prop("checked", prefs.get("autosync"))
-            .change(function (e) {
-                prefs.set("autosync", e.target.checked);
-                updateSettings();
-            });
-        
-        $settings.find("#asciidoc-preview-theme")
-            .val(prefs.get("theme"))
-            .change(function (e) {
-                prefs.set("theme", e.target.value);
-                updateSettings();
-            });
-
-        $settings.find("#asciidoc-preview-safemode")
-            .val(prefs.get("safemode"))
-            .change(function (e) {
-                prefs.set("safemode", e.target.value);
-                updateSettings();
-            });
-
-        $settings.find("#asciidoc-preview-doctype")
-            .val(prefs.get("doctype"))
-            .change(function (e) {
-                prefs.set("doctype", e.target.value);
-                updateSettings();
-            });
-
-        $settings.find("#asciidoc-preview-basedir")
-            .val(prefs.get("basedir"))
-            .change(function (e) {
-                prefs.set("basedir", e.target.value);
-                baseDirEdited = true;
-                updateSettings();
-            });
-
-        PopUpManager.addPopUp($settings, hideSettings, true);
-        $(window.document).on("mousedown", documentClicked);
-    }
+    
 
     function setPanelVisibility(isVisible) {
         if (isVisible === realVisibility) {
@@ -396,15 +311,10 @@ define(function (require, exports, module) {
 
                 window.setTimeout(resizeIframe);
 
-                $settingsToggle = $("#asciidoc-settings-toggle")
-                    .click(function (e) {
-                        if ($settings) {
-                            hideSettings();
-                        } else {
-                            showSettings(e);
-                        }
-                    });
+                // create settings panel
+                settingsPanel.create($panel, prefs, updateSettings);
                 
+                // attach handler to sync-location-button
                 $("#asciidoc-sync-location-button")
                     .click(function (e) {
                          updatePreviewLocation(true);
