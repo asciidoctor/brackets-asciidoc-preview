@@ -222,7 +222,10 @@ define(function (require, exports, module) {
                 }
                                
                 if (autosync) {
-                    scrollPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
+                    var pos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
+                    if (pos) {
+                        scrollPos = pos;
+                    }
                 }
                 var html = output.createPage(e.data, baseUrl, scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
