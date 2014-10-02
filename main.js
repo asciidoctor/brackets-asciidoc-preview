@@ -36,12 +36,14 @@ define(function (require, exports, module) {
         NativeApp = brackets.getModule("utils/NativeApp"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
         EditorManager = brackets.getModule("editor/EditorManager"),
-        LanguageManager = brackets.getModule("language/LanguageManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
+        FileSystem      = brackets.getModule("filesystem/FileSystem"),
         FileUtils = brackets.getModule("file/FileUtils"),
+        LanguageManager = brackets.getModule("language/LanguageManager"),
         PanelManager = brackets.getModule("view/PanelManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
+    
     // Templates
     var panelHTML = require("text!templates/panel.html");
     
@@ -55,8 +57,7 @@ define(function (require, exports, module) {
         panel,
         fileExtensions = ["ad", "adoc", "asciidoc", "asc"],
         visible = false,
-        realVisibility = false,
-        baseDirEdited = false;
+        realVisibility = false;
 
     // Define AsciiDoc mode
     require("mode/asciidoc");
@@ -68,14 +69,25 @@ define(function (require, exports, module) {
         lineComment: ["//"]
     });
     
+    // Prefs
+    var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
+    prefs.definePreference("showtitle", "boolean", true);
+    prefs.definePreference("numbered", "boolean", false);
+    prefs.definePreference("mjax", "boolean", false);
+    prefs.definePreference("autosync", "boolean", false);
+    prefs.definePreference("updatesave", "boolean", false);
+    prefs.definePreference("theme", "string", "asciidoctor");
+    prefs.definePreference("safemode", "string", "safe");
+    prefs.definePreference("basedir", "string", "");
+    prefs.definePreference("doctype", "string", "article");
+    
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
-    var output = require("lib/output");
-    // utils for handling syncing between editor an preview panes
-    var syncEdit = require("lib/sync");
-
-    var settingsPanel = require("lib/settings");
+    var output = require("lib/output"),
+        // utils for handling syncing between editor an preview panes
+        syncEdit = require("lib/sync"),
+        settingsPanel = require("lib/settings");
     
     // time needed for the latest conversion in ms
     var lastDuration = 500;
@@ -83,19 +95,11 @@ define(function (require, exports, module) {
     var conversionStart = 0;
     // current editing location info in generated HTML
     var previewLocationInfo = null,
-        outline = null;
+        outline = null,
+        updateOnSave = prefs.get("updatesave"),
+        autosync = prefs.get("autosync");
     
-    // Prefs
-    var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
-    prefs.definePreference("showtitle", "boolean", true);
-    prefs.definePreference("numbered", "boolean", false);
-    prefs.definePreference("mjax", "boolean", false);
-    prefs.definePreference("autosync", "boolean", false);
-    prefs.definePreference("theme", "string", "asciidoctor");
-    prefs.definePreference("safemode", "string", "safe");
-    prefs.definePreference("basedir", "string", "");
-    prefs.definePreference("doctype", "string", "article");
-
+    
 
     // (based on code in brackets.js)
     function handleLinkClick(e) {
@@ -167,12 +171,7 @@ define(function (require, exports, module) {
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
-            var autosync = prefs.get("autosync");
             
-            if (!baseDirEdited) {
-                prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
-            }
-
             // Make <base> tag for relative URLS
             var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
@@ -249,6 +248,10 @@ define(function (require, exports, module) {
     var timer;
     
     function documentChange(e) {
+        if (updateOnSave) {
+            return;
+        }
+        
         // throttle updates
         if (timer) {
             window.clearTimeout(timer);
@@ -283,15 +286,13 @@ define(function (require, exports, module) {
     function updateSettings() {
         // Save preferences
         prefs.save();
-
+        updateOnSave = prefs.get("updatesave");
+        autosync = prefs.get("autosync");
         // Re-render
         loadDoc(currentDoc, true);
     }
 
     
-
-    
-
     function setPanelVisibility(isVisible) {
         if (isVisible === realVisibility) {
             return;
@@ -340,7 +341,7 @@ define(function (require, exports, module) {
 
         if (doc && fileExtensions.indexOf(ext) != -1) {
             if (doc != currentDoc) {
-                baseDirEdited = false;
+                prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
             }
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
@@ -419,7 +420,14 @@ define(function (require, exports, module) {
 
     // Add a document change handler
     $(DocumentManager).on("currentDocumentChange", currentDocChangedHandler);
-
+    
+    // Detect if file changed on disk
+    FileSystem.on("change", function(event, entry) {
+        if (updateOnSave && entry && currentDoc && entry.fullPath == currentDoc.file.fullPath) {
+            loadDoc(currentDoc, true);
+        }
+    });
+                  
     // currentDocumentChange is *not* called for the initial document. Use
     // appReady() to set initial state.
     AppInit.appReady(function () {
