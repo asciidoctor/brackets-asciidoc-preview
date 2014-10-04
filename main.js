@@ -206,7 +206,7 @@ define(function (require, exports, module) {
                 outline = e.data.outline;
                 
                 var theme = prefs.get("theme");
-                if (theme == "default") { // recover from deprecated setting
+                if (theme === "default") { // recover from deprecated setting
                     theme = "asciidoctor";
                 }
                 
@@ -330,21 +330,30 @@ define(function (require, exports, module) {
         }
     }
 
+    function updateOnSaveHandler(event, entry) {
+        if (updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
+            loadDoc(currentDoc, true);
+        }
+    }
+        
     function currentDocChangedHandler() {
         var doc = DocumentManager.getCurrentDocument(),
             ext = doc ? FileUtils.getFileExtension(doc.file.fullPath).toLowerCase() : "";
 
         if (currentDoc) {
             $(currentDoc).off("change", documentChange);
+            FileSystem.off("change", updateOnSaveHandler);
             currentDoc = null;
         }
 
-        if (doc && fileExtensions.indexOf(ext) != -1) {
-            if (doc != currentDoc) {
+        if (doc && fileExtensions.indexOf(ext) !== -1) {
+            if (doc !== currentDoc) {
                 prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
             }
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
+            // Detect if file changed on disk
+            FileSystem.on("change", updateOnSaveHandler);
             $icon.css({
                 display: "block"
             });
@@ -420,13 +429,6 @@ define(function (require, exports, module) {
 
     // Add a document change handler
     $(DocumentManager).on("currentDocumentChange", currentDocChangedHandler);
-    
-    // Detect if file changed on disk
-    FileSystem.on("change", function(event, entry) {
-        if (updateOnSave && entry && currentDoc && entry.fullPath == currentDoc.file.fullPath) {
-            loadDoc(currentDoc, true);
-        }
-    });
                   
     // currentDocumentChange is *not* called for the initial document. Use
     // appReady() to set initial state.
