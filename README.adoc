@@ -111,6 +111,9 @@ can then be used to save, convert, or print the document.
 
 == Known Issues
 
+IMPORTANT: The following limitations only apply to documents displayed by the preview pane and *not* to the
+actual conversion of a document with asciidoctor or when exporting the document to a browser.
+
 * Preamble text directly following the title without an empty line in between is completely suppressed.
 * In order to create
 a TOC in your document, add attributes
