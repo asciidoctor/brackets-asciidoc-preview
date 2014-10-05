@@ -10,3 +10,7 @@ node_modules
 bower_components
 dist
 /.project
+/tmp/
+/test.adoc
+/test.html
+/xxx.html

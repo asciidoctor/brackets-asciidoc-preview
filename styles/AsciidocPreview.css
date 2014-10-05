@@ -37,7 +37,7 @@
     position: absolute;
     cursor: pointer;
     top: 8px;
-    right: 60px;
+    right: 100px;
     width: 20px;
     height: 20px;
     background-image: url(images/locate.svg);
@@ -54,12 +54,34 @@
     opacity: 0.8;
 }
 
+#asciidoc-export-file-button {
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    right: 60px;
+    width: 20px;
+    height: 20px;
+    background-image: url(images/export.svg);
+    background-size: contain;
+    padding: 0;
+    opacity: 0.05;
+    transition-property: 'opacity';
+    transition-duration: .2s;
+    -webkit-filter: drop-shadow(0 0 2px #fff);
+    filter: drop-shadow(0 0 1px #fff);
+}
+
+#panel-asciidoc-preview:hover #asciidoc-export-file-button {
+    opacity: 0.8;
+}
+
+
 /* busy indicator displayed during conversion */
 #asciidoc-busy-spinner {
     position: absolute;
     cursor: pointer;
     top: 8px;
-    right: 100px;
+    right: 140px;
     width: 20px;
     height: 20px;
     background-image: url(images/spinner.gif);

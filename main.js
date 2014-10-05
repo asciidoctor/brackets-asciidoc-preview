@@ -57,6 +57,7 @@ define(function (require, exports, module) {
         panel,
         fileExtensions = ["ad", "adoc", "asciidoc", "asc"],
         visible = false,
+        usesStem = false,
         realVisibility = false;
 
     // Define AsciiDoc mode
@@ -87,6 +88,7 @@ define(function (require, exports, module) {
     var output = require("lib/output"),
         // utils for handling syncing between editor an preview panes
         syncEdit = require("lib/sync"),
+        htmlExporter = require("lib/exporter"),
         settingsPanel = require("lib/settings");
     
     // time needed for the latest conversion in ms
@@ -146,7 +148,7 @@ define(function (require, exports, module) {
     function loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),
-                scrollPos = 0,
+                scrollPos = 0,        
                 yamlRegEx = /^-{3}([\w\W]+?)(-{3})/,
                 yamlMatch = yamlRegEx.exec(docText);
 
@@ -184,11 +186,12 @@ define(function (require, exports, module) {
             var data = {
                 docText: docText,
                 // current working directory
-                pwd: FileUtils.getDirectoryPath(window.location.href),
+                cwd: FileUtils.getDirectoryPath(window.location.href),
                 // Asciidoctor options
                 basedir: basedir,
                 safemode: safemode,
                 doctype: doctype,
+                header_footer: false,
                 // Asciidoctor attributes
                 attributes: attributes
             };
@@ -204,6 +207,7 @@ define(function (require, exports, module) {
             converterWorker.onmessage = function (e) {
                 lastDuration = e.data.duration;
                 outline = e.data.outline;
+                usesStem = e.data.stem;
                 
                 var theme = prefs.get("theme");
                 if (theme === "default") { // recover from deprecated setting
@@ -235,7 +239,7 @@ define(function (require, exports, module) {
                 // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
                 
-                if (prefs.get("mjax") && !this.contentWindow.MathJax) {
+                if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false); 
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
                           "You are either working offline or access to the internet failed. " +
@@ -320,6 +324,12 @@ define(function (require, exports, module) {
                     .click(function (e) {
                          updatePreviewLocation(true);
                     });
+                
+                // attach handler to export-file-button
+                $("#asciidoc-export-file-button")
+                    .click(function (e) {
+                         htmlExporter.execute(currentDoc, prefs);
+                    });
             }
             loadDoc(DocumentManager.getCurrentDocument());
             $icon.toggleClass("active");
@@ -331,7 +341,7 @@ define(function (require, exports, module) {
     }
 
     function updateOnSaveHandler(event, entry) {
-        if (updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
+        if (realVisibility && updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
             loadDoc(currentDoc, true);
         }
     }

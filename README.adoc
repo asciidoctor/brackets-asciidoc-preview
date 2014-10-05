@@ -62,8 +62,8 @@ npm install
 grunt dist
 ----
 
-This will create a zipfile in the current directory which can be installed from the Brackets extension by dropping the
-zipfile onto the input area in the dialog's lower left corner.
+This will create a zipfile in the current directory which can be installed from the Brackets extension 
+manager by dropping the zipfile onto the input area in the dialog's lower left corner.
 
 If you need to install previous versions of the plugin, you may do so by downloading a tagged release 
 as a zipfile, unpack the zipfile and proceed in the same way as described above.
@@ -80,7 +80,9 @@ at least until MathJax was loaded and cached by Brackets for the first time.
 The use of MathJax is disabled by default and must be switched on in the plugin's option panel (gear symbol in the preview pane)
 by checking btn:[Render math]. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
 
-WARNING: With MathJax enabled, the content of the preview pane will bounce during each refresh. It is therefore recommended that you only enable MathJax if really necessary. 
+WARNING: With MathJax enabled, the content of the preview pane will bounce during each refresh. 
+It is therefore recommended that you only enable MathJax if really necessary. You may probably
+also want to check btn:[Update on save] (see below). 
 
 == Syncing the Preview Pane
 
@@ -100,6 +102,12 @@ Since larger documents take a while to be converted and displayed in the preview
 it might be preferable to update the preview window not immediately when entering text. Instead, 
 you may want to check btn:[Update on save] from the settings panel. This causes to update the 
 preview pane when pressing kbd:[Ctrl+S] or saving the file through the menu.
+
+== Export to Browser
+
+A document displayed by the preview pane can be exported to a browser by pressing the export icon (image:styles/images/export.svg[width=16]).
+If not already open, the default system browser is launched and the generated HTML document is displayed within a new browser tab. The browser
+can then be used to save, convert, or print the document.
 
 == Known Issues
 
@@ -126,6 +134,6 @@ Based on _MarkdownPreview_, Copyright (C) 2012 Glenn Ruehle.
 
 AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
 
-Arrow-Icon made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com] is licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
+Arrow- and export icons made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com], licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
 
 
