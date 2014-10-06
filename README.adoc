@@ -96,7 +96,7 @@ NOTE: Since synchronization works on the level of paragraphs and blocks, matchin
 
 IMPORTANT: If conversion of your document produced error or warning messages from Asciidoctor, information necessary for syncing isn't available. The location arrow will be hidden until the document has been fixed.
 
-== Update on Save Option
+== Update-on-Save Option
 
 Since larger documents take a while to be converted and displayed in the preview panel, 
 it might be preferable to update the preview window not immediately when entering text. Instead, 

@@ -4,10 +4,10 @@
 === Version 1.0.9
 
 * Update to Asciidoctor.js 1.5.1
-* Update-on-save option for updating the preview when saving the file
+* Update-on-save option for updating the preview when saving the file.
 * Rendered documents may be exported into a browser for printing and saving.
-* Configure and use MathJax only if *stem* attribute is defined by document
-* Keep text cursor in correct column on manual location sync
+* Configure and use MathJax only if *stem* attribute is defined by document.
+* Keep text cursor in correct column on manual location sync.
 * Manage dependencies to Asciidoctor with npm, bower, and grunt
 
 === Version 1.0.8
