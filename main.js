@@ -328,7 +328,7 @@ define(function (require, exports, module) {
                 // attach handler to export-file-button
                 $("#asciidoc-export-file-button")
                     .click(function (e) {
-                         htmlExporter.execute(currentDoc, prefs);
+                         htmlExporter.execute(currentDoc, prefs, displaySpinner);
                     });
             }
             loadDoc(DocumentManager.getCurrentDocument());
