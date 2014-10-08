@@ -145,6 +145,11 @@ define(function (require, exports, module) {
         }, 1000);
     }
     
+    function baseDir(doc) {
+        // extra slash at the end must be removed
+        return FileUtils.getDirectoryPath(doc.file.fullPath).replace(/\/$/, '');
+    }
+    
     function loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = doc.getText(),
@@ -175,11 +180,11 @@ define(function (require, exports, module) {
             var doctype = prefs.get("doctype") || "article";
             
             // Make <base> tag for relative URLS
-            var baseUrl = window.location.protocol + "//" + FileUtils.getDirectoryPath(doc.file.fullPath);
+            var baseUrl = window.location.protocol + "//" + baseDir(doc);
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
-            var basedir = prefs.get("basedir") ||
-                window.location.protocol.concat('//').concat(FileUtils.getDirectoryPath(doc.file.fullPath)).replace(/\/$/, '');
-
+            var basedir = prefs.get("basedir") || baseDir(doc);
+                
+            console.log(basedir);
             var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
 
             // structure to pass docText, options, and attributes.
@@ -358,7 +363,7 @@ define(function (require, exports, module) {
 
         if (doc && fileExtensions.indexOf(ext) !== -1) {
             if (doc !== currentDoc) {
-                prefs.set("basedir", FileUtils.getDirectoryPath(doc.file.fullPath));
+                prefs.set("basedir", baseDir(doc));
             }
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
