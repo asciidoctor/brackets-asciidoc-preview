@@ -80,6 +80,7 @@ define(function (require, exports, module) {
     prefs.definePreference("theme", "string", "asciidoctor");
     prefs.definePreference("safemode", "string", "safe");
     prefs.definePreference("basedir", "string", "");
+    prefs.definePreference("imagesdir", "string", "");
     prefs.definePreference("doctype", "string", "article");
     
     // Webworker for AscciDoc into HTML conversion
@@ -184,8 +185,14 @@ define(function (require, exports, module) {
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
             var basedir = prefs.get("basedir") || baseDir(doc);
                 
-            console.log(basedir);
-            var attributes = defaultAttributes.concat(' ').concat(numbered).concat(' ').concat(showtitle);
+            // imagesDir will be used as the base URL to retrieve images
+            var imagesDir = prefs.get("imagesdir") || baseDir(doc);
+            
+            var attributes = defaultAttributes.concat(' ')
+                .concat("imagesDir").concat('=').concat(imagesDir).concat(' ')
+                .concat(numbered).concat(' ')
+                .concat(showtitle).concat(' ')
+                .concat(showtitle);
 
             // structure to pass docText, options, and attributes.
             var data = {
@@ -364,6 +371,7 @@ define(function (require, exports, module) {
         if (doc && fileExtensions.indexOf(ext) !== -1) {
             if (doc !== currentDoc) {
                 prefs.set("basedir", baseDir(doc));
+                prefs.set("imagesdir", baseDir(doc));
             }
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
