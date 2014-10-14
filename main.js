@@ -89,6 +89,8 @@ define(function (require, exports, module) {
     var output = require("lib/output"),
         // utils for handling syncing between editor an preview panes
         syncEdit = require("lib/sync"),
+        // common utils
+        utils = require("lib/utils"),
         htmlExporter = require("lib/exporter"),
         settingsPanel = require("lib/settings");
     
@@ -146,23 +148,11 @@ define(function (require, exports, module) {
         }, 1000);
     }
     
-    function baseDir(doc) {
-        // extra slash at the end must be removed
-        return FileUtils.getDirectoryPath(doc.file.fullPath).replace(/\/$/, '');
-    }
-    
     function loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
-            var docText = doc.getText(),
-                scrollPos = 0,        
-                yamlRegEx = /^-{3}([\w\W]+?)(-{3})/,
-                yamlMatch = yamlRegEx.exec(docText);
-
-            // If there's yaml front matter, remove it.
-            if (yamlMatch) {
-                docText = docText.substr(yamlMatch[0].length);
-            }
-
+            var docText = utils.stripYamlFrontmatter(doc.getText()),
+                scrollPos = 0;
+            
             if (preserveScrollPos) {
                 scrollPos = $iframe.contents()[0].body.scrollTop;
             } else {
@@ -180,19 +170,19 @@ define(function (require, exports, module) {
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
             
-            // Make <base> tag for relative URLS
-            var baseUrl = window.location.protocol + "//" + baseDir(doc);
+            
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
-            var basedir = prefs.get("basedir") || baseDir(doc);
-                
-            // imagesDir will be used as the base URL to retrieve images
-            var imagesDir = prefs.get("imagesdir") || baseDir(doc);
+            var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(doc);
             
             var attributes = defaultAttributes.concat(' ')
-                .concat("imagesDir").concat('=').concat(imagesDir).concat(' ')
                 .concat(numbered).concat(' ')
-                .concat(showtitle).concat(' ')
                 .concat(showtitle);
+            
+            // imagesDir will be used as the base URL to retrieve images
+            var imagesDir =  prefs.get("imagesdir");
+            if (imagesDir) {
+                attributes += ' imagesDir=' + utils.toUrl(imagesDir);
+            }
 
             // structure to pass docText, options, and attributes.
             var data = {
@@ -200,7 +190,7 @@ define(function (require, exports, module) {
                 // current working directory
                 cwd: FileUtils.getDirectoryPath(window.location.href),
                 // Asciidoctor options
-                basedir: basedir,
+                basedir: FileUtils.stripTrailingSlash(baseDir),
                 safemode: safemode,
                 doctype: doctype,
                 header_footer: false,
@@ -240,7 +230,8 @@ define(function (require, exports, module) {
                         scrollPos = pos;
                     }
                 }
-                var html = output.createPage(e.data, baseUrl, scrollPos, prefs);
+                     
+                var html = output.createPage(e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
                 displaySpinner(false);
@@ -333,13 +324,13 @@ define(function (require, exports, module) {
                 
                 // attach handler to sync-location-button
                 $("#asciidoc-sync-location-button")
-                    .click(function (e) {
+                    .click(function () {
                          updatePreviewLocation(true);
                     });
                 
                 // attach handler to export-file-button
                 $("#asciidoc-export-file-button")
-                    .click(function (e) {
+                    .click(function () {
                          htmlExporter.execute(currentDoc, prefs, displaySpinner);
                     });
             }
@@ -369,10 +360,6 @@ define(function (require, exports, module) {
         }
 
         if (doc && fileExtensions.indexOf(ext) !== -1) {
-            if (doc !== currentDoc) {
-                prefs.set("basedir", baseDir(doc));
-                prefs.set("imagesdir", baseDir(doc));
-            }
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
             // Detect if file changed on disk
@@ -380,6 +367,7 @@ define(function (require, exports, module) {
             $icon.css({
                 display: "block"
             });
+            settingsPanel.setDocDir(utils.getDefaultBaseDir(currentDoc));
             setPanelVisibility(visible);
             loadDoc(doc);
         } else {

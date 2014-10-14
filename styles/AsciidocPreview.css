@@ -121,3 +121,10 @@
     right: 10px;
     -webkit-transform:rotate(225deg);
 }
+
+.clear-button, .clear-button:hover, .btn.clear-button:active {
+    background-image: url(images/rubbish.svg);
+    background-size: contain;
+    background-position: 0 0;
+    height: 28px;
+}
