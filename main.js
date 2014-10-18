@@ -81,6 +81,7 @@ define(function (require, exports, module) {
     prefs.definePreference("safemode", "string", "safe");
     prefs.definePreference("basedir", "string", "");
     prefs.definePreference("imagesdir", "string", "");
+    prefs.definePreference("defaultdir", "string", "");
     prefs.definePreference("doctype", "string", "article");
     
     // Webworker for AscciDoc into HTML conversion
@@ -170,7 +171,6 @@ define(function (require, exports, module) {
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
             
-            
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
             var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(doc);
             
@@ -238,6 +238,24 @@ define(function (require, exports, module) {
             };
 
             $iframe.load(function () {
+                
+                // Check if directories were overridden in settings panel
+                // and post a warning dialog if the current document directory changed.
+                
+                var defBaseDir = FileUtils.stripTrailingSlash(utils.getDefaultBaseDir(doc));
+                var defaultDirChanged = (prefs.get("defaultdir") !== '' && prefs.get("defaultdir") != defBaseDir);
+                if (defaultDirChanged) {
+                    prefs.set("defaultdir", defBaseDir);
+                    prefs.save();
+                }
+                
+                var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
+                if (defaultDirChanged && dirsDefined) {
+                    settingsPanel.showWarning($panel, prefs);
+                } else {
+                    settingsPanel.hideWarning();
+                }
+                      
                 // Open external browser when links are clicked
                 // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
