@@ -5,38 +5,16 @@ Thomas Kern
 :experimental:
 
 This is an extension for http://brackets.io[Adobe Brackets],
-which allows for live preview of AsciiDoc documents.
-
-IMPORTANT: Version 1.0.9 is using Asciidoctor 1.5.1 for rendering. This introduces
-some small changes to the syntax. Please refer to http://asciidoctor.org/docs/migration/[Migrating to Asciidoctor 1.5.x]
-for details.
+which allows for live preview of AsciiDoc documents. Rendered documents may also be exported to a
+browser for printing or conversion to PDF.
 
 image::images/preview.jpg[]
-
-Most of the work and credits go to Glenn Ruehle for his 
-https://github.com/gruehle/MarkdownPreview[Markdown preview extension],
-which I ripped off and modified for AsciiDoc.
-
-The actual formatting is performed by
-https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
-the JavaScript incarnation of http://asciidoctor.org/[Asciidoctor].
-
-AsciiDoc mode for CodeMirror was created by 
-Thaddee Tyl for https://github.com/espadrine/AsciiDocBox[AsciiDocBox], who
-converted the highlighting mode from the Ace editor to CodeMirror.
-
-
-Other software used:
-
-* http://fortawesome.github.io/Font-Awesome/[Font Awesome 4.1.0] for font icons
-* http://highlightjs.org/[highlight.js] for highlighting embedded source code
-* http://www.mathjax.org/[MathJax] is a JavaScript display engine for mathematics
 
 == Installation
 
 === Released Version
 
-Using the released version is the recommended way.
+Using the released version is the recommended way to install this extension.
 
 From the Brackets file menu, open the extension manager. Browse available extensions and install 'AsciiDoc Preview'.
 
@@ -70,7 +48,7 @@ as a zipfile, unpack the zipfile and proceed in the same way as described above.
 
 == MathJax Support
 
-Rendering of mathematical expressions is now supported by means of http://www.mathjax.org/[MathJax].
+Rendering of mathematical expressions is supported by means of http://www.mathjax.org/[MathJax].
 Unlike other components used by this plugin, MathJax is not included in the distribution,
 but accessed via a CDN.
 
@@ -92,7 +70,7 @@ After a document has been rendered successfully, pressing the location arrow sym
 
 In addition, the settings panel provides an btn:[Auto-sync location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
 
-NOTE: Since synchronization works on the level of paragraphs and blocks, matching is not perfect. It is currently not possible to locate the correct location within a block, but only the start of the whole block. For example, if you are working with long tables or lists, the preview pane will display the start of the table or list, but the location you are editing might still be outside of the viewport.
+NOTE: Since synchronization works on the level of paragraphs and blocks, matching is not perfect. It is currently not possible to locate the correct location within a block, but only the start of the whole block. For example, if you are working with long tables or lists, the preview pane will display the start of the table or list, but the location you are editing might still be outside of the viewport. Synchronization will also not work for documents which include other documents.
 
 IMPORTANT: If conversion of your document produced error or warning messages from Asciidoctor, information necessary for syncing isn't available. The location arrow will be hidden until the document has been fixed.
 
@@ -108,6 +86,44 @@ preview pane when pressing kbd:[Ctrl+S] or saving the file through the menu.
 A document displayed by the preview pane can be exported to a browser by pressing the export icon (image:styles/images/export.svg[width=16]).
 If not already open, the default system browser is launched and the generated HTML document is displayed within a new browser tab. The browser
 can then be used to save, convert, or print the document.
+
+== Overriding Directory Settings
+
+Files included in the master (top-level) document are resolved relative to the base directory, which defaults to the directory of the master document unless otherwise specified. When using Asciidoctor from the commandline, a base directory may be specified as a commandline option.
+
+Among others, Asciidoctor also has a built-in attribute named `imagesdir`. If this attribute is defined, included images are resolved relative to this directory instead of the base directory.
+
+In particular when editing documents included by a master document, the relative paths are usually broken and cannot be resolved correctly. Images are not shown in the preview pane or included files can not be found.
+
+In order to resolve this, the base and images directories may be specified from the settings dialog.
+
+If no directories were set explicitly, the contents of base dir and images dir defaults
+to the directory of the document currently displayed. This is indicated 
+by the light grey color of the paths displayed, as shown in the following screenshot:
+
+image::images/settings_default.png[]
+
+After changing the base directory to `/home/tom`, the dialog looks as follows:
+
+image::images/settings_basedir.png[]
+
+The base directory was explicitly set. This causes the *default of the images directory* to
+be changed to the same directory. As long as the images directory uses a default, any `imagesdir` attributes specified inside a document will still work as usual. 
+
+However, if the images directory is explicitly set in the settings dialog,
+all `ìmagesdir` attributes within the document are *ignored and forced* to the value specified in the dialog:
+
+image::images/settings_imagesdir.png[]
+
+Document defaults may be restored by pressing the trash can icon next to the input field.
+
+If you switch to a document in a different directory, awarning message is displayed if 
+base or the images directories were set.
+
+image::images/settings_warn.png[]
+
+You may either keep the settings as they are, or reset them to the new document's defaults.
+
 
 == Known Issues
 
@@ -126,6 +142,25 @@ to the header of your document. Also make sure that your document
 really has a preamble. Other values for +toc+ and +toc-placement+
 attributes currently not supported.
 
+== Credits
+
+The original version of this extension was based on Glenn Ruehle's https://github.com/gruehle/MarkdownPreview[Markdown preview extension], which I modified for AsciiDoc.
+
+The actual formatting is performed by
+https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js],
+the JavaScript incarnation of http://asciidoctor.org/[Asciidoctor].
+
+AsciiDoc mode for CodeMirror was created by 
+Thaddee Tyl for https://github.com/espadrine/AsciiDocBox[AsciiDocBox], who
+converted the highlighting mode from the Ace editor to CodeMirror.
+
+
+Other software used:
+
+* http://fortawesome.github.io/Font-Awesome/[Font Awesome 4.1.0] for font icons
+* http://highlightjs.org/[highlight.js] for highlighting embedded source code
+* http://www.mathjax.org/[MathJax] is a JavaScript display engine for mathematics
+
 
 == Copyright and License
 
@@ -137,6 +172,6 @@ Based on _MarkdownPreview_, Copyright (C) 2012 Glenn Ruehle.
 
 AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
 
-Arrow- and export icons made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com], licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
+Arrow-, trash can, and export icons made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com], licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
 
 
