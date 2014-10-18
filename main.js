@@ -102,6 +102,7 @@ define(function (require, exports, module) {
     // current editing location info in generated HTML
     var previewLocationInfo = null,
         outline = null,
+        docDirChanged = false,
         updateOnSave = prefs.get("updatesave"),
         autosync = prefs.get("autosync");
     
@@ -133,6 +134,10 @@ define(function (require, exports, module) {
         settingsPanel.hide();
     }
 
+    function isDocDirChanged() {
+        return docDirChanged;
+    }
+    
     /**
      * Jump to specified line in source editor. Centers
      * line in view.
@@ -184,6 +189,16 @@ define(function (require, exports, module) {
                 attributes += ' imagesDir=' + utils.toUrl(imagesDir);
             }
 
+            // Check if directories were overridden in settings panel
+            // and post a warning dialog if the current document directory changed.
+                
+            var defBaseDir = utils.normalizePath(utils.getDefaultBaseDir(doc));
+            docDirChanged = utils.pathEqual(prefs.get("defaultdir"), defBaseDir);
+            if (docDirChanged) {
+                prefs.set("defaultdir", defBaseDir);
+                prefs.save();
+            }
+            
             // structure to pass docText, options, and attributes.
             var data = {
                 docText: docText,
@@ -239,18 +254,8 @@ define(function (require, exports, module) {
 
             $iframe.load(function () {
                 
-                // Check if directories were overridden in settings panel
-                // and post a warning dialog if the current document directory changed.
-                
-                var defBaseDir = FileUtils.stripTrailingSlash(utils.getDefaultBaseDir(doc));
-                var defaultDirChanged = (prefs.get("defaultdir") !== '' && prefs.get("defaultdir") != defBaseDir);
-                if (defaultDirChanged) {
-                    prefs.set("defaultdir", defBaseDir);
-                    prefs.save();
-                }
-                
                 var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
-                if (defaultDirChanged && dirsDefined) {
+                if (isDocDirChanged() && dirsDefined) {
                     settingsPanel.showWarning($panel, prefs);
                 } else {
                     settingsPanel.hideWarning();
