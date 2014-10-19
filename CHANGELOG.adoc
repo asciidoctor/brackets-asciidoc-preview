@@ -3,11 +3,12 @@
 
 === Version 1.1.0
 
-* fix extra slash with include and relative file paths (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/15[#15])
-* fix invalid link to stylesheet when exporting to browser (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/16[#16])
-* configuration option for images directory added (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/17[#17])
-* added options to reset base dir and images dir to their defaults,
+* Fix extra slash with include and relative file paths (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/15[#15])
+* Fix invalid link to stylesheet when exporting to browser (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/16[#16])
+* Configuration option for images directory added (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/17[#17])
+* Added options to reset base dir and images dir to their defaults,
   directories may be selected through file browser.
+* React to manually switching a document to AsciiDoc mode in status bar
 
 === Version 1.0.9
 
