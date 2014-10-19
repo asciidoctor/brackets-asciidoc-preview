@@ -193,7 +193,7 @@ define(function (require, exports, module) {
             // and post a warning dialog if the current document directory changed.
                 
             var defBaseDir = utils.normalizePath(utils.getDefaultBaseDir(doc));
-            docDirChanged = utils.pathEqual(prefs.get("defaultdir"), defBaseDir);
+            docDirChanged = !utils.pathEqual(prefs.get("defaultdir"), defBaseDir);
             if (docDirChanged) {
                 prefs.set("defaultdir", defBaseDir);
                 prefs.save();
