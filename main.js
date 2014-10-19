@@ -375,14 +375,13 @@ define(function (require, exports, module) {
     // React to user manually changing the language of the file
     // to AsciiDoc from the status bar
     function languageChanged(e, oldLanguage, newLanguage) {
-        if (newLanguage.getMode() === "asciidoc") {
+        if (newLanguage.getMode() === "asciidoc" || oldLanguage.getMode() === "asciidoc") {
             currentDocChangedHandler();
         }
     }
     
     function currentDocChangedHandler() {
-        var doc = DocumentManager.getCurrentDocument(),
-            ext = doc ? FileUtils.getFileExtension(doc.file.fullPath).toLowerCase() : "";
+        var doc = DocumentManager.getCurrentDocument();
 
         // listen to language changes initiated by the user
         $(doc).on("languageChanged", languageChanged);
@@ -394,7 +393,7 @@ define(function (require, exports, module) {
             currentDoc = null;
         }
 
-        if (doc && (fileExtensions.indexOf(ext) !== -1 || doc.getLanguage().getMode() === "asciidoc")) {
+        if (doc && doc.getLanguage().getMode() === "asciidoc") {
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
             // Detect if file changed on disk
