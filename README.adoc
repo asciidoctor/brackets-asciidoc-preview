@@ -78,8 +78,8 @@ IMPORTANT: If conversion of your document produced error or warning messages fro
 
 Since larger documents take a while to be converted and displayed in the preview panel, 
 it might be preferable to update the preview window not immediately when entering text. Instead, 
-you may want to check btn:[Update on save] from the settings panel. This causes to update the 
-preview pane when pressing kbd:[Ctrl+S] or saving the file through the menu.
+you may want to check btn:[Update on save] from the settings panel. This causes an update of the 
+preview pane when pressing kbd:[Ctrl+S] or when saving the file through the menu.
 
 == Export to Browser
 
@@ -91,7 +91,7 @@ can then be used to save, convert, or print the document.
 
 With Asciidoctor, files included in a master (top-level) document are resolved relative to the base directory, which defaults to the directory of the master document unless otherwise specified. When using Asciidoctor from the commandline, a base directory may be specified as a commandline option.
 
-Among others, Asciidoctor also has a built-in attribute named `imagesdir`. If this attribute is defined, included images are resolved relative to this directory instead of the base directory. In particular when editing documents included by a master document, the relative paths are usually broken and cannot be resolved correctly. Images are not shown in the preview pane or included files can not be found.
+In addition, Asciidoctor also provides the built-in attribute named `imagesdir`. If this attribute is defined, included images are resolved relative to this directory instead of the base directory. In particular when editing documents included by a master document, the relative paths are usually broken and cannot be resolved correctly. Images are not shown in the preview pane or included files can not be found.
 
 In order to resolve this, base and images directories may be specified from the settings dialog.
 
@@ -138,7 +138,7 @@ a TOC in your document, add attributes
 ----
 to the header of your document. Also make sure that your document
 really has a preamble. Other values for +toc+ and +toc-placement+
-attributes currently not supported.
+attributes are currently not supported.
 
 == Credits
 
