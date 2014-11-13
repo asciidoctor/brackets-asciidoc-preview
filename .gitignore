@@ -2,13 +2,12 @@
 
 *.db
 nerk.asciidoc-preview*.zip
-styles/images/Thumbs.db
-styles/images/Thumbs.db
 lib/asciidoctor-all.min.js
 themes/asciidoctor.css
 node_modules
 bower_components
 dist
+nbproject/private
 /.project
 /tmp/
 /test.adoc
