@@ -1,6 +1,12 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.1.1
+
+* Asciidoctor updated to 1.5.2
+* Some workarounds necessary for previous versions of Asciidoctor removed
+* Manually switching language modes from and to AsciiDoc fixed
+
 === Version 1.1.0
 
 * Fix extra slash with include and relative file paths (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/15[#15])
