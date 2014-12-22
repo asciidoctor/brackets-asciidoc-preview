@@ -388,7 +388,6 @@ define(function (require, exports, module) {
         
         if (currentDoc) {
             $(currentDoc).off("change", documentChange);
-            $(currentDoc).off("languageChanged", languageChanged);
             FileSystem.off("change", updateOnSaveHandler);
             currentDoc = null;
         }
