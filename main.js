@@ -169,8 +169,8 @@ define(function (require, exports, module) {
             var defaultAttributes = 'icons=font@ ' +
                                     'platform=opal platform-opal ' +
                                     'env=browser env-browser ' +
-                                    'sectids ' + // force generation of section ids
-                                    'source-highlighter=highlight.js';
+                                    'sectids ' +  // force generation of section ids
+                                    'source-highlighter=highlight.js@ ';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
@@ -245,7 +245,7 @@ define(function (require, exports, module) {
                         scrollPos = pos;
                     }
                 }
-                     
+                    
                 var html = output.createPage(e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
