@@ -40,7 +40,8 @@ define(function (require, exports, module) {
         FileSystem      = brackets.getModule("filesystem/FileSystem"),
         FileUtils = brackets.getModule("file/FileUtils"),
         LanguageManager = brackets.getModule("language/LanguageManager"),
-        PanelManager = brackets.getModule("view/PanelManager"),
+        WorkspaceManager = brackets.getModule("view/WorkspaceManager"),
+        MainViewManager = brackets.getModule("view/MainViewManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
     
@@ -334,7 +335,7 @@ define(function (require, exports, module) {
                 $panel = $(panelHTML);
                 $iframe = $panel.find("#panel-asciidoc-preview-frame");
 
-                panel = PanelManager.createBottomPanel("asciidoc-preview-panel", $panel);
+                panel = WorkspaceManager.createBottomPanel("asciidoc-preview-panel", $panel);
                 $panel.on("panelResizeUpdate", function (e, newSize) {
                     $iframe.attr("height", newSize);
                 });
@@ -472,8 +473,8 @@ define(function (require, exports, module) {
         .appendTo($("#main-toolbar .buttons"));
 
     // Add a document change handler
-    $(DocumentManager).on("currentDocumentChange", currentDocChangedHandler);
-                  
+    MainViewManager.on("currentFileChange", currentDocChangedHandler);
+
     // currentDocumentChange is *not* called for the initial document. Use
     // appReady() to set initial state.
     AppInit.appReady(function () {
@@ -481,6 +482,6 @@ define(function (require, exports, module) {
     });
 
     // Listen for resize events
-    $(PanelManager).on("editorAreaResize", resizeIframe);
+    WorkspaceManager.on("workspaceUpdateLayout", resizeIframe);
     $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);
 });
