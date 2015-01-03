@@ -1,6 +1,14 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.1.2
+
+* Prevent HTML/XML code snippets from being modified (#20)
+* Allow to override source-highlighter attribute from within document
+* Use CDN for highlight.js instead of local copy
+* Improve exception handling in converter worker
+* Merge pull request #21 (get rid of deprecation warnings) 
+
 === Version 1.1.1
 
 * Asciidoctor updated to 1.5.2
