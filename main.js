@@ -161,7 +161,10 @@ define(function (require, exports, module) {
                 scrollPos = 0;
             
             if (preserveScrollPos) {
-                scrollPos = $iframe.contents()[0].body.scrollTop;
+                var body = $iframe.contents()[0].body;
+                if (body !== null) {
+                    scrollPos = body.scrollTop;
+                }
             } else {
                 scrollPos = 0;
                 previewLocationInfo = null;
@@ -170,7 +173,7 @@ define(function (require, exports, module) {
             var defaultAttributes = 'icons=font@ ' +
                                     'platform=opal platform-opal ' +
                                     'env=browser env-browser ' +
-                                    'sectids ' +  // force generation of section ids
+                                    'sectids ' + // force generation of section ids
                                     'source-highlighter=highlight.js@ ';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
@@ -306,7 +309,7 @@ define(function (require, exports, module) {
             loadDoc(e.target, true);
         }, timeout);
     }
-
+  
     function resizeIframe() {
         if (visible && $iframe) {
             var iframeWidth = panel.$panel.innerWidth();
@@ -342,7 +345,6 @@ define(function (require, exports, module) {
                 $iframe.attr("height", $panel.height());
 
                 window.setTimeout(resizeIframe);
-
                 // create settings panel
                 settingsPanel.create($panel, prefs, updateSettings);
                 
@@ -385,19 +387,17 @@ define(function (require, exports, module) {
         var doc = DocumentManager.getCurrentDocument();
 
         // listen to language changes initiated by the user
+        $(doc).off("languageChanged", languageChanged);
         $(doc).on("languageChanged", languageChanged);
         
         if (currentDoc) {
             $(currentDoc).off("change", documentChange);
-            FileSystem.off("change", updateOnSaveHandler);
             currentDoc = null;
         }
 
         if (doc && doc.getLanguage().getMode() === "asciidoc") {
             currentDoc = doc;
             $(currentDoc).on("change", documentChange);
-            // Detect if file changed on disk
-            FileSystem.on("change", updateOnSaveHandler);
             $icon.css({
                 display: "block"
             });
@@ -474,14 +474,15 @@ define(function (require, exports, module) {
 
     // Add a document change handler
     MainViewManager.on("currentFileChange", currentDocChangedHandler);
-
+    // Detect if file changed on disk
+    FileSystem.on("change", updateOnSaveHandler);
+    
+    // Listen for resize events
+    WorkspaceManager.on("workspaceUpdateLayout", resizeIframe);
+    $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);
     // currentDocumentChange is *not* called for the initial document. Use
     // appReady() to set initial state.
     AppInit.appReady(function () {
         currentDocChangedHandler();
     });
-
-    // Listen for resize events
-    WorkspaceManager.on("workspaceUpdateLayout", resizeIframe);
-    $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);
 });
