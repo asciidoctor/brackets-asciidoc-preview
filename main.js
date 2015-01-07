@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Glenn Ruehle
+ * Copyright (c) 2014-2015 Thomas Kern
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,8 +21,8 @@
  */
 
 /* 
- * Modified for AsciiDoc
- * Copyright (c) 2014 Thomas Kern
+ * Based on Markdown preview
+ * Copyright (c) 2012 Glenn Ruehle
  */
 
 /*jslint vars: true, plusplus: true, devel: true, nomen: true,  regexp: true, indent: 4, maxerr: 50 */
@@ -37,17 +37,17 @@ define(function (require, exports, module) {
         DocumentManager = brackets.getModule("document/DocumentManager"),
         EditorManager = brackets.getModule("editor/EditorManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
-        FileSystem      = brackets.getModule("filesystem/FileSystem"),
+        FileSystem = brackets.getModule("filesystem/FileSystem"),
         FileUtils = brackets.getModule("file/FileUtils"),
         LanguageManager = brackets.getModule("language/LanguageManager"),
         WorkspaceManager = brackets.getModule("view/WorkspaceManager"),
         MainViewManager = brackets.getModule("view/MainViewManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
-    
+
     // Templates
     var panelHTML = require("text!templates/panel.html");
-    
+
     // jQuery objects
     var $icon,
         $iframe,
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
         blockComment: ["////", "////"],
         lineComment: ["//"]
     });
-    
+
     // Prefs
     var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
     prefs.definePreference("showtitle", "boolean", true);
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
     prefs.definePreference("imagesdir", "string", "");
     prefs.definePreference("defaultdir", "string", "");
     prefs.definePreference("doctype", "string", "article");
-    
+
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
@@ -95,7 +95,7 @@ define(function (require, exports, module) {
         utils = require("lib/utils"),
         htmlExporter = require("lib/exporter"),
         settingsPanel = require("lib/settings");
-    
+
     // time needed for the latest conversion in ms
     var lastDuration = 500;
     // timestamp when conversion started
@@ -106,8 +106,8 @@ define(function (require, exports, module) {
         docDirChanged = false,
         updateOnSave = prefs.get("updatesave"),
         autosync = prefs.get("autosync");
-    
-    
+
+
 
     // (based on code in brackets.js)
     function handleLinkClick(e) {
@@ -125,7 +125,7 @@ define(function (require, exports, module) {
                         // use line number to jump to this line in document editor.
                         jumpToLine(parseInt(url.substr(6), 10) - 1);
                     }
-                } 
+                }
                 e.preventDefault();
                 break;
             }
@@ -138,7 +138,7 @@ define(function (require, exports, module) {
     function isDocDirChanged() {
         return docDirChanged;
     }
-    
+
     /**
      * Jump to specified line in source editor. Centers
      * line in view.
@@ -147,19 +147,19 @@ define(function (require, exports, module) {
         var editor = EditorManager.getCurrentFullEditor();
         editor.setCursorPos(line, 0, true);
         editor.focus();
-        
+
         var codeMirror = editor._codeMirror;
         codeMirror.addLineClass(line, "wrap", "flash");
         window.setTimeout(function () {
             codeMirror.removeLineClass(line, "wrap", "flash");
         }, 1000);
     }
-    
+
     function loadDoc(doc, preserveScrollPos) {
         if (doc && visible && $iframe) {
             var docText = utils.stripYamlFrontmatter(doc.getText()),
                 scrollPos = 0;
-            
+
             if (preserveScrollPos) {
                 var body = $iframe.contents()[0].body;
                 if (body !== null) {
@@ -171,38 +171,38 @@ define(function (require, exports, module) {
             }
 
             var defaultAttributes = 'icons=font@ ' +
-                                    'platform=opal platform-opal ' +
-                                    'env=browser env-browser ' +
-                                    'sectids ' + // force generation of section ids
-                                    'source-highlighter=highlight.js@ ';
+                'platform=opal platform-opal ' +
+                'env=browser env-browser ' +
+                'sectids ' + // force generation of section ids
+                'source-highlighter=highlight.js@ ';
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
             var doctype = prefs.get("doctype") || "article";
-            
+
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
             var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(doc);
-            
+
             var attributes = defaultAttributes.concat(' ')
                 .concat(numbered).concat(' ')
                 .concat(showtitle);
-            
+
             // imagesDir will be used as the base URL to retrieve images
-            var imagesDir =  prefs.get("imagesdir");
+            var imagesDir = prefs.get("imagesdir");
             if (imagesDir) {
                 attributes += ' imagesDir=' + utils.toUrl(imagesDir);
             }
 
             // Check if directories were overridden in settings panel
             // and post a warning dialog if the current document directory changed.
-                
+
             var defBaseDir = utils.normalizePath(utils.getDefaultBaseDir(doc));
             docDirChanged = !utils.pathEqual(prefs.get("defaultdir"), defBaseDir);
             if (docDirChanged) {
                 prefs.set("defaultdir", defBaseDir);
                 prefs.save();
             }
-            
+
             // structure to pass docText, options, and attributes.
             var data = {
                 docText: docText,
@@ -216,11 +216,11 @@ define(function (require, exports, module) {
                 // Asciidoctor attributes
                 attributes: attributes
             };
-            
+
             if (lastDuration >= 500 || !preserveScrollPos) {
-               displaySpinner(true);
+                displaySpinner(true);
             }
-            
+
             // perform conversion in worker thread
             conversionStart = new Date().getTime();
             converterWorker.postMessage(data);
@@ -229,12 +229,12 @@ define(function (require, exports, module) {
                 lastDuration = e.data.duration;
                 outline = e.data.outline;
                 usesStem = e.data.stem;
-                
+
                 var theme = prefs.get("theme");
                 if (theme === "default") { // recover from deprecated setting
                     theme = "asciidoctor";
                 }
-                
+
                 var $locButton = $("#asciidoc-sync-location-button");
                 if (outline) {
                     $locButton.show();
@@ -242,14 +242,14 @@ define(function (require, exports, module) {
                 } else {
                     $locButton.hide();
                 }
-                               
+
                 if (autosync) {
                     var pos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
                     if (pos) {
                         scrollPos = pos;
                     }
                 }
-                    
+
                 var html = output.createPage(e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
@@ -257,35 +257,35 @@ define(function (require, exports, module) {
             };
 
             $iframe.load(function () {
-                
+
                 var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
                 if (isDocDirChanged() && dirsDefined) {
                     settingsPanel.showWarning($panel, prefs);
                 } else {
                     settingsPanel.hideWarning();
                 }
-                      
+
                 // Open external browser when links are clicked
                 // (similar to what brackets.js does - but attached to the iframe's document)
                 $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
-                
+
                 if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
-                    prefs.set("mjax", false); 
+                    prefs.set("mjax", false);
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
-                          "You are either working offline or access to the internet failed. " +
-                          "Rendering of mathematical expressions has been switched off.");
+                        "You are either working offline or access to the internet failed. " +
+                        "Rendering of mathematical expressions has been switched off.");
                 }
             });
         }
     }
 
     var timer;
-    
+
     function documentChange(e) {
         if (updateOnSave) {
             return;
         }
-        
+
         // throttle updates
         if (timer) {
             window.clearTimeout(timer);
@@ -296,20 +296,20 @@ define(function (require, exports, module) {
         // 5000 ms.
         var timeout = 150;
         var currentTime = new Date().getTime();
-        
+
         if (conversionStart > 0) {
             timeout = Math.min(lastDuration - currentTime + conversionStart, 5000);
             if (timeout < 150) {
                 timeout = 150;
             }
-        } 
-        
+        }
+
         timer = window.setTimeout(function () {
             timer = null;
             loadDoc(e.target, true);
         }, timeout);
     }
-  
+
     function resizeIframe() {
         if (visible && $iframe) {
             var iframeWidth = panel.$panel.innerWidth();
@@ -326,7 +326,7 @@ define(function (require, exports, module) {
         loadDoc(currentDoc, true);
     }
 
-    
+
     function setPanelVisibility(isVisible) {
         if (isVisible === realVisibility) {
             return;
@@ -347,17 +347,17 @@ define(function (require, exports, module) {
                 window.setTimeout(resizeIframe);
                 // create settings panel
                 settingsPanel.create($panel, prefs, updateSettings);
-                
+
                 // attach handler to sync-location-button
                 $("#asciidoc-sync-location-button")
                     .click(function () {
-                         updatePreviewLocation(true);
+                        updatePreviewLocation(true);
                     });
-                
+
                 // attach handler to export-file-button
                 $("#asciidoc-export-file-button")
                     .click(function () {
-                         htmlExporter.execute(currentDoc, prefs, displaySpinner);
+                        htmlExporter.execute(currentDoc, prefs, displaySpinner);
                     });
             }
             loadDoc(DocumentManager.getCurrentDocument());
@@ -374,7 +374,7 @@ define(function (require, exports, module) {
             loadDoc(currentDoc, true);
         }
     }
-        
+
     // React to user manually changing the language of the file
     // to AsciiDoc from the status bar
     function languageChanged(e, oldLanguage, newLanguage) {
@@ -382,14 +382,14 @@ define(function (require, exports, module) {
             currentDocChangedHandler();
         }
     }
-    
+
     function currentDocChangedHandler() {
         var doc = DocumentManager.getCurrentDocument();
 
         // listen to language changes initiated by the user
         $(doc).off("languageChanged", languageChanged);
         $(doc).on("languageChanged", languageChanged);
-        
+
         if (currentDoc) {
             $(currentDoc).off("change", documentChange);
             currentDoc = null;
@@ -416,13 +416,13 @@ define(function (require, exports, module) {
         visible = !visible;
         setPanelVisibility(visible);
     }
-    
+
     /**
      * Updates global variable previewLocationInfo with information
      * corresponding to the current position of the text cursor.
      *
      * @param {Boolean} sync if true, scrolls corresponding positions
-     *                       of preview pane and text cursor position into view. 
+     *                       of preview pane and text cursor position into view.
      */
     function updatePreviewLocation(sync) {
         var editor = EditorManager.getCurrentFullEditor();
@@ -441,22 +441,22 @@ define(function (require, exports, module) {
             }
         }
     }
-    
+
     /**
      * Shows or hides a busy indicator
      * @param {Boolean} show display indicator on true, hide on false
      */
     function displaySpinner(show) {
         var $spinner = $("#asciidoc-busy-spinner");
-        
+
         if (show) {
             $spinner.show();
         } else {
             $spinner.hide();
         }
     }
-    
-    
+
+
     // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
 
@@ -476,7 +476,7 @@ define(function (require, exports, module) {
     MainViewManager.on("currentFileChange", currentDocChangedHandler);
     // Detect if file changed on disk
     FileSystem.on("change", updateOnSaveHandler);
-    
+
     // Listen for resize events
     WorkspaceManager.on("workspaceUpdateLayout", resizeIframe);
     $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);

@@ -162,7 +162,7 @@ Other software used:
 
 == Copyright and License
 
-Copyright (C) 2014 Thomas Kern
+Copyright (C) 2014-2015 Thomas Kern
 
 Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-brackets-preview/master/LICENSE.txt[LICENSE] for details.
 
