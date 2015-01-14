@@ -9,6 +9,10 @@
     "engines": {
         "brackets": ">=1.0.0"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/asciidoctor/brackets-asciidoc-preview.git"
+    },
     "devDependencies": {
         "bower": "^1.3.3",
         "grunt": "^0.4.5",
