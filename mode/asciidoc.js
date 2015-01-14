@@ -1,5 +1,8 @@
 // Parts from Ace; see <https://raw.githubusercontent.com/ajaxorg/ace/master/LICENSE>
-CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
+
+var codeMirror = brackets.getModule("thirdparty/CodeMirror2/lib/codemirror");
+
+codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
 
   // Ace highlight rules function imported below.
   var HighlightRules = function() {
@@ -623,5 +626,5 @@ CodeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
   };
 });
 
-CodeMirror.defineMIME("text/x-asciidoc", "asciidoc");
+codeMirror.defineMIME("text/x-asciidoc", "asciidoc");
 
