@@ -8,6 +8,7 @@ node_modules
 bower_components
 dist
 nbproject/private
+.idea
 /.project
 /tmp/
 /test.adoc
