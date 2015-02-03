@@ -40,26 +40,19 @@ define(function (require, exports, module) {
         FileSystem = brackets.getModule("filesystem/FileSystem"),
         FileUtils = brackets.getModule("file/FileUtils"),
         LanguageManager = brackets.getModule("language/LanguageManager"),
-        WorkspaceManager = brackets.getModule("view/WorkspaceManager"),
         MainViewManager = brackets.getModule("view/MainViewManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
 
-    // Templates
-    var panelHTML = require("text!templates/panel.html");
-
     // jQuery objects
     var $icon,
-        $iframe,
-        $panel;
+        $iframe;
 
     // Other vars
     var currentDoc,
-        panel,
         fileExtensions = ["ad", "adoc", "asciidoc", "asc"],
-        visible = false,
-        usesStem = false,
-        realVisibility = false;
+        viewerOn,
+        usesStem = false;
 
     // Define AsciiDoc mode
     require("mode/asciidoc");
@@ -73,6 +66,9 @@ define(function (require, exports, module) {
 
     // Prefs
     var prefs = PreferencesManager.getExtensionPrefs("asciidoc-preview");
+    prefs.definePreference("detached", "boolean", false);
+    prefs.definePreference("posX", "number", 0);
+    prefs.definePreference("posY", "number", 0);
     prefs.definePreference("showtitle", "boolean", true);
     prefs.definePreference("numbered", "boolean", false);
     prefs.definePreference("mjax", "boolean", false);
@@ -89,12 +85,12 @@ define(function (require, exports, module) {
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
     var output = require("lib/output"),
-        // utils for handling syncing between editor an preview panes
+    // utils for handling syncing between editor an preview panes
         syncEdit = require("lib/sync"),
-        // common utils
+    // common utils
         utils = require("lib/utils"),
         htmlExporter = require("lib/exporter"),
-        settingsPanel = require("lib/settings");
+        Previewer = require("lib/viewpanel");
 
     // time needed for the latest conversion in ms
     var lastDuration = 500;
@@ -106,7 +102,6 @@ define(function (require, exports, module) {
         docDirChanged = false,
         updateOnSave = prefs.get("updatesave"),
         autosync = prefs.get("autosync");
-
 
 
     // (based on code in brackets.js)
@@ -132,7 +127,7 @@ define(function (require, exports, module) {
             node = node.parentElement;
         }
         // Close settings dropdown, if open
-        settingsPanel.hide();
+        Previewer.hideSettings();
     }
 
     function isDocDirChanged() {
@@ -155,9 +150,10 @@ define(function (require, exports, module) {
         }, 1000);
     }
 
-    function loadDoc(doc, preserveScrollPos) {
-        if (doc && visible && $iframe) {
-            var docText = utils.stripYamlFrontmatter(doc.getText()),
+    function loadDoc(preserveScrollPos) {
+
+        if (Previewer.isActive() && $iframe && currentDoc) {
+            var docText = utils.stripYamlFrontmatter(currentDoc.getText()),
                 scrollPos = 0;
 
             if (preserveScrollPos) {
@@ -181,7 +177,7 @@ define(function (require, exports, module) {
             var doctype = prefs.get("doctype") || "article";
 
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
-            var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(doc);
+            var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(currentDoc);
 
             var attributes = defaultAttributes.concat(' ')
                 .concat(numbered).concat(' ')
@@ -196,7 +192,7 @@ define(function (require, exports, module) {
             // Check if directories were overridden in settings panel
             // and post a warning dialog if the current document directory changed.
 
-            var defBaseDir = utils.normalizePath(utils.getDefaultBaseDir(doc));
+            var defBaseDir = utils.normalizePath(utils.getDefaultBaseDir(currentDoc));
             docDirChanged = !utils.pathEqual(prefs.get("defaultdir"), defBaseDir);
             if (docDirChanged) {
                 prefs.set("defaultdir", defBaseDir);
@@ -231,9 +227,6 @@ define(function (require, exports, module) {
                 usesStem = e.data.stem;
 
                 var theme = prefs.get("theme");
-                if (theme === "default") { // recover from deprecated setting
-                    theme = "asciidoctor";
-                }
 
                 var $locButton = $("#asciidoc-sync-location-button");
                 if (outline) {
@@ -260,9 +253,9 @@ define(function (require, exports, module) {
 
                 var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
                 if (isDocDirChanged() && dirsDefined) {
-                    settingsPanel.showWarning($panel, prefs);
+                    Previewer.showWarning();
                 } else {
-                    settingsPanel.hideWarning();
+                    Previewer.hideWarning();
                 }
 
                 // Open external browser when links are clicked
@@ -272,8 +265,8 @@ define(function (require, exports, module) {
                 if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false);
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
-                        "You are either working offline or access to the internet failed. " +
-                        "Rendering of mathematical expressions has been switched off.");
+                    "You are either working offline or access to the internet failed. " +
+                    "Rendering of mathematical expressions has been switched off.");
                 }
             });
         }
@@ -281,7 +274,7 @@ define(function (require, exports, module) {
 
     var timer;
 
-    function documentChange(e) {
+    function documentEdited(e) {
         if (updateOnSave) {
             return;
         }
@@ -306,15 +299,8 @@ define(function (require, exports, module) {
 
         timer = window.setTimeout(function () {
             timer = null;
-            loadDoc(e.target, true);
+            loadDoc(true);
         }, timeout);
-    }
-
-    function resizeIframe() {
-        if (visible && $iframe) {
-            var iframeWidth = panel.$panel.innerWidth();
-            $iframe.attr("width", iframeWidth + "px");
-        }
     }
 
     function updateSettings() {
@@ -323,55 +309,64 @@ define(function (require, exports, module) {
         updateOnSave = prefs.get("updatesave");
         autosync = prefs.get("autosync");
         // Re-render
-        loadDoc(currentDoc, true);
+        loadDoc(true);
     }
 
+    function openViewer() {
 
-    function setPanelVisibility(isVisible) {
-        if (isVisible === realVisibility) {
-            return;
-        }
+        var detached = prefs.get("detached");
 
-        realVisibility = isVisible;
-        if (isVisible) {
-            if (!panel) {
-                $panel = $(panelHTML);
-                $iframe = $panel.find("#panel-asciidoc-preview-frame");
-
-                panel = WorkspaceManager.createBottomPanel("asciidoc-preview-panel", $panel);
-                $panel.on("panelResizeUpdate", function (e, newSize) {
-                    $iframe.attr("height", newSize);
-                });
-                $iframe.attr("height", $panel.height());
-
-                window.setTimeout(resizeIframe);
-                // create settings panel
-                settingsPanel.create($panel, prefs, updateSettings);
+        Previewer.open(detached, prefs, updateSettings, function (view) {
+                $iframe = view.$iframe;
 
                 // attach handler to sync-location-button
-                $("#asciidoc-sync-location-button")
+                $("#asciidoc-sync-location-button", view.document)
                     .click(function () {
                         updatePreviewLocation(true);
                     });
 
                 // attach handler to export-file-button
-                $("#asciidoc-export-file-button")
+                $("#asciidoc-export-file-button", view.document)
                     .click(function () {
                         htmlExporter.execute(currentDoc, prefs, displaySpinner);
                     });
-            }
-            loadDoc(DocumentManager.getCurrentDocument());
-            $icon.toggleClass("active");
-            panel.show();
-        } else {
-            $icon.toggleClass("active");
-            panel.hide();
-        }
+
+                // attach handler to export-file-button
+                $("#asciidoc-detach-button", view.document)
+                    .click(function () {
+                        prefs.set("detached", !detached);
+                        prefs.save();
+                        Previewer.close();
+                        if (currentDoc) {
+                            openViewer();
+                        }
+                    });
+
+                loadDoc();
+            },
+            // view closed callback
+            function () {
+                if (Previewer.isDetached() && prefs.get("detached")) {
+                    $icon.removeClass("active");
+                    viewerOn = false;
+                }
+                $iframe = null;
+            });
     }
 
+    function activatePanel() {
+
+        if (Previewer.isActive() && prefs.get("detached") === Previewer.isDetached()) {
+            loadDoc();
+            return;
+        }
+        openViewer();
+    }
+
+
     function updateOnSaveHandler(event, entry) {
-        if (realVisibility && updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
-            loadDoc(currentDoc, true);
+        if (Previewer.isActive() && updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
+            loadDoc(true);
         }
     }
 
@@ -391,30 +386,41 @@ define(function (require, exports, module) {
         $(doc).on("languageChanged", languageChanged);
 
         if (currentDoc) {
-            $(currentDoc).off("change", documentChange);
+            $(currentDoc).off("change", documentEdited);
             currentDoc = null;
         }
 
         if (doc && doc.getLanguage().getMode() === "asciidoc") {
             currentDoc = doc;
-            $(currentDoc).on("change", documentChange);
+            $(currentDoc).on("change", documentEdited);
             $icon.css({
                 display: "block"
             });
-            settingsPanel.setDocDir(utils.getDefaultBaseDir(currentDoc));
-            setPanelVisibility(visible);
-            loadDoc(doc);
-        } else {
+
+            Previewer.setDocDir(utils.getDefaultBaseDir(currentDoc));
+
+            if (viewerOn) {
+                activatePanel();
+            }
+        }
+        else {
             $icon.css({
                 display: "none"
             });
-            setPanelVisibility(false);
+            Previewer.deactivate();
         }
     }
 
     function toggleVisibility() {
-        visible = !visible;
-        setPanelVisibility(visible);
+        if (viewerOn) {
+            viewerOn = false;
+            $icon.removeClass("active");
+            Previewer.close();
+        } else {
+            viewerOn = true;
+            $icon.addClass("active");
+            activatePanel();
+        }
     }
 
     /**
@@ -436,8 +442,8 @@ define(function (require, exports, module) {
             if (sync) {
                 var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
                 $iframe[0].contentWindow.scrollTo(0, topPos);
-                editor.setCursorPos(cursor, true);
                 editor.focus();
+                editor.setCursorPos(cursor, true);
             }
         }
     }
@@ -456,11 +462,10 @@ define(function (require, exports, module) {
         }
     }
 
-
-    // Insert CSS for this extension
+// Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
 
-    // Add toolbar icon 
+// Add toolbar icon
     $icon = $("<a>")
         .attr({
             id: "asciidoc-preview-icon",
@@ -472,17 +477,15 @@ define(function (require, exports, module) {
         .click(toggleVisibility)
         .appendTo($("#main-toolbar .buttons"));
 
-    // Add a document change handler
+// Add a document change handler
     MainViewManager.on("currentFileChange", currentDocChangedHandler);
-    // Detect if file changed on disk
+// Detect if file changed on disk
     FileSystem.on("change", updateOnSaveHandler);
 
-    // Listen for resize events
-    WorkspaceManager.on("workspaceUpdateLayout", resizeIframe);
-    $("#sidebar").on("panelCollapsed panelExpanded panelResizeUpdate", resizeIframe);
-    // currentDocumentChange is *not* called for the initial document. Use
-    // appReady() to set initial state.
+// currentDocumentChange is *not* called for the initial document. Use
+// appReady() to set initial state.
     AppInit.appReady(function () {
         currentDocChangedHandler();
     });
-});
+})
+;

@@ -12,11 +12,32 @@
     background-color: white;
 }
 
+#asciidoc-detach-button {
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    background-image: url(images/windows5.svg);
+    background-size: contain;
+    padding: 0;
+    opacity: 0.05;
+    transition-property: 'opacity';
+    transition-duration: .2s;
+    -webkit-filter: drop-shadow(0 0 2px #fff);
+    filter: drop-shadow(0 0 1px #fff);
+}
+
+#panel-asciidoc-preview:hover #asciidoc-detach-button {
+    opacity: 0.8;
+}
+
 #asciidoc-settings-toggle {
     position: absolute;
     cursor: pointer;
     top: 8px;
-    right: 21px;
+    right: 60px;
     width: 20px;
     height: 20px;
     background-image: url(images/gear.svg);
@@ -33,32 +54,11 @@
     opacity: 0.8;
 }
 
-#asciidoc-sync-location-button {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 100px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/locate.svg);
-    background-size: contain;
-    padding: 0;
-    opacity: 0.05;
-    transition-property: 'opacity';
-    transition-duration: .2s;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
-}
-
-#panel-asciidoc-preview:hover #asciidoc-sync-location-button {
-    opacity: 0.8;
-}
-
 #asciidoc-export-file-button {
     position: absolute;
     cursor: pointer;
     top: 8px;
-    right: 60px;
+    right: 100px;
     width: 20px;
     height: 20px;
     background-image: url(images/export.svg);
@@ -75,13 +75,35 @@
     opacity: 0.8;
 }
 
+#asciidoc-sync-location-button {
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    right: 140px;
+    width: 20px;
+    height: 20px;
+    background-image: url(images/locate.svg);
+    background-size: contain;
+    padding: 0;
+    opacity: 0.05;
+    transition-property: 'opacity';
+    transition-duration: .2s;
+    -webkit-filter: drop-shadow(0 0 2px #fff);
+    filter: drop-shadow(0 0 1px #fff);
+}
+
+#panel-asciidoc-preview:hover #asciidoc-sync-location-button {
+    opacity: 0.8;
+}
+
+
 
 /* busy indicator displayed during conversion */
 #asciidoc-busy-spinner {
     position: absolute;
     cursor: pointer;
     top: 8px;
-    right: 140px;
+    right: 180px;
     width: 20px;
     height: 20px;
     background-image: url(images/spinner.gif);
@@ -108,7 +130,7 @@
     top: -8px;
     content: '';
     position: absolute;
-    right: 10px;
+    right: 50px;
     -webkit-transform:rotate(225deg);
 }
 
@@ -118,7 +140,7 @@
     top: -7px;
     content: '';
     position: absolute;
-    right: 10px;
+    right: 50px;
     -webkit-transform:rotate(225deg);
 }
 
