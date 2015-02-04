@@ -1,6 +1,11 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.1.3
+
+* Preview panel can now be detached from editor and displayed
+  as separate window.
+
 === Version 1.1.2
 
 * Prevent HTML/XML code snippets from being modified (#20)
