@@ -151,7 +151,6 @@ define(function (require, exports, module) {
     }
 
     function loadDoc(preserveScrollPos) {
-
         if (Previewer.isActive() && $iframe && currentDoc) {
             var docText = utils.stripYamlFrontmatter(currentDoc.getText()),
                 scrollPos = 0;
@@ -214,7 +213,7 @@ define(function (require, exports, module) {
             };
 
             if (lastDuration >= 500 || !preserveScrollPos) {
-                displaySpinner(true);
+                Previewer.displaySpinner(true);
             }
 
             // perform conversion in worker thread
@@ -246,7 +245,7 @@ define(function (require, exports, module) {
                 var html = output.createPage(e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
                 $iframe.attr("srcdoc", html);
                 conversionStart = 0;
-                displaySpinner(false);
+                Previewer.displaySpinner(false);
             };
 
             $iframe.load(function () {
@@ -328,7 +327,7 @@ define(function (require, exports, module) {
                 // attach handler to export-file-button
                 $("#asciidoc-export-file-button", view.document)
                     .click(function () {
-                        htmlExporter.execute(currentDoc, prefs, displaySpinner);
+                        htmlExporter.execute(currentDoc, prefs);
                     });
 
                 // attach handler to export-file-button
@@ -448,19 +447,6 @@ define(function (require, exports, module) {
         }
     }
 
-    /**
-     * Shows or hides a busy indicator
-     * @param {Boolean} show display indicator on true, hide on false
-     */
-    function displaySpinner(show) {
-        var $spinner = $("#asciidoc-busy-spinner");
-
-        if (show) {
-            $spinner.show();
-        } else {
-            $spinner.hide();
-        }
-    }
 
 // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
