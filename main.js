@@ -227,12 +227,11 @@ define(function (require, exports, module) {
 
                 var theme = prefs.get("theme");
 
-                var $locButton = $("#asciidoc-sync-location-button");
                 if (outline) {
-                    $locButton.show();
+                    Previewer.displayLocationButton(true);
                     updatePreviewLocation();
                 } else {
-                    $locButton.hide();
+                    Previewer.displayLocationButton(false);
                 }
 
                 if (autosync) {
