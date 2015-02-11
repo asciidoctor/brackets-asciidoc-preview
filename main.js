@@ -169,7 +169,9 @@ define(function (require, exports, module) {
                 'platform=opal platform-opal ' +
                 'env=browser env-browser ' +
                 'sectids ' + // force generation of section ids
+                'data-uri! ' + // force data-uri to false
                 'source-highlighter=highlight.js@ ';
+
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
