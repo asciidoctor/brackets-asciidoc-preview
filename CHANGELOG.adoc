@@ -1,6 +1,15 @@
 
 == Changelog of Brackets AsciiDoc Preview
 
+=== Version 1.1.5
+
+Asciidoctor-diagram preview extension with support for
+
+* plantuml
+* ditaa
+* grpahviz dot
+
+
 === Version 1.1.4
 
 * Always force 'data-uri' attribute to false to avoid problems

@@ -80,7 +80,7 @@ define(function (require, exports, module) {
     prefs.definePreference("imagesdir", "string", "");
     prefs.definePreference("defaultdir", "string", "");
     prefs.definePreference("doctype", "string", "article");
-    prefs.definePreference("plantUmlServerUrl", "string", "http://www.plantuml.com/plantuml/img");
+    prefs.definePreference("plantUmlServerUrl", "string", "");
 
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
