@@ -80,6 +80,7 @@ define(function (require, exports, module) {
     prefs.definePreference("imagesdir", "string", "");
     prefs.definePreference("defaultdir", "string", "");
     prefs.definePreference("doctype", "string", "article");
+    prefs.definePreference("plantUmlServerUrl", "string", "http://www.plantuml.com/plantuml/img");
 
     // Webworker for AscciDoc into HTML conversion
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
@@ -203,6 +204,7 @@ define(function (require, exports, module) {
             // structure to pass docText, options, and attributes.
             var data = {
                 docText: docText,
+                plantUmlServerUrl: prefs.get("plantUmlServerUrl"),
                 // current working directory
                 cwd: FileUtils.getDirectoryPath(window.location.href),
                 // Asciidoctor options
