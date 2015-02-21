@@ -57,6 +57,18 @@ The following diagram types are supported:
 * http://ditaa.sourceforge.net[Ditaa]
 * http://graphviz.org/content/dot-language[Graphviz dot]
 
+Limitations:
+
+* Shaape, BlockDiag, SeqDiag, ActDiag, NwDiag, rackdiag, and packetdiag are not supported.
+* Using the block macro format to include diagrams from external files, .e.g.
+  `plantuml::diagram.txt[]` does not work. You can combine the listing block format syntax with a
+  regular include macro instead:
++
+  [plantuml]
+  ----
+  include::diagram.txt[]
+  ----
+
 Actual formatting of diagrams if performed by a PlantUml server. You may either set up
 and operate your own https://github.com/plantuml/plantuml-server[plantuml-server],
 or use a publicly available one.
@@ -65,14 +77,17 @@ The URL of the server you want to use must be entered in the "General" tab of th
 in the preview pane).
 
 CAUTION: Only use a public server if you do not care about the confidentiality of your data.
-Your diagrams are sent to some place with unclear privacy and security policies. This is particularly
-important for corporate users!
+Your diagrams are being sent to some place with possibly unclear privacy and security policies.
+This is particularly important for corporate users!
 
 A public server is available here:
 
 ----
 http://www.plantuml.com/plantuml
 ----
+
+
+
 
 == MathJax Support
 
