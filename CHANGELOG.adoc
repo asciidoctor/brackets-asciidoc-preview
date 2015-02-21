@@ -3,11 +3,11 @@
 
 === Version 1.1.5
 
-Asciidoctor-diagram preview extension with support for
+Asciidoctor-diagram preview extension included with support for
 
 * plantuml
 * ditaa
-* grpahviz dot
+* graphviz dot
 
 
 === Version 1.1.4
