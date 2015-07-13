@@ -454,7 +454,6 @@ define(function (require, exports, module) {
                 previewLocationInfo.lineno = cursor.line + 1;
             }
             if (sync) {
-                syncEdit.getLineNumber($iframe[0], outline, 8888);
                 var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
                 $iframe[0].contentWindow.scrollTo(0, topPos);
                 editor.focus();
