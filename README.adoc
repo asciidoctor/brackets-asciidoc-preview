@@ -87,8 +87,6 @@ http://www.plantuml.com/plantuml
 ----
 
 
-
-
 == MathJax Support
 
 Rendering of mathematical expressions is supported by means of http://www.mathjax.org/[MathJax].
@@ -112,6 +110,8 @@ It is possible to synchronize the current editing position in the editor with th
 After a document has been rendered successfully, pressing the location arrow symbol (image:styles/images/locate.svg[width=16]) scrolls that part of the HTML into view, which corresponds to the current text cursor position in the source document.
 
 In addition, the settings panel provides an btn:[Auto-sync location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
+
+It is also possible to jump to a line in the document editor by clicking into the preview pane while pressing kbd:[Ctrl]. 
 
 NOTE: Since synchronization works on the level of paragraphs and blocks, matching is not perfect. It is currently not possible to locate the correct location within a block, but only the start of the whole block. For example, if you are working with long tables or lists, the preview pane will display the start of the table or list, but the location you are editing might still be outside of the viewport. Synchronization will also not work for documents which include other documents.
 

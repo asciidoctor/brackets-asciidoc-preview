@@ -1,5 +1,13 @@
 
 == Changelog of Brackets AsciiDoc Preview
+:experimental:
+
+=== Version 1.1.6
+
+* It is now possible to jump to a line in the document editor by clicking into the preview pane while pressing 
+  kbd:[Ctrl]. (#24)
+* Attribute 'type' renamed to 'role' in plantuml extension.
+* Fix deprecation warnings
 
 === Version 1.1.5
 
