@@ -382,19 +382,20 @@ define(function (require, exports, module) {
 
     function currentDocChangedHandler() {
         var doc = DocumentManager.getCurrentDocument();
-
-        // listen to language changes initiated by the user
-        $(doc).off("languageChanged", languageChanged);
-        $(doc).on("languageChanged", languageChanged);
-
+  
+        if (doc) {
+            // listen to language changes initiated by the user
+            doc.off("languageChanged", languageChanged);
+            doc.on("languageChanged", languageChanged);
+        }
         if (currentDoc) {
-            $(currentDoc).off("change", documentEdited);
+            currentDoc.off("change", documentEdited);
             currentDoc = null;
         }
 
         if (doc && doc.getLanguage().getMode() === "asciidoc") {
             currentDoc = doc;
-            $(currentDoc).on("change", documentEdited);
+            currentDoc.on("change", documentEdited);
             $icon.css({
                 display: "block"
             });
@@ -436,6 +437,7 @@ define(function (require, exports, module) {
         var editor = EditorManager.getCurrentFullEditor();
         var cursor = editor.getCursorPos();
         if (outline && cursor) {
+            syncEdit.getLineNumber(outline, 8888);
             // store current editing location info with respect to HTML
             previewLocationInfo = syncEdit.findLocationInfo(outline, cursor.line + 1);
             if (previewLocationInfo) {
