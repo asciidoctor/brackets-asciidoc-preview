@@ -104,28 +104,39 @@ define(function (require, exports, module) {
         updateOnSave = prefs.get("updatesave"),
         autosync = prefs.get("autosync");
 
-
+    
     // (based on code in brackets.js)
-    function handleLinkClick(e) {
-        // Check parents too, in case link has inline formatting tags
-        var node = e.target,
-            url;
-        while (node) {
-            if (node.tagName === "A") {
-                url = node.getAttribute("href");
-                if (url) {
-                    if (!url.match(/^#/)) {
-                        NativeApp.openURLInDefaultBrowser(url);
-                    } else if (url.match(/^#goto_/)) {
-                        // if URL contains special #goto_ fragment identifier,
-                        // use line number to jump to this line in document editor.
-                        jumpToLine(parseInt(url.substr(6), 10) - 1);
-                    }
+    function handlePreviewClick(e) {
+        if (e.ctrlKey) {
+            if (outline) {
+                var line = syncEdit.getLineNumber($iframe[0], outline, e.pageY);
+                if (line) {
+                    jumpToLine(line - 1);
                 }
                 e.preventDefault();
-                break;
+            } 
+        } else {
+            // check for links
+            // Check parents too, in case link has inline formatting tags
+            var node = e.target,
+            url;
+            while (node) {
+                if (node.tagName === "A") {
+                    url = node.getAttribute("href");
+                    if (url) {
+                        if (!url.match(/^#/)) {
+                            NativeApp.openURLInDefaultBrowser(url);
+                        } else if (url.match(/^#goto_/)) {
+                            // if URL contains special #goto_ fragment identifier,
+                            // use line number to jump to this line in document editor.
+                            jumpToLine(parseInt(url.substr(6), 10) - 1);
+                        }
+                    }
+                    e.preventDefault();
+                    break;
+                }
+                node = node.parentElement;
             }
-            node = node.parentElement;
         }
         // Close settings dropdown, if open
         Previewer.hideSettings();
@@ -262,7 +273,7 @@ define(function (require, exports, module) {
 
                 // Open external browser when links are clicked
                 // (similar to what brackets.js does - but attached to the iframe's document)
-                $iframe[0].contentDocument.body.addEventListener("click", handleLinkClick, true);
+                $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
 
                 if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false);
@@ -437,13 +448,13 @@ define(function (require, exports, module) {
         var editor = EditorManager.getCurrentFullEditor();
         var cursor = editor.getCursorPos();
         if (outline && cursor) {
-            syncEdit.getLineNumber(outline, 8888);
             // store current editing location info with respect to HTML
             previewLocationInfo = syncEdit.findLocationInfo(outline, cursor.line + 1);
             if (previewLocationInfo) {
                 previewLocationInfo.lineno = cursor.line + 1;
             }
             if (sync) {
+                syncEdit.getLineNumber($iframe[0], outline, 8888);
                 var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
                 $iframe[0].contentWindow.scrollTo(0, topPos);
                 editor.focus();
