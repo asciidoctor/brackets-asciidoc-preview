@@ -86,9 +86,9 @@ define(function (require, exports, module) {
     var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
     // assembly of final HTML page
     var output = require("lib/output"),
-    // utils for handling syncing between editor an preview panes
+        // utils for handling syncing between editor an preview panes
         syncEdit = require("lib/sync"),
-    // common utils
+        // common utils
         utils = require("lib/utils"),
         htmlExporter = require("lib/exporter"),
         Previewer = require("lib/viewpanel");
@@ -104,22 +104,24 @@ define(function (require, exports, module) {
         updateOnSave = prefs.get("updatesave"),
         autosync = prefs.get("autosync");
 
-    
-    // (based on code in brackets.js)
+
+    // Event handler for clicks into preview pane
     function handlePreviewClick(e) {
         if (e.ctrlKey) {
+            // jump to line number corresponding to current click position
             if (outline) {
                 var line = syncEdit.getLineNumber($iframe[0], outline, e.pageY);
                 if (line) {
                     jumpToLine(line - 1);
                 }
                 e.preventDefault();
-            } 
+            }
         } else {
-            // check for links
-            // Check parents too, in case link has inline formatting tags
+            // Open external browser when links are clicked
+            // (similar to what brackets.js does - but attached to the iframe's document)
+            // Check for links. Check parents too, in case link has inline formatting tags.
             var node = e.target,
-            url;
+                url;
             while (node) {
                 if (node.tagName === "A") {
                     url = node.getAttribute("href");
@@ -147,7 +149,7 @@ define(function (require, exports, module) {
     }
 
     /**
-     * Jump to specified line in source editor. Centers
+     * Jump to specified line in source editor. Vertically centers
      * line in view.
      */
     function jumpToLine(line) {
@@ -240,8 +242,6 @@ define(function (require, exports, module) {
                 outline = e.data.outline;
                 usesStem = e.data.stem;
 
-                var theme = prefs.get("theme");
-
                 if (outline) {
                     Previewer.displayLocationButton(true);
                     updatePreviewLocation();
@@ -271,15 +271,14 @@ define(function (require, exports, module) {
                     Previewer.hideWarning();
                 }
 
-                // Open external browser when links are clicked
-                // (similar to what brackets.js does - but attached to the iframe's document)
+                // detect mouse clicks in the preview window
                 $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
 
                 if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
                     prefs.set("mjax", false);
                     alert("'MathJax' could not be accessed online and is also not available from cache. " +
-                    "You are either working offline or access to the internet failed. " +
-                    "Rendering of mathematical expressions has been switched off.");
+                        "You are either working offline or access to the internet failed. " +
+                        "Rendering of mathematical expressions has been switched off.");
                 }
             });
         }
@@ -287,7 +286,7 @@ define(function (require, exports, module) {
 
     var timer;
 
-    function documentEdited(e) {
+    function documentEdited() {
         if (updateOnSave) {
             return;
         }
@@ -368,7 +367,6 @@ define(function (require, exports, module) {
     }
 
     function activatePanel() {
-
         if (Previewer.isActive() && prefs.get("detached") === Previewer.isDetached()) {
             loadDoc();
             return;
@@ -393,7 +391,7 @@ define(function (require, exports, module) {
 
     function currentDocChangedHandler() {
         var doc = DocumentManager.getCurrentDocument();
-  
+
         if (doc) {
             // listen to language changes initiated by the user
             doc.off("languageChanged", languageChanged);
@@ -416,8 +414,7 @@ define(function (require, exports, module) {
             if (viewerOn) {
                 activatePanel();
             }
-        }
-        else {
+        } else {
             $icon.css({
                 display: "none"
             });
@@ -463,10 +460,10 @@ define(function (require, exports, module) {
     }
 
 
-// Insert CSS for this extension
+    // Insert CSS for this extension
     ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
 
-// Add toolbar icon
+    // Add toolbar icon
     $icon = $("<a>")
         .attr({
             id: "asciidoc-preview-icon",
@@ -478,15 +475,14 @@ define(function (require, exports, module) {
         .click(toggleVisibility)
         .appendTo($("#main-toolbar .buttons"));
 
-// Add a document change handler
+    // Add a document change handler
     MainViewManager.on("currentFileChange", currentDocChangedHandler);
-// Detect if file changed on disk
+    // Detect if file changed on disk
     FileSystem.on("change", updateOnSaveHandler);
 
-// currentDocumentChange is *not* called for the initial document. Use
-// appReady() to set initial state.
+    // currentDocumentChange is *not* called for the initial document. Use
+    // appReady() to set initial state.
     AppInit.appReady(function () {
         currentDocChangedHandler();
     });
-})
-;
+});
