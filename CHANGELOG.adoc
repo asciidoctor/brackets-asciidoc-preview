@@ -1,15 +1,15 @@
 
-== Changelog of Brackets AsciiDoc Preview
+= Changelog of Brackets AsciiDoc Preview
 :experimental:
 
-=== Version 1.1.6
+== Version 1.1.6
 
 * It is now possible to jump to a line in the document editor by clicking into the preview pane while pressing 
   kbd:[Ctrl]. (#24)
 * Attribute 'type' renamed to 'role' in plantuml extension.
 * Fix deprecation warnings
 
-=== Version 1.1.5
+== Version 1.1.5
 
 Asciidoctor-diagram preview extension included with support for
 
@@ -18,7 +18,7 @@ Asciidoctor-diagram preview extension included with support for
 * graphviz dot
 
 
-=== Version 1.1.4
+== Version 1.1.4
 
 * Always force 'data-uri' attribute to false to avoid problems
   when loading images (fixes #22)
@@ -28,7 +28,7 @@ Asciidoctor-diagram preview extension included with support for
 * Preview panel can now be detached from editor and displayed
   as separate window.
 
-=== Version 1.1.2
+== Version 1.1.2
 
 * Prevent HTML/XML code snippets from being modified (#20)
 * Allow to override source-highlighter attribute from within document
@@ -36,13 +36,13 @@ Asciidoctor-diagram preview extension included with support for
 * Improve exception handling in converter worker
 * Merge pull request #21 (get rid of deprecation warnings) 
 
-=== Version 1.1.1
+== Version 1.1.1
 
 * Asciidoctor updated to 1.5.2
 * Some workarounds necessary for previous versions of Asciidoctor removed
 * Manually switching language modes from and to AsciiDoc fixed
 
-=== Version 1.1.0
+== Version 1.1.0
 
 * Fix extra slash with include and relative file paths (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/15[#15])
 * Fix invalid link to stylesheet when exporting to browser (https://github.com/asciidoctor/brackets-asciidoc-preview/issues/16[#16])
@@ -51,7 +51,7 @@ Asciidoctor-diagram preview extension included with support for
   directories may be selected through file browser.
 * React to manually switching a document to AsciiDoc mode in status bar
 
-=== Version 1.0.9
+== Version 1.0.9
 
 * Update to Asciidoctor.js 1.5.1
 * Update-on-save option for updating the preview when saving the file.
@@ -60,12 +60,12 @@ Asciidoctor-diagram preview extension included with support for
 * Keep text cursor in correct column on manual location sync.
 * Manage dependencies to Asciidoctor with npm, bower, and grunt
 
-=== Version 1.0.8
+== Version 1.0.8
 
 * Position of the rendered HTML can be synchronized with the editor's text cursor position.
 * Busy indicator is displayed for lengthy conversions.
 
-=== Version 1.0.7
+== Version 1.0.7
 
 * Update to Asciidoctor.js 1.5.0
 * Support for MathJax added (thanks to https://github.com/mogztter[@Mogztter])
@@ -75,24 +75,24 @@ Asciidoctor-diagram preview extension included with support for
 * Themes updated to 1.5.0
 * Improvements to Asciidoctor-compact theme.
 
-=== Version 1.0.6
+== Version 1.0.6
 
 * New themes: asciidoctor, asciidoctor-compact, and github
 * Misc fixes to preview styling, including width and padding. 
 * Added header level 5 to highlighting mode
 
-=== Version 1.0.5
+== Version 1.0.5
 
 * Requires sprint version >=0.38.0
 * AsciiDoc mode added thanks to Thaddee Tyl (https://github.com/espadrine/LivesciiDoc)
 
-=== Version 1.0.4
+== Version 1.0.4
 
 * Perform document conversion in webworker to avoid blocking of UI.
 * Automatically adjust refresh rate to time needed for creating the preview.
 * Display log messages from Asciidoctor at the bottom of the preview pane.
 
-=== Version 1.0.3 
+== Version 1.0.3 
 
 * Project renamed to 'brackets-asciidoc-preview'.
 * CHANGELOG.adoc added
@@ -110,7 +110,7 @@ really has a preamble. Other values for +toc+ and +toc-placement+
 attributes currently not supported.
 * Set +env=browser+ and +env-browser+ attributes internally by default
 
-=== Version 1.0.2
+== Version 1.0.2
 
 * Asciidoctor v1.5.0 preview 5
 * Opal 0.6.2
@@ -118,13 +118,13 @@ attributes currently not supported.
 * Preferences for 'base_dir', 'safe mode', and 'doctype' added.
 * Fix relative paths in '\include::' directive
 
-=== Version 1.0.1
+== Version 1.0.1
 
 * Preferences: 'showtitle' added, 'doctype' removed
 * width of settings panel decreased
 * misc cleanup
 
-=== Version 1.0.0
+== Version 1.0.0
 
 Initial version
 
