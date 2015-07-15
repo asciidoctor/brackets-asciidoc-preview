@@ -1,4 +1,30 @@
+/*
+ * Some default theme styling of scrollbars.
+ * Changing themes will not change this,
+ * just not worth the effort.
+ */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 999px;
+    border-radius: 999px;
+    background: rgb(166, 166, 166);
+    -webkit-box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgb(206, 206, 206);
+}
+
 #asciidoc-preview-console {
+    overflow: auto;
     position: fixed;
     border-top: 1px solid red;
     bottom: 0;
@@ -6,6 +32,7 @@
     margin: 0;
     width: 100%;
     max-width: 100%;
+    max-height: 100px;
 }
 
 #asciidoc-console-box {
