@@ -23,7 +23,7 @@ Asciidoctor-diagram preview extension included with support for
 * Always force 'data-uri' attribute to false to avoid problems
   when loading images (fixes #22)
 
-=== Version 1.1.3
+== Version 1.1.3
 
 * Preview panel can now be detached from editor and displayed
   as separate window.
