@@ -1,0 +1,49 @@
+html, body {
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 3px;
+}
+
+.level-0 {
+    margin-left: 0px;
+}
+
+.level-1 {
+    margin-left: 0.6em;
+}
+
+.level-2 {
+    margin-left: 1.2em;
+}
+
+.level-3 {
+    margin-left: 1.8em;
+}
+
+.level-4 {
+    margin-left: 2.4em;
+}
+
+.level-5 {
+    margin-left: 3em;
+}
+
+.item {
+  margin-top: 4px;
+}
+
+.item a {
+  display: block;
+  color: grey;
+  text-decoration: none;
+  transition: color 0.2s, background 0.5s;
+}
+
+.item a:hover {
+  color: #0083e8;
+}
