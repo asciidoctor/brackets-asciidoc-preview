@@ -43,13 +43,15 @@
     font-size: 12px;
     margin: 0;
     padding: 5px 5px 5px 5px;
+    z-index: 5;
 }
 
 #asciidoc-console-box a {
     color: red;
 }
 
-.site-wrap {
+/* wrapper for content */
+.content-wrapper {
     min-height: 100%;
     min-width: 100%;
     /* Needs a background or else the nav will show through */
@@ -67,11 +69,11 @@
     padding-bottom: 0.5em;
 }
 
+/* the outline panel */
 .asciidoc-outline-navigation {
-    /* critical sizing and position styles */
+    position: fixed;
     width: 100%;
     height: 110%;
-    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -79,39 +81,40 @@
     z-index: 0;
 }
 
+/* the iframe */
 #asciidoc-navframe {
   width: 200px;
   height: 100%;
-  border: 1px lightgrey solid;
+  border-right: 1px #ddd solid;
+  border-left: 1px #ddd solid;
 }
 
-/* Nav Trigger */
-
+/* Outline Trigger (made invisible) */
 .asciidoc-outline-nav-trigger {
-    /* critical styles - hide the checkbox input */
-    
     position: absolute;
     clip: rect(0, 0, 0, 0);
 }
 
 label[for="asciidoc-outline-nav-trigger"] {
-    /* critical positioning styles */
-    
     position: fixed;
     left: 0px;
     top: 2px;
     z-index: 2;
-    /* non-critical apperance styles */
-    
-    height: 20px;
+   
+    height: 40px;
     width: 20px;
     cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-image: url(images/chevron-right.svg);
     background-size: contain;
-    padding: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 8px;
     opacity: 0.8;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
+    
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0px 4px 4px 0;
 }
 
 body {
@@ -121,14 +124,15 @@ body {
 /* Make the Magic Happen */
 
 .asciidoc-outline-nav-trigger + label,
-.site-wrap {
+.content-wrapper {
     transition: left 0.2s;
 }
 
 .asciidoc-outline-nav-trigger:checked + label {
     left: 200px;
+    background-image: url(images/chevron-left.svg);
 }
 
-.asciidoc-outline-nav-trigger:checked ~ .site-wrap {
+.asciidoc-outline-nav-trigger:checked ~ .content-wrapper {
     left: 200px;
 }

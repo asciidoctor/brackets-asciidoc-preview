@@ -1,7 +1,7 @@
 html, body {
-    background-color: white;
+    background-color: #47484b;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 ul {
@@ -14,36 +14,37 @@ ul {
 }
 
 .level-1 {
-    margin-left: 0.6em;
+    margin-left: 0.8em;
 }
 
 .level-2 {
-    margin-left: 1.2em;
+    margin-left: 1.6em;
 }
 
 .level-3 {
-    margin-left: 1.8em;
-}
-
-.level-4 {
     margin-left: 2.4em;
 }
 
-.level-5 {
-    margin-left: 3em;
+.level-4 {
+    margin-left: 3.0em;
 }
 
-.item {
+.level-5 {
+    margin-left: 3.8em;
+}
+
+li {
   margin-top: 4px;
 }
 
-.item a {
+li a {
   display: block;
-  color: grey;
+  color: white;
   text-decoration: none;
   transition: color 0.2s, background 0.5s;
 }
 
-.item a:hover {
-  color: #0083e8;
+li a:hover {
+  /*color: #0083e8;*/
+    color: #08c;
 }
