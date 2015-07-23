@@ -211,8 +211,9 @@ Licensed under MIT License. See https://raw.githubusercontent.com/nerk/asciidoc-
 
 Based on _MarkdownPreview_, Copyright (C) 2012 Glenn Ruehle.
 
-AsciiDoc mode Copyright (C) 2014 Thaddee Tyl <thaddee.tyl@gmail.com>
+AsciiDoc mode Copyright (C) 2014 https://github.com/espadrine[Thaddee Tyl]
 
 Arrow-, trash can, and export icons made by http://yanlu.de[Yannick] from http://www.flaticon.com[www.flaticon.com], licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
 
+Chevron icons made by http://www.flaticon.com/authors/dave-gandy[Dave Gandy] from http://www.flaticon.com[www.flaticon.com], licensed under http://creativecommons.org/licenses/by/3.0/[CC BY 3.0]
 
