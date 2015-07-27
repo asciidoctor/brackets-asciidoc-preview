@@ -33,6 +33,7 @@
     width: 100%;
     max-width: 100%;
     max-height: 100px;
+    z-index: 1;
 }
 
 #asciidoc-console-box {
@@ -43,7 +44,7 @@
     font-size: 12px;
     margin: 0;
     padding: 5px 5px 5px 5px;
-    z-index: 5;
+    
 }
 
 #asciidoc-console-box a {
@@ -69,8 +70,8 @@
     padding-bottom: 0.5em;
 }
 
-/* the outline panel */
-.asciidoc-outline-navigation {
+/* outline panel */
+.asciidoc-outl-panel {
     position: fixed;
     width: 100%;
     height: 110%;
@@ -81,8 +82,8 @@
     z-index: 0;
 }
 
-/* the iframe */
-#asciidoc-navframe {
+/* outline iframe */
+#asciidoc-outl-frame {
   width: 200px;
   height: 100%;
   border-right: 1px #ddd solid;
@@ -90,18 +91,18 @@
 }
 
 /* Outline Trigger (made invisible) */
-.asciidoc-outline-nav-trigger {
+.asciidoc-outl-trigger {
     position: absolute;
     clip: rect(0, 0, 0, 0);
 }
 
-label[for="asciidoc-outline-nav-trigger"] {
+label[for="asciidoc-outl-trigger"] {
     position: fixed;
     left: 0px;
-    top: 2px;
+    top: 8px;
     z-index: 2;
    
-    height: 40px;
+    height: 20px;
     width: 20px;
     cursor: pointer;
     background-image: url(images/chevron-right.svg);
@@ -121,18 +122,20 @@ body {
     overflow-x: hidden;
 }
 
-/* Make the Magic Happen */
-
-.asciidoc-outline-nav-trigger + label,
+.asciidoc-outl-trigger + label,
 .content-wrapper {
     transition: left 0.2s;
 }
 
-.asciidoc-outline-nav-trigger:checked + label {
+.asciidoc-outl-trigger:checked + label {
     left: 200px;
     background-image: url(images/chevron-left.svg);
 }
 
-.asciidoc-outline-nav-trigger:checked ~ .content-wrapper {
+.asciidoc-outl-trigger:checked ~ .content-wrapper {
+    left: 200px;
+}
+
+.asciidoc-outl-trigger:checked ~ .content-wrapper > #asciidoc-preview-console {
     left: 200px;
 }
