@@ -4,6 +4,8 @@
 
 == Version 1.1.6
 
+* Pullout menu with document outline for navigation within the preview window (closes #7)
+* Added scrollbars to preview window's error console
 * It is now possible to jump to a line in the document editor by clicking into the preview pane while pressing 
   kbd:[Ctrl]. (#24)
 * Attribute 'type' renamed to 'role' in plantuml extension.
