@@ -34,6 +34,7 @@
     max-width: 100%;
     max-height: 100px;
     z-index: 1;
+    left: 0;
 }
 
 #asciidoc-console-box {
@@ -57,7 +58,7 @@
     min-width: 100%;
     /* Needs a background or else the nav will show through */
     background-color: inherit;
-
+    
     position: relative;
     top: 0;
     bottom: 100%;
@@ -70,26 +71,19 @@
     padding-bottom: 0.5em;
 }
 
-/* outline panel */
-.asciidoc-outl-panel {
+/* outline frame */
+#asciidoc-outl-frame {
     position: fixed;
-    width: 100%;
-    height: 110%;
+    width: 0;
+    height: 100%;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
     z-index: 0;
-}
-
-/* outline iframe */
-#asciidoc-outl-frame {
-  width: 200px;
-  height: 100%;
-  border-right: 1px #ddd solid;
-  border-left: 1px #ddd solid;
-  border-top: 0;
-  border-bottom: 0;
+    
+    border-right: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-top: 0;
+    border-bottom: 0;
 }
 
 /* Outline Trigger (made invisible) */
@@ -127,6 +121,14 @@ body {
 .asciidoc-outl-trigger + label,
 .content-wrapper {
     transition: left 0.2s;
+}
+
+#asciidoc-outl-frame {
+    transition: width 0.2s;
+}
+
+.asciidoc-outl-trigger:checked ~ #asciidoc-outl-frame {
+    width: 200px;
 }
 
 .asciidoc-outl-trigger:checked + label {
