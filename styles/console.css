@@ -80,8 +80,8 @@
     left: 0;
     z-index: 0;
     
-    border-right: 1px #ddd solid;
-    border-left: 1px #ddd solid;
+    border-right: 0;
+    border-left: 0;
     border-top: 0;
     border-bottom: 0;
 }
@@ -129,6 +129,8 @@ body {
 
 .asciidoc-outl-trigger:checked ~ #asciidoc-outl-frame {
     width: 200px;
+    border-right: 1px #ddd solid;
+    border-left: 1px #ddd solid;
 }
 
 .asciidoc-outl-trigger:checked + label {
