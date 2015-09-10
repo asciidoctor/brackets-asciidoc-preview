@@ -187,9 +187,14 @@
     -webkit-transform:rotate(225deg);
 }
 
-.clear-button, .clear-button:hover, .btn.clear-button:active {
+.clear-button, .clear-button:hover, .clear-button:focus {
     background-image: url(images/rubbish.svg);
     background-size: contain;
-    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-position: center;
     height: 28px;
+}
+
+#asciidoc-preview-basedir, #asciidoc-preview-imagesdir {
+    margin-top: 3px;
 }
