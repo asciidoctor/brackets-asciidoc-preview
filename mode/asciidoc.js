@@ -33,7 +33,7 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
           "paragraphEnd": [
               {token: "doc.comment", regex: /^\/{4,}\s*$/,    next: "commentBlock"},
               {token: "tableBlock",  regex: /^\s*[|!]=+\s*$/, next: "tableBlock"},
-              // open block, ruller
+              // open block, ruler
               {token: "keyword",     regex: /^(?:--|''')\s*$/, next: "start"},
               {token: "option",      regex: /^\[.*\]\s*$/,     next: "start"},
               {token: "pageBreak",   regex: /^>{3,}$/,         next: "start"},
@@ -55,8 +55,8 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
           ],
   
           "text": [
-              {token: ["link", "variable.language"], regex: /((?:https?:\/\/|ftp:\/\/|file:\/\/|mailto:|callto:)[^\s\[]+)(\[.*?\])/},
-              {token: "link", regex: /(?:https?:\/\/|ftp:\/\/|file:\/\/|mailto:|callto:)[^\s\[]+/},
+              {token: ["link", "link"], regex: /((?:https?:\/\/|ftp:\/\/|file:\/\/|mailto:|callto:)[^\s\[]+)(\[.*?\])/},
+              {token: ["link", "link"], regex: /(?:https?:\/\/|ftp:\/\/|file:\/\/|mailto:|callto:)[^\s\[]+/},
               {token: "link", regex: /\b[\w\.\/\-]+@[\w\.\/\-]+\b/},
               {include: "macros"},
               {include: "paragraphEnd"},
@@ -510,14 +510,14 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
 
     // Keyword
     keyword: 'keyword',
-      control: 'keyword',
-      operator: 'operator',
+    control: 'keyword',
+    operator: 'operator',
 
     // Constants
     constant: 'atom',
-      numeric: 'number',
-      character: 'atom',
-        escape: 'atom',
+    numeric: 'number',
+    character: 'atom',
+    escape: 'atom',
 
     // Variables
     variable: 'variable',
@@ -526,25 +526,25 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
 
     // Comments
     comment: 'comment',
-      line: 'comment',
-        'double-slash': 'comment',
-        'double-dash': 'comment',
-        'number-sign': 'comment',
-        percentage: 'comment',
-      block: 'comment',
-        documentation: 'comment',
+    line: 'comment',
+    'double-slash': 'comment',
+    'double-dash': 'comment',
+    'number-sign': 'comment',
+    percentage: 'comment',
+    block: 'comment',
+    doc: 'comment',
 
     // String
     string: 'string',
-      quoted: 'string',
-        single: 'string',
-        double: 'string',
-        triple: 'string',
-      unquoted: 'string',
-      interpolated: 'string',
-      regexp: 'string-2',
+    quoted: 'string',
+    single: 'string',
+    double: 'string',
+    triple: 'string',
+    unquoted: 'string',
+    interpolated: 'string',
+    regexp: 'string-2',
 
-    meta: 'meta',
+    meta: 'keyword',
     literal: 'qualifier',
     support: 'builtin',
 
