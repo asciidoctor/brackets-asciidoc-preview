@@ -2,6 +2,16 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.1.7
+
+* Highlight bold and italic items (#27)
+* Title of link is now highlighted (#28)
+* Improve syntax highlighting of quoting rules, e.g. super- and subscript.
+* Fix outline window layout if content height is smaller than window height.
+* Eliminate left and right borders when outline is closed.
+* Fix alignment of buttons and input fields in settings dialog.
+* Update highlight.js to 8.8.0. (Closes #30)
+ 
 == Version 1.1.6
 
 * Pullout menu with document outline for navigation within the preview window (closes #7)
