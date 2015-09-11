@@ -147,13 +147,20 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
               {token: "keyword.bold", regex: /\*\*[^*\s].*?\*\*/},
               {token: "keyword.bold", regex: quoteRule("\\*")},
               
-              {token: "literal", regex: quoteRule("\\+")},
               {token: "literal", regex: /\+\+[^+\s].*?\+\+/},
+              {token: "literal", regex: quoteRule("\\+")},
+              
               {token: "literal", regex: /\$\$.+?\$\$/},
+              {token: "literal", regex: quoteRule("\\$")},
+              
+              {token: "literal", regex: /``[^`\s].*?``/},
               {token: "literal", regex: quoteRule("`")},
   
-              {token: "keyword", regex: quoteRule("^")},
+              {token: "keyword", regex: /\^[^\^].*?\^/},
+              {token: "keyword", regex: quoteRule("\\^")},
+              {token: "keyword", regex: /~[^~].*?~/},
               {token: "keyword", regex: quoteRule("~")},
+              
               {token: "keyword", regex: /##?/},
               {token: "keyword", regex: /(?:\B|^)``|\b''/}
           ]
@@ -574,6 +581,7 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
       // Find the most specific token.
       if (tokenFromAceToken[tokens[i]] !== undefined) {
         token = tokenFromAceToken[tokens[i]];
+          console.log(tokens[i] + " --> " + token);
       }
     }
     return token;
