@@ -581,7 +581,6 @@ codeMirror.defineMode("asciidoc", function(cmCfg, modeCfg) {
       // Find the most specific token.
       if (tokenFromAceToken[tokens[i]] !== undefined) {
         token = tokenFromAceToken[tokens[i]];
-          console.log(tokens[i] + " --> " + token);
       }
     }
     return token;
