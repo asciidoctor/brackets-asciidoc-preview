@@ -179,13 +179,6 @@ define(function (require, exports, module) {
                 previewLocationInfo = null;
             }
 
-            var defaultAttributes = 'icons=font@ ' +
-                'platform=opal platform-opal ' +
-                'env=browser env-browser ' +
-                'sectids ' + // force generation of section ids
-                'data-uri! ' + // force data-uri to false
-                'source-highlighter=highlight.js@ ';
-
             var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
             var showtitle = prefs.get("showtitle") ? 'showtitle' : 'showtitle!';
             var safemode = prefs.get("safemode") || "safe";
@@ -194,9 +187,7 @@ define(function (require, exports, module) {
             // baseDir will be used as the base URL to retrieve include files via Ajax requests
             var baseDir = prefs.get("basedir") || utils.getDefaultBaseDir(currentDoc);
 
-            var attributes = defaultAttributes.concat(' ')
-                .concat(numbered).concat(' ')
-                .concat(showtitle);
+            var attributes = numbered.concat(' ').concat(showtitle);
 
             // imagesDir will be used as the base URL to retrieve images
             var imagesDir = prefs.get("imagesdir");
