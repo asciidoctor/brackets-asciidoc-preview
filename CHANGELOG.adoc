@@ -2,6 +2,15 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.1.9
+
+* Asciidoctor 1.5.3.
+* Font Awesome 4.4.0.
+* Latest MathJax is always used automatically.
+* Fixed a bug with incorrect rendering of DITAA blocks.
+* Automatic fallback to highlight.js source highlighter
+  if document header attribute is 'coderay' or 'pygments'.
+
 == Version 1.1.8
 
 * Rendering STEM if attribute `stem` is defined, even if it has no value
