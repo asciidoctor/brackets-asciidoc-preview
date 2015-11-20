@@ -3,7 +3,7 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents.",
     "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "1.1.8",
+    "version": "1.1.9",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
