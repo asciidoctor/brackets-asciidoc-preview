@@ -21,7 +21,7 @@ From the Brackets file menu, open the extension manager. Browse available extens
 After installation, an additional icon appears in the Brackets toolbar to the right. If the name of the file currently edited 
 ends with one of the suffixes '.adoc', '.ad', '.asciidoc', or '.asc', pressing this icon displays the preview pane.
 
-In the upper right corner of the preview pane, pressing the gear symbol (image:styles/images/gear.svg[width=16]) opens the settings panel.
+In the upper right corner of the preview pane, pressing the gear symbol (image:styles/images/gear.png[]) opens the settings panel.
 
 === Development Version
 
@@ -107,7 +107,7 @@ also want to check btn:[Update on save] (see below).
 
 It is possible to synchronize the current editing position in the editor with the corresponding part of the rendered HTML displayed by the preview pane.
 
-After a document has been rendered successfully, pressing the location arrow symbol (image:styles/images/locate.svg[width=16]) scrolls that part of the HTML into view, which corresponds to the current text cursor position in the source document.
+After a document has been rendered successfully, pressing the location arrow symbol (image:styles/images/locate.png[]) scrolls that part of the HTML into view, which corresponds to the current text cursor position in the source document.
 
 In addition, the settings panel provides an btn:[Auto-sync location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
 
@@ -126,7 +126,7 @@ preview pane when pressing kbd:[Ctrl+S] or when saving the file through the menu
 
 == Export to Browser
 
-A document displayed by the preview pane can be exported to a browser by pressing the export icon (image:styles/images/export.svg[width=16]).
+A document displayed by the preview pane can be exported to a browser by pressing the export icon (image:styles/images/export.png[]).
 If not already open, the default system browser is launched and the generated HTML document is displayed within a new browser tab. The browser
 can then be used to save, convert, or print the document.
 
