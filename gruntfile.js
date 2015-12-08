@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = function (grunt) {
 
     var distfiles = ['images/**', 'lib/**', 'mode/**', 'styles/**', 'templates/**', 'themes/**',
+        'node_modules/codemirror-asciidoc/**',
         'CHANGELOG.adoc', 'LICENSE.txt', 'README.adoc', 'main.js', 'package.json', '!**/Thumbs.db'];
 
     var pkg = grunt.file.readJSON('package.json');

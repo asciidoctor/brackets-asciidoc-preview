@@ -55,7 +55,8 @@ define(function (require, exports, module) {
         usesStem = false;
 
     // Define AsciiDoc mode
-    require("mode/asciidoc");
+    require("node_modules/codemirror-asciidoc/lib/asciidoc");
+
     LanguageManager.defineLanguage("asciidoc", {
         name: "AsciiDoc",
         mode: "asciidoc",
