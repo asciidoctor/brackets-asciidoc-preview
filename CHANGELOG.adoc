@@ -10,6 +10,7 @@
 * Fixed a bug with incorrect rendering of DITAA blocks.
 * Automatic fallback to highlight.js source highlighter
   if document header attribute is 'coderay' or 'pygments'.
+* Generate HTML in temporary directory instead of document source directory
 
 == Version 1.1.8
 
