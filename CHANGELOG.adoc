@@ -11,6 +11,7 @@
 * Automatic fallback to highlight.js source highlighter
   if document header attribute is 'coderay' or 'pygments'.
 * Generate HTML in temporary directory instead of document source directory
+* Use asciidoctor/codemirror-asciidoc for highlighting
 
 == Version 1.1.8
 
