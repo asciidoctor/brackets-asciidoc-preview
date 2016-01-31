@@ -1,7 +1,7 @@
 {
   "name" : "brackets-asciidoc-preview",
   "dependencies" : {
-    "asciidoctor.js" : "v1.5.3-rc.1"
+    "asciidoctor.js" : "v1.5.4"
   },
   "exportsOverride": {
     "asciidoctor.js": {
