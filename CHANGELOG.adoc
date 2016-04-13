@@ -4,7 +4,8 @@
 
 == Version 1.2.0
 
-* Exported HTML generated in temporary folder now has its base directory set to the original source directory in order to properly access all web assets. 
+* Exported HTML generated in temporary folder now has its base directory set to the original source directory in order to properly access all web assets.
+* Page anchors now working in exported document
 * Versions of Grunt and other tools updated.
 
 == Version 1.1.9
