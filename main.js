@@ -228,7 +228,6 @@ define(function (require, exports, module) {
 
       // perform conversion in worker thread
       conversionStart = new Date().getTime();
-      console.log("POST UPDATE");
       converterWorker.postMessage(inputData);
 
       converterWorker.onmessage = function (e) {
@@ -238,20 +237,18 @@ define(function (require, exports, module) {
 
         if (outline) {
           Previewer.displayLocationButton(true);
-          updatePreviewLocation();
         } else {
           Previewer.displayLocationButton(false);
         }
 
-        if (autosync) {
-          var pos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
-          if (pos) {
-            scrollPos = pos;
-          }
-        }
+        output.update($iframe, isNewDocument, inputData, result, function () {
 
-        console.log("CALL UPDATE");
-        output.update($iframe, isNewDocument, inputData, result, scrollPos, function () {
+            if (outline) {
+              updatePreviewLocation(autosync);
+            } else {
+              $iframe[0].contentWindow.scrollTo(0, scrollPos);
+            }
+
             var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
             if (isDocDirChanged() && dirsDefined) {
               Previewer.showWarning();
@@ -260,8 +257,6 @@ define(function (require, exports, module) {
             }
             // detect mouse clicks in the preview window
             $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
-
-            console.log("UPDATE CB");
           }
         );
         conversionStart = 0;
