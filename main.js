@@ -51,8 +51,7 @@ define(function (require, exports, module) {
   // Other vars
   var currentDoc,
     fileExtensions = ["ad", "adoc", "asciidoc", "asc"],
-    viewerOn,
-    usesStem = false;
+    viewerOn;
 
   // Define AsciiDoc mode
   require("node_modules/codemirror-asciidoc/lib/asciidoc");
@@ -206,14 +205,16 @@ define(function (require, exports, module) {
         prefs.save();
       }
 
-      // structure to pass docText, options, and attributes.
-      var data = {
+      // Input data to be passed to web worker.
+      var inputData = {
         docText: docText,
         plantUmlServerUrl: prefs.get("plantUmlServerUrl"),
+        theme: prefs.get("theme"),
+        renderMath: prefs.get("mjax"),
         // current working directory
         cwd: FileUtils.getDirectoryPath(window.location.href),
         // Asciidoctor options
-        basedir: FileUtils.stripTrailingSlash(baseDir),
+        baseDir: FileUtils.stripTrailingSlash(baseDir),
         safemode: safemode,
         doctype: doctype,
         header_footer: false,
@@ -227,12 +228,12 @@ define(function (require, exports, module) {
 
       // perform conversion in worker thread
       conversionStart = new Date().getTime();
-      converterWorker.postMessage(data);
+      converterWorker.postMessage(inputData);
 
       converterWorker.onmessage = function (e) {
-        lastDuration = e.data.duration;
-        outline = e.data.outline;
-        usesStem = e.data.stem;
+        var result = e.data;
+        lastDuration = result.duration;
+        outline = result.outline;
 
         if (outline) {
           Previewer.displayLocationButton(true);
@@ -248,7 +249,7 @@ define(function (require, exports, module) {
           }
         }
 
-        output.update($iframe, isNewDocument, e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
+        output.update($iframe, isNewDocument, inputData, result, scrollPos);
         conversionStart = 0;
         Previewer.displaySpinner(false);
       };
