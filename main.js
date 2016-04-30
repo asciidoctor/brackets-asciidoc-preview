@@ -165,19 +165,19 @@ define(function (require, exports, module) {
     }, 1000);
   }
 
-  function loadDoc(preserveScrollPos) {
+  function loadDoc(isNewDocument) {
     if (Previewer.isActive() && $iframe && currentDoc) {
       var docText = utils.stripYamlFrontmatter(currentDoc.getText()),
         scrollPos = 0;
 
-      if (preserveScrollPos) {
+      if (isNewDocument) {
+        scrollPos = 0;
+        previewLocationInfo = null;
+      } else {
         var body = $iframe.contents()[0].body;
         if (body !== null) {
           scrollPos = body.scrollTop;
         }
-      } else {
-        scrollPos = 0;
-        previewLocationInfo = null;
       }
 
       var numbered = prefs.get("numbered") ? 'numbered' : 'numbered!';
@@ -221,7 +221,7 @@ define(function (require, exports, module) {
         attributes: attributes
       };
 
-      if (lastDuration >= 500 || !preserveScrollPos) {
+      if (lastDuration >= 500 || isNewDocument) {
         Previewer.displaySpinner(true);
       }
 
@@ -248,14 +248,13 @@ define(function (require, exports, module) {
           }
         }
 
-        var html = output.createPage(e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
-        $iframe.attr("srcdoc", html);
+        output.update($iframe, isNewDocument, e.data, utils.toUrl(baseDir) + '/', scrollPos, prefs);
         conversionStart = 0;
         Previewer.displaySpinner(false);
       };
 
       $iframe.load(function () {
-
+        
         var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
         if (isDocDirChanged() && dirsDefined) {
           Previewer.showWarning();
@@ -265,13 +264,6 @@ define(function (require, exports, module) {
 
         // detect mouse clicks in the preview window
         $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
-
-        if (usesStem && prefs.get("mjax") && !this.contentWindow.MathJax) {
-          prefs.set("mjax", false);
-          alert("'MathJax' could not be accessed online and is also not available from cache. " +
-            "You are either working offline or access to the internet failed. " +
-            "Rendering of mathematical expressions has been switched off.");
-        }
       });
     }
   }
@@ -303,7 +295,7 @@ define(function (require, exports, module) {
 
     timer = window.setTimeout(function () {
       timer = null;
-      loadDoc(true);
+      loadDoc(false);
     }, timeout);
   }
 
@@ -313,7 +305,7 @@ define(function (require, exports, module) {
     updateOnSave = prefs.get("updatesave");
     autosync = prefs.get("autosync");
     // Re-render
-    loadDoc(true);
+    loadDoc(false);
   }
 
   function openViewer() {
@@ -349,7 +341,7 @@ define(function (require, exports, module) {
           view.hasClickHandlers = true;
         }
 
-        loadDoc();
+        loadDoc(true);
       },
       // view closed callback
       function () {
@@ -363,7 +355,7 @@ define(function (require, exports, module) {
 
   function activatePanel() {
     if (Previewer.isActive() && prefs.get("detached") === Previewer.isDetached()) {
-      loadDoc();
+      loadDoc(true);
       return;
     }
     openViewer();
