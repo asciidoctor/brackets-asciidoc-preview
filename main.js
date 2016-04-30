@@ -86,9 +86,9 @@ define(function (require, exports, module) {
   var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
   // assembly of final HTML page
   var output = require("lib/output"),
-    // utils for handling syncing between editor an preview panes
+  // utils for handling syncing between editor an preview panes
     syncEdit = require("lib/sync"),
-    // common utils
+  // common utils
     utils = require("lib/utils"),
     htmlExporter = require("lib/exporter"),
     Previewer = require("lib/viewpanel");
@@ -228,6 +228,7 @@ define(function (require, exports, module) {
 
       // perform conversion in worker thread
       conversionStart = new Date().getTime();
+      console.log("POST UPDATE");
       converterWorker.postMessage(inputData);
 
       converterWorker.onmessage = function (e) {
@@ -249,23 +250,23 @@ define(function (require, exports, module) {
           }
         }
 
-        output.update($iframe, isNewDocument, inputData, result, scrollPos);
+        console.log("CALL UPDATE");
+        output.update($iframe, isNewDocument, inputData, result, scrollPos, function () {
+            var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
+            if (isDocDirChanged() && dirsDefined) {
+              Previewer.showWarning();
+            } else {
+              Previewer.hideWarning();
+            }
+            // detect mouse clicks in the preview window
+            $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
+
+            console.log("UPDATE CB");
+          }
+        );
         conversionStart = 0;
         Previewer.displaySpinner(false);
       };
-
-      $iframe.load(function () {
-        
-        var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
-        if (isDocDirChanged() && dirsDefined) {
-          Previewer.showWarning();
-        } else {
-          Previewer.hideWarning();
-        }
-
-        // detect mouse clicks in the preview window
-        $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
-      });
     }
   }
 
