@@ -235,18 +235,14 @@ define(function (require, exports, module) {
         lastDuration = result.duration;
         outline = result.outline;
 
-        if (outline) {
-          Previewer.displayLocationButton(true);
-        } else {
-          Previewer.displayLocationButton(false);
-        }
-
         output.update($iframe, isNewDocument, inputData, result, function () {
 
             if (outline) {
               updatePreviewLocation(autosync);
+              Previewer.displayLocationButton(true);
             } else {
               $iframe[0].contentWindow.scrollTo(0, scrollPos);
+              Previewer.displayLocationButton(false);
             }
 
             var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
