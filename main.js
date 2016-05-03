@@ -235,7 +235,7 @@ define(function (require, exports, module) {
         lastDuration = result.duration;
         outline = result.outline;
 
-        output.update($iframe, isNewDocument, inputData, result, function () {
+        output.render($iframe, isNewDocument, inputData, result, function () {
 
             if (outline) {
               updatePreviewLocation(autosync);
