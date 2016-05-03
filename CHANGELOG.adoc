@@ -2,6 +2,11 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.2.1
+
+* Preview pane no longer flickering/jerking during editing (as long as MathJax is disabled or is not rendering anything).
+* Navigation on preview pane (cross-references, toc) now working.
+
 == Version 1.2.0
 
 * Exported HTML generated in temporary folder now has its base directory set to the original source directory in order to properly access all web assets.
