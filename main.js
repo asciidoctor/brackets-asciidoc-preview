@@ -86,9 +86,9 @@ define(function (require, exports, module) {
   var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
   // assembly of final HTML page
   var output = require("lib/output"),
-  // utils for handling syncing between editor an preview panes
+    // utils for handling syncing between editor an preview panes
     syncEdit = require("lib/sync"),
-  // common utils
+    // common utils
     utils = require("lib/utils"),
     htmlExporter = require("lib/exporter"),
     Previewer = require("lib/viewpanel");
@@ -237,24 +237,23 @@ define(function (require, exports, module) {
 
         output.render($iframe, isNewDocument, inputData, result, function () {
 
-            if (outline) {
-              updatePreviewLocation(autosync);
-              Previewer.displayLocationButton(true);
-            } else {
-              $iframe[0].contentWindow.scrollTo(0, scrollPos);
-              Previewer.displayLocationButton(false);
-            }
-
-            var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
-            if (isDocDirChanged() && dirsDefined) {
-              Previewer.showWarning();
-            } else {
-              Previewer.hideWarning();
-            }
-            // detect mouse clicks in the preview window
-            $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
+          if (outline) {
+            updatePreviewLocation(autosync);
+            Previewer.displayLocationButton(true);
+          } else {
+            $iframe[0].contentWindow.scrollTo(0, scrollPos);
+            Previewer.displayLocationButton(false);
           }
-        );
+
+          var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
+          if (isDocDirChanged() && dirsDefined) {
+            Previewer.showWarning();
+          } else {
+            Previewer.hideWarning();
+          }
+          // detect mouse clicks in the preview window
+          $iframe[0].contentDocument.body.addEventListener("click", handlePreviewClick, true);
+        });
         conversionStart = 0;
         Previewer.displaySpinner(false);
       };
