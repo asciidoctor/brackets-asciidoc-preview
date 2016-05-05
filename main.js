@@ -86,8 +86,6 @@ define(function (require, exports, module) {
   var converterWorker = new Worker(ExtensionUtils.getModulePath(module, "lib/converter-worker.js"));
   // assembly of final HTML page
   var output = require("lib/output"),
-    // utils for handling syncing between editor an preview panes
-    syncEdit = require("lib/sync"),
     // common utils
     utils = require("lib/utils"),
     htmlExporter = require("lib/exporter"),
@@ -97,9 +95,7 @@ define(function (require, exports, module) {
   var lastDuration = 500;
   // timestamp when conversion started
   var conversionStart = 0;
-  // current editing location info in generated HTML
-  var previewLocationInfo = null,
-    outline = null,
+  var outline = null,
     docDirChanged = false,
     updateOnSave = prefs.get("updatesave"),
     autosync = prefs.get("autosync");
@@ -111,10 +107,10 @@ define(function (require, exports, module) {
       var elem = $(e.target);
       if (elem.is("[class*=data-line]")) {
         var line = elem.attr('class').match(/data-line-(\d+)/)[1];
-        jumpToLine(line - 1);
+        jumpToLine(line);
       } else {
         var line = elem.closest("[class*=data-line]").attr('class').match(/data-line-(\d+)/)[1];
-        jumpToLine(line - 1);
+        jumpToLine(line);
       }
       e.preventDefault();
     } else {
@@ -132,7 +128,7 @@ define(function (require, exports, module) {
             } else if (url.match(/^#goto_/)) {
               // if URL contains special #goto_ fragment identifier,
               // use line number to jump to this line in document editor.
-              jumpToLine(parseInt(url.substr(6), 10) - 1);
+              jumpToLine(parseInt(url.substr(6), 10));
             }
           }
           e.preventDefault();
@@ -154,6 +150,7 @@ define(function (require, exports, module) {
    * line in view.
    */
   function jumpToLine(line) {
+    line--; // code mirror starts with line 0
     var editor = EditorManager.getCurrentFullEditor();
     editor.setCursorPos(line, 0, true);
     editor.focus();
@@ -172,7 +169,6 @@ define(function (require, exports, module) {
 
       if (isNewDocument) {
         scrollPos = 0;
-        previewLocationInfo = null;
       } else {
         var body = $iframe.contents()[0].body;
         if (body !== null) {
@@ -237,14 +233,10 @@ define(function (require, exports, module) {
         outline = result.outline;
 
         output.render($iframe, isNewDocument, inputData, result, function () {
-
-          if (outline) {
-            updatePreviewLocation(autosync);
-            Previewer.displayLocationButton(true);
-          } else {
-            $iframe[0].contentWindow.scrollTo(0, scrollPos);
-            Previewer.displayLocationButton(false);
+          if (autosync) {
+            scrollToPreviewLocation();
           }
+          Previewer.displayLocationButton(true);
 
           var dirsDefined = prefs.get("imagesdir") !== '' || prefs.get("basedir") !== '';
           if (isDocDirChanged() && dirsDefined) {
@@ -312,7 +304,7 @@ define(function (require, exports, module) {
           // attach handler to sync-location-button
           $("#asciidoc-sync-location-button", view.document)
             .click(function () {
-              updatePreviewLocation(true);
+              scrollToPreviewLocation();
             });
 
           // attach handler to export-file-button
@@ -414,28 +406,26 @@ define(function (require, exports, module) {
     }
   }
 
-  /**
-   * Updates global variable previewLocationInfo with information
-   * corresponding to the current position of the text cursor.
-   *
-   * @param {Boolean} sync if true, scrolls corresponding positions
-   *                       of preview pane and text cursor position into view.
-   */
-  function updatePreviewLocation(sync) {
+  
+  function scrollToPreviewLocation() {
     var editor = EditorManager.getCurrentFullEditor();
     var cursor = editor.getCursorPos();
-    if (outline && cursor) {
-      // store current editing location info with respect to HTML
-      previewLocationInfo = syncEdit.findLocationInfo(outline, cursor.line + 1);
-      if (previewLocationInfo) {
-        previewLocationInfo.lineno = cursor.line + 1;
+    if (cursor) {
+      var $elem = null;
+      // getCursorPos starts with line 0
+      var line = cursor.line + 2;
+      var doc = $iframe.contents().find('#body-text');
+      do {
+        line--;
+        $elem = doc.find('[class*=data-line-' + line + ']');
+      } while ($elem.length === 0);
+
+      var blockPos = $elem.position();
+      if (blockPos !== undefined) {
+        $iframe[0].contentWindow.scrollTo(0, blockPos.top);
       }
-      if (sync) {
-        var topPos = syncEdit.getTopPos($iframe[0], previewLocationInfo);
-        $iframe[0].contentWindow.scrollTo(0, topPos);
-        editor.focus();
-        editor.setCursorPos(cursor, true);
-      }
+      editor.focus();
+      editor.setCursorPos(cursor, true);
     }
   }
 
