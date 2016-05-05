@@ -4,8 +4,8 @@
 
 == Version 1.2.1
 
-* Preview pane no longer flickering/jerking during editing (as long as MathJax is disabled or is not rendering anything).
-* Navigation on preview pane (cross-references, toc) now working.
+* Avoid jerking/flickering of preview pane during editing (as long as MathJax is disabled or is not rendering anything).
+* Navigation within preview (cross-references, toc) now working.
 
 == Version 1.2.0
 
