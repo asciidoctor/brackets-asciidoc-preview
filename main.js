@@ -108,14 +108,15 @@ define(function (require, exports, module) {
   // Event handler for clicks into preview pane
   function handlePreviewClick(e) {
     if (e.ctrlKey) {
-      // jump to line number corresponding to current click position
-      if (outline) {
-        var line = syncEdit.getLineNumber($iframe[0], outline, e.pageY);
-        if (line) {
-          jumpToLine(line - 1);
-        }
-        e.preventDefault();
+      var elem = $(e.target);
+      if (elem.is("[class*=data-line]")) {
+        var line = elem.attr('class').match(/data-line-(\d+)/)[1];
+        jumpToLine(line - 1);
+      } else {
+        var line = elem.closest("[class*=data-line]").attr('class').match(/data-line-(\d+)/)[1];
+        jumpToLine(line - 1);
       }
+      e.preventDefault();
     } else {
       // Open external browser when links are clicked
       // (similar to what brackets.js does - but attached to the iframe's document)
