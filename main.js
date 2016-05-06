@@ -42,8 +42,7 @@ define(function (require, exports, module) {
     LanguageManager = brackets.getModule("language/LanguageManager"),
     MainViewManager = brackets.getModule("view/MainViewManager"),
     PreferencesManager = brackets.getModule("preferences/PreferencesManager");
-
-
+  
   // jQuery objects
   var $icon,
     $iframe;
@@ -99,7 +98,6 @@ define(function (require, exports, module) {
     docDirChanged = false,
     updateOnSave = prefs.get("updatesave"),
     autosync = prefs.get("autosync");
-
 
   // Event handler for clicks into preview pane
   function handlePreviewClick(e) {
@@ -294,12 +292,9 @@ define(function (require, exports, module) {
   }
 
   function openViewer() {
-
     var detached = prefs.get("detached");
-
     Previewer.open(detached, prefs, updateSettings, function (view) {
         $iframe = view.$iframe;
-
         if (!view.hasClickHandlers) {
           // attach handler to sync-location-button
           $("#asciidoc-sync-location-button", view.document)
@@ -346,7 +341,6 @@ define(function (require, exports, module) {
     openViewer();
   }
 
-
   function updateOnSaveHandler(event, entry) {
     if (Previewer.isActive() && updateOnSave && entry && currentDoc && entry.fullPath === currentDoc.file.fullPath) {
       loadDoc(true);
@@ -363,7 +357,6 @@ define(function (require, exports, module) {
 
   function currentDocChangedHandler() {
     var doc = DocumentManager.getCurrentDocument();
-
     if (doc) {
       // listen to language changes initiated by the user
       doc.off("languageChanged", languageChanged);
@@ -406,7 +399,6 @@ define(function (require, exports, module) {
     }
   }
 
-  
   function scrollToPreviewLocation() {
     var editor = EditorManager.getCurrentFullEditor();
     var cursor = editor.getCursorPos();
@@ -417,7 +409,7 @@ define(function (require, exports, module) {
       var doc = $iframe.contents().find('#body-text');
       do {
         line--;
-        $elem = doc.find('[class*=data-line-' + line + ']');
+        $elem = doc.find('[class~=data-line-' + line + ']');
       } while ($elem.length === 0);
 
       var blockPos = $elem.position();
@@ -428,7 +420,6 @@ define(function (require, exports, module) {
       editor.setCursorPos(cursor, true);
     }
   }
-
 
   // Insert CSS for this extension
   ExtensionUtils.loadStyleSheet(module, "styles/AsciidocPreview.css");
