@@ -410,7 +410,7 @@ define(function (require, exports, module) {
       do {
         line--;
         $elem = doc.find('[class~=data-line-' + line + ']');
-      } while ($elem.length === 0);
+      } while (line >= 0 && $elem.length === 0);
 
       var blockPos = $elem.position();
       if (blockPos !== undefined) {

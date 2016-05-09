@@ -2,6 +2,10 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.2.3
+
+* Fix possible lock-up because of endless loop during rendering.
+
 == Version 1.2.2
 
 * Improved mapping of preview location to source line numbers and vice versa.
