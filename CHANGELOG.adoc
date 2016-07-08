@@ -2,6 +2,11 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.2.4
+
+* Fix page anchors when saving exported HTML.
+* Use correct horizontal scrollbar height in outline view.
+ 
 == Version 1.2.3
 
 * Fix possible lock-up because of endless loop during rendering.
