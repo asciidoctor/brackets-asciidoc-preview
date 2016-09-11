@@ -165,6 +165,41 @@ image::images/settings_warn.png[]
 
 You may either keep the settings as they are, or reset them to the new document's defaults.
 
+== Custom Extensions
+
+It is possible to install custom extensions to be used during rendering of the preview pane. The following types of files may be installed:
+
+* Asciidoctor Themes
+* Asciidoctor extensions
+* CSS files
+* JavaScript files
+
+Files may be copied to specific directories in the filesystem and are being registered by the plugin on startup. The root
+directory differs depending on your OS:
+
+Linux:: <user home>/.config/Brackets/extensions/data.nerk.asciidoc-preview
+Windows:: <user home>/AppData/Roaming/Brackets/extensions/data.nerk.asciidoc-preview
+
+The directory structure must be created manually and each subdirectory must only contain a specific type of files:
+
+----
+data.nerk.asciidoc-preview
+  |
+  +-- extensions <1>
+  |
+  +-- styles <2>
+  |
+  +-- themes <3>
+  |
+  +-- scripts_prepend <4>
+  |
+  +-- scripts_append <5>
+----
+<1> Asciidoctor JavaScript extensions
+<2> CSS files to be added to the header of the generated HTML. Put supporting CSS files for Asciidoctor extensions into this directory.
+<3> CSS theme files. Files will appear in the preferences dialog and may be selected by the user.
+<4> JavaScript files to be added to the HTML's head.
+<5> JavaScript files to be added to the bottom of the generated HTML.
 
 == Known Issues
 
