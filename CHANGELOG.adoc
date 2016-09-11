@@ -6,6 +6,8 @@
 
 * Fix page anchors when saving exported HTML.
 * Use correct horizontal scrollbar height in outline view.
+* Workaround for missing mutable string methods in Opal (ignore :tabsize: in preview).
+* Support for custom extensions, scripts, themes, and css.
  
 == Version 1.2.3
 
