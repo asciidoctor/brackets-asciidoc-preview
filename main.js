@@ -99,6 +99,9 @@ define(function (require, exports, module) {
     updateOnSave = prefs.get("updatesave"),
     autosync = prefs.get("autosync");
 
+  // Read user custom extensions directories 
+  utils.initUserExtensions(); 
+  
   // Event handler for clicks into preview pane
   function handlePreviewClick(e) {
     if (e.ctrlKey) {
@@ -161,6 +164,7 @@ define(function (require, exports, module) {
   }
 
   function loadDoc(isNewDocument) {
+    
     if (Previewer.isActive() && $iframe && currentDoc) {
       var docText = utils.stripYamlFrontmatter(currentDoc.getText()),
         scrollPos = 0;
@@ -199,7 +203,7 @@ define(function (require, exports, module) {
         prefs.set("defaultdir", defBaseDir);
         prefs.save();
       }
-
+      
       // Input data to be passed to web worker.
       var inputData = {
         docText: docText,
@@ -208,6 +212,7 @@ define(function (require, exports, module) {
         renderMath: prefs.get("mjax"),
         // current working directory
         cwd: FileUtils.getDirectoryPath(window.location.href),
+        userExtensions: utils.getUserExtensions(),
         // Asciidoctor options
         baseDir: FileUtils.stripTrailingSlash(baseDir),
         safemode: safemode,
