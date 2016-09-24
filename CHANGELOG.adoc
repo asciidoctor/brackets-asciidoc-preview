@@ -8,6 +8,7 @@
 * Use correct horizontal scrollbar height in outline view.
 * Workaround for missing mutable string methods in Opal (ignore :tabsize: in preview).
 * Support for custom extensions, scripts, themes, and css.
+* Font Awesome 4.6.0
  
 == Version 1.2.3
 

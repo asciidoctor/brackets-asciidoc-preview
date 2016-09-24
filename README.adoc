@@ -237,7 +237,7 @@ converted the highlighting mode from the Ace editor to CodeMirror.
 
 Other software used:
 
-* http://fortawesome.github.io/Font-Awesome/[Font Awesome 4.4.0] for font icons
+* http://fortawesome.github.io/Font-Awesome/[Font Awesome] for font icons
 * http://highlightjs.org/[highlight.js] for highlighting embedded source code
 * http://www.mathjax.org/[MathJax] is a JavaScript display engine for mathematics
 
