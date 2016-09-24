@@ -90,11 +90,6 @@ http://www.plantuml.com/plantuml
 == MathJax Support
 
 Rendering of mathematical expressions is supported by means of http://www.mathjax.org/[MathJax].
-Unlike other components used by this plugin, MathJax is not included in the distribution,
-but accessed via a CDN.
-
-This means that you'll need a working internet connection in order to be able to see rendered expressions,
-at least until MathJax was loaded and cached by Brackets for the first time.
 
 The use of MathJax is disabled by default and must be switched on in the plugin's settings panel
 by checking btn:[Render math]. See http://asciidoctor.org/news/2014/08/12/asciidoctor-1-5-0-released/#spotlight-mathjax[Get technical with MathJax].
@@ -174,12 +169,15 @@ It is possible to install custom extensions to be used during rendering of the p
 * CSS files
 * JavaScript files
 
-Files should be copied to specific directories in the filesystem and are being registered by the plugin on startup. Depending on your OS, the root directory differs :
+Files should be copied to specific directories in the filesystem and are being registered by the plugin on startup. Depending on your OS, the root directory differs:
 
 Linux:: <user home>/.config/Brackets/extensions/data.nerk.asciidoc-preview
 Windows:: <user home>/AppData/Roaming/Brackets/extensions/data.nerk.asciidoc-preview
 
-The directory structure must be created manually and each subdirectory must only contain a specific type of files:
+The directory structure must be created manually. Each subdirectory is intended for a specific type of file.
+Directories and other file types are being ignored by the extension loader. It is therefore possible to create 
+additional directories and put assets required by custom extensions into these directories, for
+example.
 
 ----
 data.nerk.asciidoc-preview
@@ -194,15 +192,20 @@ data.nerk.asciidoc-preview
   |
   +-- scripts_append <5>
 ----
-<1> Asciidoctor JavaScript extensions
+<1> Asciidoctor JavaScript extensions. 
 <2> CSS files to be added to the header of the generated HTML. Put supporting CSS files for Asciidoctor extensions into this directory.
-<3> CSS theme files. Files will appear in the preferences dialog and may be selected by the user.
+<3> CSS theme files. Themes appear in plugin's settings dialog and may be selected by the user.
 <4> JavaScript files to be added to the HTML's head.
 <5> JavaScript files to be added to the bottom of the generated HTML.
 
 IMPORTANT: If the version of your Asciidoctor JavaScript extensions does not match the version of Asciidoctor used by this plugin, things might not work as expected. The current version is Asciidoctor 1.5.4.
 
 == Known Issues
+
+Several packages used by this plugin are not bundled but loaded on demand through CDN's. 
+This means that a working internet connection is required at least once after 
+starting the plugin for the first time to allow Brackets to load and cache 
+all external packages.
 
 IMPORTANT: The following limitations only apply to documents displayed by the preview pane and *not* to the
 actual conversion of a document with asciidoctor or when exporting the document to a browser.
