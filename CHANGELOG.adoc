@@ -2,6 +2,11 @@
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
 
+== Version 1.2.5
+
+* Support "subs" attribute for PlantUML diagram blocks (fixes #35)
+
+
 == Version 1.2.4
 
 * Fix page anchors when saving exported HTML.
