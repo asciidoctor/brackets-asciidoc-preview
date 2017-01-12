@@ -14,10 +14,10 @@
         "url": "https://github.com/asciidoctor/brackets-asciidoc-preview.git"
     },
     "dependencies": {
-      "codemirror-asciidoc": ">=1.0.3"
+      "codemirror-asciidoc": ">=1.0.3",
+      "asciidoctor.js": "1.5.5-4"
     },
     "devDependencies": {
-        "bower": "^1.7.9",
         "grunt": "^1.0.0",
         "grunt-bower-task": "^0.4.0",
         "grunt-contrib-clean": "^1.0.0",
