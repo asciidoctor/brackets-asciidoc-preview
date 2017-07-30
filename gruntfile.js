@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = function (grunt) {
 
     var distfiles = ['images/**', 'lib/**', 'mode/**', 'styles/**', 'templates/**', 'themes/**',
-        'node_modules/codemirror-asciidoc/**',
+        'node_modules/codemirror-asciidoc/**', 'node_modules/asciidoctor.js/**',
         'CHANGELOG.adoc', 'LICENSE.txt', 'README.adoc', 'main.js', 'package.json', '!**/Thumbs.db'];
 
     var pkg = grunt.file.readJSON('package.json');
@@ -82,27 +82,6 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'dist/', src: ['**']}
                 ]
             }
-        },
-
-        /**
-         * Install asciidoctor.css to ./themes and
-         * asciidoctor-all.min.js to ./lib
-         * (needs "exportsOverride" in bower.json)
-         */
-        bower: {
-            install: {
-                options: {
-                    verbose: false,
-                    cleanBowerDir: true,
-                    targetDir: './lib',
-                    layout: function (type, component, src) {
-                        if (type === "css") {
-                            return path.join("../themes");
-                        }
-                        return "";
-                    }
-                }
-            }
         }
     });
 
@@ -110,10 +89,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-bower-task');
 
     grunt.registerTask('default', ['dist']);
-    grunt.registerTask('dist', ['clean:dist', 'bower', 'copy:dist', 'compress']);
+    grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'compress']);
 
     // Development under Windows only
     if (extensionDir) {
