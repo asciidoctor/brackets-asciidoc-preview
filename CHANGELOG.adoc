@@ -1,6 +1,10 @@
 
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
+  
+== Version 1.3.0
+
+* Obsolete workaround for https://github.com/asciidoctor/asciidoctor.js/issues/173 removed.
 
 == Version 1.2.5
 
