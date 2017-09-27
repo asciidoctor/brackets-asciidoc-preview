@@ -1,116 +1,116 @@
 <div id="asciidoc-settings-panel">
-    <ul class="nav nav-tabs" data-tabs="tabs" role="tablist">
-        <li class="active"><a href="#general" role="tab" data-toggle="tab">General</a></li>
-        <li><a href="#update" role="tab" data-toggle="tab">Update</a></li>
-        <li><a href="#view" role="tab" data-toggle="tab">View</a></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="general">
-            <form class="form-horizontal">
-                <div class="control-group">
-                    <div class="control-label" for="asciidoc-preview-basedir">Base dir</div>
-                    <div class="controls">
-                        <div class="input-prepend input-append">
-                            <button id="asciidoc-clear-basedir-button" class="btn btn-default clear-button" type="button"></button>
-                            <input class="span3" type="text" id="asciidoc-preview-basedir"></input>
-                            <button id="asciidoc-browse-basedir-button" class="btn btn-default" type="button">...</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label" for="asciidoc-preview-imagesdir">Images dir</div>
-                    <div class="controls">
-                        <div class="input-prepend input-append">
-                            <button id="asciidoc-clear-imagesdir-button" class="btn btn-default clear-button" type="button"></button>
-                            <input class="span3" type="text" id="asciidoc-preview-imagesdir">
-                            <button id="asciidoc-browse-imagesdir-button" class="btn btn-default" type="button">...</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label" for="asciidoc-preview-doctype">Doctype</div>
-                    <div class="controls">
-                        <select id="asciidoc-preview-doctype">
+  <ul class="nav nav-tabs" data-tabs="tabs" role="tablist">
+    <li class="active"><a href="#general" role="tab" data-toggle="tab">General</a></li>
+    <li><a href="#update" role="tab" data-toggle="tab">Update</a></li>
+    <li><a href="#view" role="tab" data-toggle="tab">View</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="general">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-basedir">Base dir</div>
+          <div class="controls">
+            <div class="input-prepend input-append">
+              <button id="asciidoc-clear-basedir-button" class="btn btn-default clear-button" type="button"></button>
+              <input class="span3" type="text" id="asciidoc-preview-basedir">
+              <button id="asciidoc-browse-basedir-button" class="btn btn-default" type="button">...</button>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-imagesdir">Images dir</div>
+          <div class="controls">
+            <div class="input-prepend input-append">
+              <button id="asciidoc-clear-imagesdir-button" class="btn btn-default clear-button" type="button"></button>
+              <input class="span3" type="text" id="asciidoc-preview-imagesdir">
+              <button id="asciidoc-browse-imagesdir-button" class="btn btn-default" type="button">...</button>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-doctype">Doctype</div>
+          <div class="controls">
+            <select id="asciidoc-preview-doctype">
                             <option value="article">Article</option>
                             <option value="book">Book</option>
                             <option value="manpage">Manpage</option>
                         </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label" for="asciidoc-preview-safemode">Safe mode</div>
-                    <div class="controls">
-                        <select id="asciidoc-preview-safemode">
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-safemode">Safe mode</div>
+          <div class="controls">
+            <select id="asciidoc-preview-safemode">
                             <option value="secure">Secure</option>
                             <option value="server">Server</option>
                             <option value="safe">Safe</option>
                             <option value="unsafe">Unsafe</option>
                         </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label" for="asciidoc-plantuml-url">PlantUml Server URL</div>
-                    <div class="controls">
-                        <div class="input-prepend input-append">
-                            <input class="span4" type="text" id="asciidoc-plantuml-url"></input>
-                        </div>
-                    </div>
-                </div>
-            </form>
-       </div>
-       <div class="tab-pane" id="update">
-           <form class="form-horizontal">
-               <div class="control-group">
-                   <div class="control-label" for="asciidoc-autosync">Auto-sync location</div>
-                   <div class="controls">
-                       <label class="checkbox">
-                           <input id="asciidoc-autosync" type="checkbox" value=""></input>
-                       </label>
-                   </div>
-               </div>
-                <div class="control-group">
-                   <div class="control-label" for="asciidoc-update-save">Update on save</div>
-                   <div class="controls">
-                       <label class="checkbox">
-                           <input id="asciidoc-update-save" type="checkbox" value=""></input>
-                       </label>
-                   </div>
-               </div>
-           </form>
-       </div>
-       <div class="tab-pane" id="view">
-           <form class="form-horizontal">
-               <div class="control-group">
-                   <div class="control-label" for="asciidoc-preview-showtitle">Show title</div>
-                   <div class="controls">
-                       <label class="checkbox">
-                           <input id="asciidoc-preview-showtitle" type="checkbox" value=""></input>
-                       </label>
-                   </div>
-               </div>
-                <div class="control-group">
-                   <div class="control-label" for="asciidoc-preview-numbered">Numbered headings</div>
-                   <div class="controls">
-                       <label class="checkbox">
-                           <input id="asciidoc-preview-numbered" type="checkbox" value=""></input>
-                       </label>
-                   </div>
-               </div>
-               <div class="control-group">
-                   <div class="control-label" for="asciidoc-preview-mjax">Render math</div>
-                   <div class="controls">
-                       <label class="checkbox">
-                           <input id="asciidoc-preview-mjax" type="checkbox" value=""></input>
-                       </label>
-                   </div>
-               </div>
-               <div class="control-group">
-                   <div class="control-label" for="asciidoc-preview-theme">Theme</div>
-                   <div class="controls">
-                       <select id="asciidoc-preview-theme"></select>
-                    </div>
-                </div>
-            </form>
+          </div>
         </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-plantuml-url">PlantUml Server URL</div>
+          <div class="controls">
+            <div class="input-prepend input-append">
+              <input class="span4" type="text" id="asciidoc-plantuml-url">
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+    <div class="tab-pane" id="update">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-autosync">Auto-sync location</div>
+          <div class="controls">
+            <label class="checkbox">
+                           <input id="asciidoc-autosync" type="checkbox" value="">
+                       </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-update-save">Only sync on save</div>
+          <div class="controls">
+            <label class="checkbox">
+                           <input id="asciidoc-update-save" type="checkbox" value="">
+                       </label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="tab-pane" id="view">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-showtitle">Show title</div>
+          <div class="controls">
+            <label class="checkbox">
+                           <input id="asciidoc-preview-showtitle" type="checkbox" value="">
+                       </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-numbered">Numbered headings</div>
+          <div class="controls">
+            <label class="checkbox">
+                           <input id="asciidoc-preview-numbered" type="checkbox" value="">
+                       </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-mjax">Render math</div>
+          <div class="controls">
+            <label class="checkbox">
+                           <input id="asciidoc-preview-mjax" type="checkbox" value="">
+                       </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label" for="asciidoc-preview-theme">Theme</div>
+          <div class="controls">
+            <select id="asciidoc-preview-theme"></select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
