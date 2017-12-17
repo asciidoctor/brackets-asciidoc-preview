@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "codemirror-asciidoc": ">=1.0.3",
-        "asciidoctor.js": "=1.5.6-preview.3"
+        "asciidoctor.js": "=1.5.6-preview.4"
     },
     "devDependencies": {
         "grunt": "^1.0.0",
