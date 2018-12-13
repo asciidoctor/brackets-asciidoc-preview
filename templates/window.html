@@ -1,54 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Brackets AsciiDoc Preview</title>
+  <title>Brackets AsciiDoc Preview</title>
 
-    <style>
-        html, body {
-            overflow: hidden;
-        }
-
-        body {
-            margin: 0px;
-        }
-
-        #panel-asciidoc-preview-frame {
-            width: 100%;
-        }
-
-        /*
+  <style>
+    html,
+    body {
+      overflow: hidden;
+    }
+    
+    body {
+      margin: 0px;
+    }
+    
+    #panel-asciidoc-preview-frame {
+      width: 100%;
+    }
+    /*
          * Some default theme styling of scrollbars.
          * Changing themes will not change this,
          * just not worth the effort.
          */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+    
+     ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+     ::-webkit-scrollbar-track {
+      -webkit-box-shadow: none;
+    }
+    
+     ::-webkit-scrollbar-thumb {
+      -webkit-border-radius: 999px;
+      border-radius: 999px;
+      background: rgb(166, 166, 166);
+      -webkit-box-shadow: none;
+    }
+    
+     ::-webkit-scrollbar-thumb:window-inactive {
+      background: rgb(206, 206, 206);
+    }
 
-        ::-webkit-scrollbar-track {
-            -webkit-box-shadow: none;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            -webkit-border-radius: 999px;
-            border-radius: 999px;
-            background: rgb(166, 166, 166);
-            -webkit-box-shadow: none;
-        }
-
-        ::-webkit-scrollbar-thumb:window-inactive {
-            background: rgb(206, 206, 206);
-        }
-    </style>
+  </style>
 </head>
+
 <body>
-<div id="panel-asciidoc-preview">
+  <div id="panel-asciidoc-preview">
     <iframe id="panel-asciidoc-preview-frame" seamless="true"></iframe>
     <div id="asciidoc-detach-button"></div>
     <div id="asciidoc-sync-location-button"></div>
     <div id="asciidoc-export-file-button"></div>
     <div id="asciidoc-settings-toggle"></div>
     <div id="asciidoc-busy-spinner"></div>
-</div>
+  </div>
 </body>
+
 </html>

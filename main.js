@@ -110,8 +110,11 @@ define(function (require, exports, module) {
         var line = elem.attr('class').match(/data-line-(\d+)/)[1];
         jumpToLine(line);
       } else {
-        var line = elem.closest("[class*=data-line]").attr('class').match(/data-line-(\d+)/)[1];
-        jumpToLine(line);
+        var closest = elem.closest("[class*=data-line]").attr('class');
+        if (closest != null) {
+           var line = closest.match(/data-line-(\d+)/)[1];
+           jumpToLine(line);
+	}
       }
       e.preventDefault();
     } else {

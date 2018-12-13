@@ -3,7 +3,7 @@
     "title": "AsciiDoc Preview",
     "description": "Live preview for AsciiDoc documents.",
     "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "1.2.5",
+    "version": "2.0.0",
     "author": "Thomas Kern (https://github.com/nerk)",
     "license": "MIT",
     "engines": {
@@ -14,14 +14,13 @@
         "url": "https://github.com/asciidoctor/brackets-asciidoc-preview.git"
     },
     "dependencies": {
-      "codemirror-asciidoc": ">=1.0.3"
+        "codemirror-asciidoc": ">=1.0.3",
+        "asciidoctor.js": "=1.5.9"
     },
     "devDependencies": {
-        "bower": "^1.7.9",
-        "grunt": "^1.0.0",
-        "grunt-bower-task": "^0.4.0",
-        "grunt-contrib-clean": "^1.0.0",
-        "grunt-contrib-compress": "^1.2.0",
+        "grunt": "^1.0.3",
+        "grunt-contrib-clean": "^2.0.0",
+        "grunt-contrib-compress": "^1.4.2",
         "grunt-contrib-copy": "^1.0.0"
     }
 }

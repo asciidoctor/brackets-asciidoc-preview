@@ -1,6 +1,15 @@
 
 = Changelog of Brackets AsciiDoc Preview
 :experimental:
+  
+== Version 2.0.0
+
+* Asciidoctor.js 1.5.9 and Opal 0.11.99.dev
+* Fix MathJax CDN and update to 2.7.2 
+* Highlight.js 9.12.0
+* Font Awesome 4.7.0
+* Obsolete workaround for https://github.com/asciidoctor/asciidoctor.js/issues/173 removed.
+* Build process does not use Bower anymore
 
 == Version 1.2.5
 
