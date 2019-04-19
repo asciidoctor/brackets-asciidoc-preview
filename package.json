@@ -1,26 +1,26 @@
 {
-    "name": "nerk.asciidoc-preview",
-    "title": "AsciiDoc Preview",
-    "description": "Live preview for AsciiDoc documents.",
-    "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
-    "version": "2.0.0",
-    "author": "Thomas Kern (https://github.com/nerk)",
-    "license": "MIT",
-    "engines": {
-        "brackets": ">=1.3.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/asciidoctor/brackets-asciidoc-preview.git"
-    },
-    "dependencies": {
-        "codemirror-asciidoc": ">=1.0.3",
-        "asciidoctor.js": "=1.5.9"
-    },
-    "devDependencies": {
-        "grunt": "^1.0.3",
-        "grunt-contrib-clean": "^2.0.0",
-        "grunt-contrib-compress": "^1.4.2",
-        "grunt-contrib-copy": "^1.0.0"
-    }
+  "name": "nerk.asciidoc-preview",
+  "title": "AsciiDoc Preview",
+  "description": "Live preview for AsciiDoc documents.",
+  "homepage": "https://github.com/asciidoctor/brackets-asciidoc-preview",
+  "version": "2.1.0",
+  "author": "Thomas Kern (https://github.com/nerk)",
+  "license": "MIT",
+  "engines": {
+    "brackets": ">=1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asciidoctor/brackets-asciidoc-preview.git"
+  },
+  "dependencies": {
+    "codemirror-asciidoc": ">=1.0.3",
+    "@asciidoctor/core": "=2.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-compress": "^1.4.2",
+    "grunt-contrib-copy": "^1.0.0"
+  }
 }

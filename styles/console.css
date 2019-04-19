@@ -5,144 +5,145 @@
  */
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 999px;
-    border-radius: 999px;
-    background: rgb(166, 166, 166);
-    -webkit-box-shadow: none;
+  -webkit-border-radius: 999px;
+  border-radius: 999px;
+  background: rgb(166, 166, 166);
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgb(206, 206, 206);
+  background: rgb(206, 206, 206);
 }
 
 #asciidoc-preview-console {
-    overflow: auto;
-    position: fixed;
-    border-top: 1px solid red;
-    bottom: 0;
-    background-color: white;
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    max-height: 100px;
-    z-index: 1;
-    left: 0;
+  overflow: auto;
+  position: fixed;
+  border-top: 1px solid red;
+  bottom: 0;
+  background-color: white;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100px;
+  z-index: 1;
+  left: 0;
 }
 
 #asciidoc-console-box {
-    border-radius: 0;
-    border: none;
-    background-color: white;
-    color: red;
-    font-size: 12px;
-    margin: 0;
-    padding: 5px 5px 5px 5px;
-    
+  border-radius: 0;
+  border: none;
+  background-color: white;
+  color: red;
+  font-size: 12px;
+  margin: 0;
+  padding: 5px 5px 5px 5px;
 }
 
 #asciidoc-console-box a {
-    color: red;
+  color: red;
 }
 
 /* wrapper for content */
 .content-wrapper {
-    min-height: 100%;
-    min-width: 100%;
-    /* Needs a background or else the nav will show through */
-    background-color: inherit;
-    
-    position: relative;
-    top: 0;
-    bottom: 100%;
-    left: 0;
-    z-index: 1;
-    
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+  min-height: 100%;
+  min-width: 100%;
+  /* Needs a background or else the nav will show through */
+  background-color: inherit;
+
+  position: relative;
+  top: 0;
+  bottom: 100%;
+  left: 0;
+  z-index: 1;
+
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 /* outline frame */
 #asciidoc-outl-frame {
-    position: fixed;
-    width: 0;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    
-    border-right: 0;
-    border-left: 0;
-    border-top: 0;
-    border-bottom: 0;
+  position: fixed;
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+
+  border-right: 0;
+  border-left: 0;
+  border-top: 0;
+  border-bottom: 0;
 }
 
 /* Outline Trigger (made invisible) */
 .asciidoc-outl-trigger {
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
 }
 
-label[for="asciidoc-outl-trigger"] {
-    position: fixed;
-    left: 0px;
-    top: 8px;
-    z-index: 2;
-   
-    height: 20px;
-    width: 20px;
-    cursor: pointer;
-    background-image: url(images/chevron-right.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 8px;
-    opacity: 0.8;
-    
-    border-top: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-radius: 0px 4px 4px 0;
+label[for='asciidoc-outl-trigger'] {
+  position: fixed;
+  left: 0px;
+  top: 8px;
+  z-index: 2;
+
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  background-image: url(images/chevron-right.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 8px;
+  opacity: 0.8;
+
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px 4px 4px 0;
 }
 
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .asciidoc-outl-trigger + label,
 .content-wrapper {
-    transition: left 0.2s;
+  transition: left 0.2s;
 }
 
 #asciidoc-outl-frame {
-    transition: width 0.2s;
+  transition: width 0.2s;
 }
 
 .asciidoc-outl-trigger:checked ~ #asciidoc-outl-frame {
-    width: 200px;
-    border-right: 1px #ddd solid;
-    border-left: 1px #ddd solid;
+  width: 200px;
+  border-right: 1px #ddd solid;
+  border-left: 1px #ddd solid;
 }
 
 .asciidoc-outl-trigger:checked + label {
-    left: 200px;
-    background-image: url(images/chevron-left.svg);
+  left: 200px;
+  background-image: url(images/chevron-left.svg);
 }
 
 .asciidoc-outl-trigger:checked ~ .content-wrapper {
-    left: 200px;
+  left: 200px;
 }
 
 .asciidoc-outl-trigger:checked ~ .content-wrapper > #asciidoc-preview-console {
-    left: 200px;
+  left: 200px;
 }

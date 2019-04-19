@@ -96,7 +96,7 @@ by checking btn:[Render math]. See http://asciidoctor.org/news/2014/08/12/asciid
 
 WARNING: With MathJax enabled, the content of the preview pane will bounce during each refresh. 
 It is therefore recommended that you only enable MathJax if really necessary. You may probably
-also want to check btn:[Only sync on save] (see below). 
+also want to check btn:[Only update preview on save] (see below). 
 
 == Syncing the Preview Pane
 
@@ -104,7 +104,7 @@ It is possible to synchronize the current editing position in the editor with th
 
 After a document has been rendered successfully, pressing the location arrow symbol (image:styles/images/locate.png[]) scrolls that part of the HTML into view, which corresponds to the current text cursor position in the source document.
 
-In addition, the settings panel provides an btn:[Auto-sync location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
+In addition, the settings panel provides an btn:[Auto-sync editing location] option. If this option is enabled, the preview pane will automatically synchronize its position with the part of the document currently being edited.
 
 It is also possible to jump to a line in the document editor by clicking into the preview pane while pressing kbd:[Ctrl]. 
 
@@ -116,7 +116,7 @@ IMPORTANT: If conversion of your document produced error or warning messages fro
 
 Since larger documents take a while to be converted and displayed in the preview panel, 
 it might be preferable to update the preview window not immediately when entering text. Instead, 
-you may want to check btn:[Only sync on save] from the settings panel. This causes an update of the 
+you may want to check btn:[Only update preview on save] from the settings panel. This causes an update of the 
 preview pane when pressing kbd:[Ctrl+S] or when saving the file through the menu.
 
 == Export to Browser
@@ -198,7 +198,7 @@ data.nerk.asciidoc-preview
 <4> JavaScript files to be added to the HTML's head.
 <5> JavaScript files to be added to the bottom of the generated HTML.
 
-IMPORTANT: If the version of your Asciidoctor JavaScript extensions does not match the version of Asciidoctor used by this plugin, things might not work as expected. The current version is *Asciidoctor 1.5.9*.
+IMPORTANT: If the version of your Asciidoctor JavaScript extensions does not match the version of Asciidoctor used by this plugin, things might not work as expected. The current version is *Asciidoctor.js 2.0.0*.
 
 == Known Issues
 

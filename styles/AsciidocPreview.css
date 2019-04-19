@@ -1,200 +1,205 @@
 #panel-asciidoc-preview-frame {
-    margin: 0;
-    padding: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 /* Toolbar icon */
 #asciidoc-preview-icon {
-    background-image: url(images/asciidoc-sprite.svg);
+  background-image: url(images/asciidoc-sprite.svg);
 }
 
 #asciidoc-preview-icon.active {
-    background-position: 0 -24px !important;
+  background-position: 0 -24px !important;
 }
 
 #panel-asciidoc-preview {
-    position: relative;
-    background-color: white;
+  position: relative;
+  background-color: white;
 }
 
 #asciidoc-detach-button {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/windows5.svg);
-    background-size: contain;
-    padding: 0;
-    opacity: 0.05;
-    transition-property: 'opacity';
-    transition-duration: .2s;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  background-image: url(images/windows5.svg);
+  background-size: contain;
+  padding: 0;
+  opacity: 0.05;
+  transition-property: 'opacity';
+  transition-duration: 0.2s;
+  -webkit-filter: drop-shadow(0 0 2px #fff);
+  filter: drop-shadow(0 0 1px #fff);
 }
 
 #panel-asciidoc-preview:hover #asciidoc-detach-button {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 #asciidoc-settings-toggle {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 60px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/gear.svg);
-    background-size: contain;
-    padding: 0;
-    opacity: 0.05;
-    transition-property: 'opacity';
-    transition-duration: .2s;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  right: 60px;
+  width: 20px;
+  height: 20px;
+  background-image: url(images/gear.svg);
+  background-size: contain;
+  padding: 0;
+  opacity: 0.05;
+  transition-property: 'opacity';
+  transition-duration: 0.2s;
+  -webkit-filter: drop-shadow(0 0 2px #fff);
+  filter: drop-shadow(0 0 1px #fff);
 }
 
 #panel-asciidoc-preview:hover #asciidoc-settings-toggle {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 #asciidoc-export-file-button {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 100px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/export.svg);
-    background-size: contain;
-    padding: 0;
-    opacity: 0.05;
-    transition-property: 'opacity';
-    transition-duration: .2s;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  right: 100px;
+  width: 20px;
+  height: 20px;
+  background-image: url(images/export.svg);
+  background-size: contain;
+  padding: 0;
+  opacity: 0.05;
+  transition-property: 'opacity';
+  transition-duration: 0.2s;
+  -webkit-filter: drop-shadow(0 0 2px #fff);
+  filter: drop-shadow(0 0 1px #fff);
 }
 
 #panel-asciidoc-preview:hover #asciidoc-export-file-button {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 #asciidoc-sync-location-button {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 140px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/locate.svg);
-    background-size: contain;
-    padding: 0;
-    opacity: 0.05;
-    transition-property: 'opacity';
-    transition-duration: .2s;
-    -webkit-filter: drop-shadow(0 0 2px #fff);
-    filter: drop-shadow(0 0 1px #fff);
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  right: 140px;
+  width: 20px;
+  height: 20px;
+  background-image: url(images/locate.svg);
+  background-size: contain;
+  padding: 0;
+  opacity: 0.05;
+  transition-property: 'opacity';
+  transition-duration: 0.2s;
+  -webkit-filter: drop-shadow(0 0 2px #fff);
+  filter: drop-shadow(0 0 1px #fff);
 }
 
 #panel-asciidoc-preview:hover #asciidoc-sync-location-button {
-    opacity: 0.8;
+  opacity: 0.8;
 }
-
-
 
 /* busy indicator displayed during conversion */
 #asciidoc-busy-spinner {
-    position: absolute;
-    cursor: pointer;
-    top: 8px;
-    right: 180px;
-    width: 20px;
-    height: 20px;
-    background-image: url(images/spinner.gif);
-    background-size: contain;
-    padding: 0;
-    display: none;
+  position: absolute;
+  cursor: pointer;
+  top: 8px;
+  right: 180px;
+  width: 20px;
+  height: 20px;
+  background-image: url(images/spinner.gif);
+  background-size: contain;
+  padding: 0;
+  display: none;
 }
 
 #asciidoc-settings-panel {
-    position: absolute;
-    z-index: 20000;
-    padding: 15px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px #ccc;
-    width: 480px;
-    height: 280px;
+  position: absolute;
+  z-index: 20000;
+  padding: 15px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px #ccc;
+  width: 480px;
+  height: 280px;
 }
 
 #asciidoc-settings-panel:before {
-    border-top: 15px solid transparent;
-    border-right: 15px solid rgba(0, 0, 0, 0.1);
-    top: -8px;
-    content: '';
-    position: absolute;
-    right: 50px;
-    -webkit-transform:rotate(225deg);
+  border-top: 15px solid transparent;
+  border-right: 15px solid rgba(0, 0, 0, 0.1);
+  top: -8px;
+  content: '';
+  position: absolute;
+  right: 50px;
+  transform: rotate(225deg);
+  -webkit-transform: rotate(225deg);
 }
 
 #asciidoc-settings-panel:after {
-    border-top: 15px solid transparent;
-    border-right: 15px solid #fff;
-    top: -7px;
-    content: '';
-    position: absolute;
-    right: 50px;
-    -webkit-transform:rotate(225deg);
+  border-top: 15px solid transparent;
+  border-right: 15px solid #fff;
+  top: -7px;
+  content: '';
+  position: absolute;
+  right: 50px;
+  transform: rotate(225deg);
+  -webkit-transform: rotate(225deg);
 }
 
 #asciidoc-dir-warning {
-    position: absolute;
-    z-index: 20000;
-    padding: 15px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px #ccc;
-    width: 300px;
+  position: absolute;
+  z-index: 20000;
+  padding: 15px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px #ccc;
+  width: 300px;
 }
 
 #asciidoc-dir-warning .btn {
-    margin-left: 5px;
-    margin-bottom: 0px;
-    float: right;
+  margin-left: 5px;
+  margin-bottom: 0px;
+  float: right;
 }
 
 #asciidoc-dir-warning:before {
-    border-top: 15px solid transparent;
-    border-right: 15px solid rgba(0, 0, 0, 0.1);
-    top: -8px;
-    content: '';
-    position: absolute;
-    right: 10px;
-    -webkit-transform:rotate(225deg);
+  border-top: 15px solid transparent;
+  border-right: 15px solid rgba(0, 0, 0, 0.1);
+  top: -8px;
+  content: '';
+  position: absolute;
+  right: 10px;
+  transform: rotate(225deg);
+  -webkit-transform: rotate(225deg);
 }
 
 #asciidoc-dir-warning:after {
-    border-top: 15px solid transparent;
-    border-right: 15px solid #fff;
-    top: -7px;
-    content: '';
-    position: absolute;
-    right: 10px;
-    -webkit-transform:rotate(225deg);
+  border-top: 15px solid transparent;
+  border-right: 15px solid #fff;
+  top: -7px;
+  content: '';
+  position: absolute;
+  right: 10px;
+  transform: rotate(225deg);
+  -webkit-transform: rotate(225deg);
 }
 
-.clear-button, .clear-button:hover, .clear-button:focus {
-    background-image: url(images/rubbish.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 28px;
+.clear-button,
+.clear-button:hover,
+.clear-button:focus {
+  background-image: url(images/rubbish.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 28px;
 }
 
-#asciidoc-preview-basedir, #asciidoc-preview-imagesdir {
-    margin-top: 3px;
+#asciidoc-preview-basedir,
+#asciidoc-preview-imagesdir {
+  margin-top: 3px;
 }

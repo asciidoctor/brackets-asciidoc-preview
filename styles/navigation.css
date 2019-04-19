@@ -1,36 +1,37 @@
-html, body {
-    background-color: #47484b;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
+html,
+body {
+  background-color: #47484b;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
 }
 
 ul {
-    list-style: none;
-    padding-left: 3px;
+  list-style: none;
+  padding-left: 3px;
 }
 
 .level-0 {
-    margin-left: 0px;
+  margin-left: 0px;
 }
 
 .level-1 {
-    margin-left: 0.8em;
+  margin-left: 0.8em;
 }
 
 .level-2 {
-    margin-left: 1.6em;
+  margin-left: 1.6em;
 }
 
 .level-3 {
-    margin-left: 2.4em;
+  margin-left: 2.4em;
 }
 
 .level-4 {
-    margin-left: 3.0em;
+  margin-left: 3em;
 }
 
 .level-5 {
-    margin-left: 3.8em;
+  margin-left: 3.8em;
 }
 
 li {
@@ -46,5 +47,5 @@ li a {
 
 li a:hover {
   /*color: #0083e8;*/
-    color: #08c;
+  color: #08c;
 }
