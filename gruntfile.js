@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     'templates/**',
     'themes/**',
     'node_modules/codemirror-asciidoc/**',
-    'node_modules/@asciidoctor/core/dist/browser/asciidoctor.js',
+    'node_modules/@asciidoctor/core/dist/browser/asciidoctor.min.js',
     'node_modules/@asciidoctor/core/dist/css/asciidoctor.css',
     'CHANGELOG.adoc',
     'LICENSE.txt',

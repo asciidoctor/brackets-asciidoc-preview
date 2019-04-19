@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "codemirror-asciidoc": ">=1.0.3",
-    "@asciidoctor/core": "=2.0.0"
+    "@asciidoctor/core": "=2.0.2"
   },
   "devDependencies": {
     "grunt": "^1.0.3",

@@ -4,7 +4,7 @@
   
 == Version 2.1.0
 
-* Asciidoctor.js 2.0.0 (Asciidoctor 2.0.6) and Opal 0.11.99.dev
+* Asciidoctor.js 2.0.2 (Asciidoctor 2.0.6) and Opal 0.11.99.dev
 * Highlight.js 9.15.6
 * Mathjax 2.7.5
 * Small changes to labels in settings dialog
